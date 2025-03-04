@@ -17,10 +17,11 @@ namespace Services
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<ICityHallService> _cityHallService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerService logger, IMapper mapper, IUserLinks userLinks)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerService logger, IMapper mapper, IUserLinks userLinks, ICityHallLinks cityHallLinks)
         {
             _userService = new Lazy<IUserService>(() => new UserManager(repositoryManager, logger, mapper, userLinks));
-            _cityHallService = new Lazy<ICityHallService>(() => new CityHallManager(repositoryManager, logger, mapper));
+
+            _cityHallService = new Lazy<ICityHallService>(() => new CityHallManager(repositoryManager, logger, mapper, cityHallLinks));
         }
         public IUserService UserService => _userService.Value;
         public ICityHallService CityHallService => _cityHallService.Value;

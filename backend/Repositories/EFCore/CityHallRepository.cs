@@ -1,6 +1,9 @@
 using System.Linq.Expressions;
 using Entities.Models;
+using Entities.RequestFeatures;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
+using Repositories.EFCore.Extensions;
 
 namespace Repositories.EFCore
 {
@@ -10,27 +13,27 @@ namespace Repositories.EFCore
         {
         }
 
-        public void CreateCityHall(CityHall cityHall)
+        public void CreateCityHall(CityHall cityHall) => Create(cityHall);
+        public void DeleteCityHall(CityHall cityHall) => Delete(cityHall);
+        public async Task<PagedList<CityHall>> GetAllCityHallsAsync(CityHallParameters cityHallParameters, bool trackChanges)
         {
 
-            Create(cityHall);
+            var cityHalls = await FindAll(trackChanges).FilterCityHalls(cityHallParameters.CityName)
+            .Search(cityHallParameters.SearchTerm)
+            .Sort(cityHallParameters.OrderBy)
+            .ToListAsync();
 
+
+            return PagedList<CityHall>
+            .ToPagedList(cityHalls, cityHallParameters.PageNumber, cityHallParameters.PageSize);
         }
 
-        public void DeleteCityHall(CityHall cityHall)
+        public async Task<CityHall> GetCityHallByIdAsync(int id, bool trackChanges)
         {
-
-            Delete(cityHall);
+            return await FindByCondition(cityHall => cityHall.Id == id, trackChanges)
+                       .SingleOrDefaultAsync();
         }
 
-        public IQueryable<CityHall> GetAllCityHalls(bool trackChanges)
-        {
-            return FindAll(trackChanges).OrderBy(cityHall => cityHall.Id);
-        }
 
-        public CityHall GetCityHallById(int id, bool trackChanges)
-        {
-            return FindByCondition((cityHall) => cityHall.Id == id, trackChanges).SingleOrDefault();
-        }
     }
 }

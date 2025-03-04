@@ -1,14 +1,16 @@
+using System.Text.Json;
 using Entities.Dtos;
-using Entities.Exceptions;
-using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Services.Contracts;
+
 
 
 namespace Presentation.Controllers
 {
-
+    [ServiceFilter(typeof(LogFilterAttribute))]
     [ApiController]
     [Route("api/city-halls")]
     public class CityHallController : ControllerBase
@@ -22,42 +24,53 @@ namespace Presentation.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAllCityHall()
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> GetAllCityHalls(
+            [FromQuery] CityHallParameters cityHallParameters
+        )
         {
-            var cityHalls = _manager.CityHallService.GetAllCityHalls(false);
-            return Ok(cityHalls);
+            var linkParameters = new LinkParameters()
+            {
+                CityHallParameters = cityHallParameters,
+                HttpContext = HttpContext,
+            };
+
+            var result = await _manager
+            .CityHallService
+            .GetAllCityHallsAsync(linkParameters, false);
+            Response
+            .Headers
+            .Add("X-Pagination", JsonSerializer
+            .Serialize(result.metaData));
+
+            return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetCityHallById([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> GetCityHallById([FromRoute(Name = "id")] int id)
         {
 
 
-            var cityHall = _manager.CityHallService.GetCityHallById(id, false);
-
+            var cityHall = await _manager.CityHallService.GetCityHallByIdAsync(id, false);
             return Ok(cityHall);
 
         }
 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [HttpPost]
-        public IActionResult CreateCityHall([FromBody] CityHall cityHall)
+        public async Task<IActionResult> CreateCityHall([FromBody] CityHallDtoForInsertion cityHallDto)
         {
 
-            if (cityHall is null)
-            {
-                return BadRequest();
-            }
-
-            _manager.CityHallService.CreateCityHall(cityHall);
+            var cityHall = await _manager.CityHallService.CreateCityHallAsync(cityHallDto);
             return StatusCode(201, cityHall);
 
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult DeleteCityHall([FromRoute] int id)
+        public async Task<IActionResult> DeleteCityHall([FromRoute] int id)
         {
 
-            _manager.CityHallService.DeleteCityHall(id, false);
+            await _manager.CityHallService.DeleteCityHallAsync(id, false);
             return NoContent();
 
         }

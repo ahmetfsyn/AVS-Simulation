@@ -1,7 +1,6 @@
 using backend.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
-using Presentation.ActionFilters;
 using Services;
 using Services.Contracts;
 
@@ -30,6 +29,8 @@ builder.Services.ConfigureDataShaper();
 
 
 builder.Services.AddScoped<IUserLinks, UserLinks>();
+builder.Services.AddScoped<ICityHallLinks, CityHallLinks>();
+
 
 
 // NLog yapılandırmasını yükler, log dosyasını ve yapılandırmayı okur

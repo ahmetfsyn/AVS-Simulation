@@ -8,7 +8,6 @@ using Services.Contracts;
 
 namespace Presentation.Controllers;
 
-
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
 [Route("api/users")]
@@ -70,21 +69,6 @@ public class UsersController : ControllerBase
         return NoContent();
 
     }
-
-    // [HttpDelete]
-    // public IActionResult DeleteAllUser()
-    // {
-    //     try
-    //     {
-    //         _manager.User.RemoveRange(_manager.User);
-    //         _manager.SaveChanges();
-    //         return NoContent();
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         throw e;
-    //     }
-    // }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UserDtoForUpdate updatedUser)

@@ -17,8 +17,8 @@ public class MappingProfile : Profile
         CreateMap<UserDtoForInsertion, User>();
 
 
-        CreateMap<CityHallDtoUpdate, CityHall>();
         CreateMap<CityHall, CityHallDto>();
+        CreateMap<CityHallDtoForInsertion, CityHall>();
 
 
     }

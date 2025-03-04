@@ -20,8 +20,6 @@ public class UserManager : IUserService
     private readonly IMapper _mapper;
     private readonly IUserLinks _userLinks;
 
-
-
     public UserManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IUserLinks userLinks)
     {
         _manager = manager;
@@ -29,15 +27,6 @@ public class UserManager : IUserService
         _mapper = mapper;
         _userLinks = userLinks;
     }
-
-    // public UserDto CreateUser(UserDtoForInsertion userDto)
-    // {
-
-    //     var entity = _mapper.Map<User>(userDto);
-    //     _manager.User.CreateUser(entity);
-    //     _manager.Save();
-    //     return _mapper.Map<UserDto>(entity);
-    // }
 
     public async Task<UserDto> CreateUserAsync(UserDtoForInsertion userDto)
     {
@@ -47,18 +36,6 @@ public class UserManager : IUserService
         return _mapper.Map<UserDto>(entity);
     }
 
-    // public void DeleteUser(int id, bool trackChanges)
-    // {
-
-    //     var entity = _manager.User.GetUserById(id, trackChanges);
-    //     if (entity is null)
-    //     {
-    //         throw new UserNotFoundException(id);
-    //     }
-    //     _manager.User.DeleteUser(entity);
-    //     _manager.Save();
-
-    // }
 
     public async Task DeleteUserAsync(int id, bool trackChanges)
     {
@@ -68,12 +45,6 @@ public class UserManager : IUserService
         await _manager.SaveAsync();
     }
 
-    // public IEnumerable<UserDto> GetAllUsers(bool trackChanges)
-    // {
-    //     var users = _manager.User.GetAllUsers(trackChanges);
-
-    //     return _mapper.Map<IEnumerable<UserDto>>(users);
-    // }
 
     public async Task<(LinkResponse linkResponse, MetaData metaData)> GetAllUsersAsync(LinkParameters linkParameters, bool trackChanges)
     {
@@ -91,18 +62,6 @@ public class UserManager : IUserService
         return (linkResponse: links, metaData: usersWithMetaData.MetaData);
     }
 
-    // public UserDto GetUserById(int id, bool trackChanges)
-    // {
-
-    //     var user = _manager.User.GetUserById(id, trackChanges);
-
-    //     if (user is null)
-    //     {
-    //         throw new UserNotFoundException(id);
-    //     }
-
-    //     return _mapper.Map<UserDto>(user);
-    // }
 
     public async Task<UserDto> GetUserByIdAsync(int id, bool trackChanges)
     {
@@ -112,18 +71,6 @@ public class UserManager : IUserService
         return _mapper.Map<UserDto>(entity);
     }
 
-    // public (UserDtoForUpdate userDtoUpdate, User user) GetUserForPatch(int id, bool trackChanges)
-    // {
-
-    //     var user = _manager.User.GetUserById(id, trackChanges);
-    //     if (user is null)
-    //     {
-    //         throw new UserNotFoundException(id);
-    //     }
-    //     var userDtoForUpdate = _mapper.Map<UserDtoForUpdate>(user);
-    //     return (userDtoForUpdate, user);
-
-    // }
 
     public async Task<(UserDtoForUpdate userDtoUpdate, User user)> GetUserForPatchAsync(int id, bool trackChanges)
     {
@@ -135,13 +82,6 @@ public class UserManager : IUserService
 
     }
 
-    // public void SaveChangesForPatch(UserDtoForUpdate userDtoForUpdate, User user)
-    // {
-
-    //     _mapper.Map(userDtoForUpdate, user);
-    //     _manager.Save();
-
-    // }
 
     public async Task SaveChangesForPatchAsync(UserDtoForUpdate userDtoForUpdate, User user)
     {
@@ -149,20 +89,6 @@ public class UserManager : IUserService
         await _manager.SaveAsync();
     }
 
-    // public void UpdateUser(int id, UserDtoForUpdate userDto, bool trackChanges)
-    // {
-
-    //     var entity = _manager.User.GetUserById(id, trackChanges) ?? throw new UserNotFoundException(id);
-
-    //     // entity.FirstName = user.FirstName;
-    //     // entity.LastName = user.LastName;
-    //     // entity.TCNo = user.TCNo;
-
-    //     entity = _mapper.Map<User>(userDto);
-
-    //     _manager.User.UpdateUser(entity);
-    //     _manager.Save();
-    // }
 
     public async Task UpdateUserAsync(int id, UserDtoForUpdate userDto, bool trackChanges)
     {

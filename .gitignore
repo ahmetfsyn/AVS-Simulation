@@ -60,6 +60,7 @@ ehthumbs.db
 *.pid
 *.seed
 *.sqlite
+*.sql
 
 # 🧹 Çeşitli cache dosyaları
 .cache/
