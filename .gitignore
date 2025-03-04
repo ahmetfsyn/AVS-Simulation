@@ -1,0 +1,82 @@
+# 🏗️ Build output klasörleri
+bin/
+obj/
+dist/
+build/
+publish/
+
+# 🔧 User-specific & IDE files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.sln.cache
+*.ntvs*
+*.njsproj
+*.sln.iml
+
+# 📝 Log & Debug files
+*.log
+*.logs
+*.tlog
+*.pdb
+
+# 📦 Paket bağımlılıkları
+node_modules/
+wwwroot/lib/
+npm-debug.log*
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# 🛠️ Configuration / Secret files
+appsettings*.json
+secrets.json
+.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+backend/backend/Properties/launchSettings.json
+
+# 🚀 iOS ve Android için gereksiz dosyalar
+mobile/AvsMobile/ios/
+mobile/AvsMobile/android/.gradle/
+mobile/AvsMobile/android/app/build/
+mobile/AvsMobile/android/app/src/debug/
+mobile/AvsMobile/android/app/src/release/
+mobile/AvsMobile/android/app/src/main/assets/index.android.bundle
+
+# 🗑️ Geçici ve sistem dosyaları
+*.tmp
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+ehthumbs.db
+*.lock
+*.pid
+*.seed
+*.sqlite
+
+# 🧹 Çeşitli cache dosyaları
+.cache/
+.eslintcache
+.next/
+out/
+.sonar/
+
+# 🛠️ Test ve coverage dosyaları
+coverage/
+junit.xml
+mobile/AvsMobile/__tests__
+mobile/AvsMobile/.bundle
+
+# 🛳️ Docker dosyaları
+.dockerignore
+docker-compose.override.yml
+
+# 🔧 Resharper
+_ReSharper*/
+*.DotSettings.user
