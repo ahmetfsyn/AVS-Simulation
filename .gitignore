@@ -18,7 +18,8 @@ publish/
 
 # 📝 Log & Debug files
 *.log
-*.logs
+backend/backend/logs
+backend/backend/internal_logs
 *.tlog
 *.pdb
 
