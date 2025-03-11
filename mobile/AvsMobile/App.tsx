@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import AppRoutes from "./src/routes/AppRoutes";
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
+import { useColorScheme } from "react-native";
+import { useMemo } from "react";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+interface AppTheme {
+  colors: {
+    background: string;
+    onBackground: string;
+    primary: string;
+    secondary: string;
+  };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  const isDarkTheme = useColorScheme() === "dark";
+
+  const appTheme = useMemo<AppTheme>(() => {
+    const baseTheme = isDarkTheme ? MD3DarkTheme : MD3LightTheme;
+
+    return {
+      ...baseTheme,
+      colors: {
+        ...baseTheme.colors,
+        background: isDarkTheme ? "#2b2d42" : "#",
+        primary: isDarkTheme ? "#A5B0C0" : "#",
+        secondary: isDarkTheme ? "#2b2d42" : "#",
+        onSurface: isDarkTheme ? "#edf2f4" : "",
+        onPrimary: isDarkTheme ? "#2b2d42" : "",
+        onSecondary: isDarkTheme ? "#A5B0C0" : "",
+        cardBackground: isDarkTheme ? "#383B50" : "",
+        error: "#EF6B7C",
+      },
+    };
+  }, [isDarkTheme]);
+
+  return (
+    <PaperProvider theme={appTheme}>
+      <GestureHandlerRootView
+        style={{ flex: 1, backgroundColor: appTheme.colors.background }}
+      >
+        <StatusBar style={isDarkTheme ? "light" : "dark"} />
+        <AppRoutes />
+      </GestureHandlerRootView>
+    </PaperProvider>
+  );
+}
