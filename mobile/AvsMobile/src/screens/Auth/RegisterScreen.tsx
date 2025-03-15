@@ -66,9 +66,8 @@ const RegisterScreen: React.FC = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 8,
+      padding: 16,
       justifyContent: "center",
-      backgroundColor: theme.colors.background,
     } as ViewStyle,
     loginCard: {
       borderRadius: 10,
@@ -79,7 +78,7 @@ const RegisterScreen: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 100}
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -88,7 +87,7 @@ const RegisterScreen: React.FC = () => {
             resizeMode="contain"
             source={require("../../../assets/bel-logo.png")}
             style={{
-              padding: 8,
+              padding: 16,
               backgroundColor: "transparent",
               height: 128,
             }}

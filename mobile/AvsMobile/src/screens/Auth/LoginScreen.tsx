@@ -62,7 +62,7 @@ const LoginScreen: React.FC = () => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 8,
+      padding: 16,
       justifyContent: "center",
     } as ViewStyle,
     loginCard: {
@@ -73,8 +73,8 @@ const LoginScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior={"height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 100}
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -83,7 +83,7 @@ const LoginScreen: React.FC = () => {
             resizeMode="contain"
             source={require("../../../assets/bel-logo.png")}
             style={{
-              padding: 8,
+              padding: 16,
               backgroundColor: "transparent",
               height: 128,
             }}
