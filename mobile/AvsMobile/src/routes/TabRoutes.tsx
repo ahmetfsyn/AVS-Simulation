@@ -5,8 +5,33 @@ import { useTheme } from "react-native-paper";
 import HomeScreen from "../screens/Home/HomeScreen";
 import ProfileScreen from "../screens/Home/ProfileScreen";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { createStackNavigator } from "@react-navigation/stack";
+import ServicePointsScreen from "../screens/Home/ServicePointsScreen";
+import PayForKioskScreen from "../screens/Home/PayForKioskScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const HomeStack: React.FC = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: "fade",
+      }}
+    >
+      <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+      <Stack.Screen
+        name="ServicePoints"
+        component={ServicePointsScreen}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="PayForKiosk"
+        component={PayForKioskScreen}
+      ></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
 
 const TabRoutes: React.FC = () => {
   const theme = useTheme();
@@ -19,12 +44,13 @@ const TabRoutes: React.FC = () => {
           backgroundColor: theme.colors.background,
           borderColor: "transparent",
         },
-        animation: "shift",
+
+        animation: "fade",
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="HomeStack"
+        component={HomeStack}
         options={{
           tabBarIcon: () => (
             <FontAwesome5
