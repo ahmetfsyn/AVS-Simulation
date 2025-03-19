@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const ProfileScreen = () => {
+const ProfileScreen: React.FC = () => {
   return (
     <View>
       <Text>ProfileScreen</Text>

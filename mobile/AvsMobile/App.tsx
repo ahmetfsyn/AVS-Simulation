@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { useMemo } from "react";
-import nfcManager from "react-native-nfc-manager";
 
 interface AppTheme {
   colors: {
@@ -23,7 +22,7 @@ interface AppTheme {
 
 export default function App() {
   const isDarkTheme = useColorScheme() === "dark";
-
+  console.log(isDarkTheme);
   const appTheme = useMemo<AppTheme>(() => {
     const baseTheme = isDarkTheme ? MD3DarkTheme : MD3LightTheme;
 
@@ -31,13 +30,13 @@ export default function App() {
       ...baseTheme,
       colors: {
         ...baseTheme.colors,
-        background: isDarkTheme ? "#003559" : "",
-        primary: isDarkTheme ? "#AECBE7" : "",
-        secondary: isDarkTheme ? "#11264B" : "",
-        onSurface: isDarkTheme ? "#edf2f4" : "",
-        onPrimary: isDarkTheme ? "#11264B" : "",
-        onSecondary: isDarkTheme ? "#AECBE7" : "",
-        cardBackground: isDarkTheme ? "#00436E" : "",
+        background: isDarkTheme ? "#003559" : "#fff",
+        primary: isDarkTheme ? "#AECBE7" : "#fff",
+        secondary: isDarkTheme ? "#11264B" : "#fff",
+        onSurface: isDarkTheme ? "#edf2f4" : "#fff",
+        onPrimary: isDarkTheme ? "#11264B" : "#fff",
+        onSecondary: isDarkTheme ? "#AECBE7" : "#fff",
+        cardBackground: isDarkTheme ? "#00436E" : "#fff",
         error: "#EF6B7C",
         success: "lightgreen",
         warning: "#FFC107",
