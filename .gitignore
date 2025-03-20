@@ -1,84 +1,78 @@
-# 🏗️ Build output klasörleri
-bin/
-obj/
-dist/
-build/
-publish/
-
-# 🔧 User-specific & IDE files
-.vs/
-.vscode/
-.idea/
-*.user
-*.suo
-*.sln.cache
-*.ntvs*
-*.njsproj
-*.sln.iml
-
-# 📝 Log & Debug files
-*.log
-backend/backend/logs
-backend/backend/internal_logs
-*.tlog
-*.pdb
-
 # 📦 Paket bağımlılıkları
 node_modules/
-wwwroot/lib/
-npm-debug.log*
-yarn-error.log
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
 
-# 🛠️ Configuration / Secret files
-appsettings*.json
-secrets.json
-.env
-*.env.local
-*.env.development.local
-*.env.test.local
-*.env.production.local
-backend/backend/Properties/launchSettings.json
+# 🏗️ Build output klasörleri
+dist/
+build/
+out/
+.next/
 
-# 🚀 iOS ve Android için gereksiz dosyalar
-mobile/AvsMobile/ios/
-mobile/AvsMobile/android/.gradle/
-mobile/AvsMobile/android/app/build/
-mobile/AvsMobile/android/app/src/debug/
-mobile/AvsMobile/android/app/src/release/
-mobile/AvsMobile/android/app/src/main/assets/index.android.bundle
-
-# 🗑️ Geçici ve sistem dosyaları
-*.tmp
-*.swp
-*.swo
-*.DS_Store
-Thumbs.db
-ehthumbs.db
-*.lock
-*.pid
-*.seed
+# 🗑️ Log ve Debug dosyaları
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tlog
+*.pdb
 *.sqlite
 *.sql
 
-# 🧹 Çeşitli cache dosyaları
-.cache/
-.eslintcache
-.next/
-out/
-.sonar/
+# 📂 React ve React Native için (Expo'suz)
+mobile/Avs/metro-cache/
+mobile/Avs/coverage/
+mobile/Avs/index.android.bundle
+mobile/Avs/index.ios.bundle
+mobile/Avs/react-native-packager-cache-*/
+*.env
+
+# 📂 C# / .NET için
+bin/
+obj/
+*.suo
+*.user
+*.cache
+*.vs/
+.vscode/
+.idea/
+*.sln.cache
+*.sln.iml
+*.csproj.user
+*.db
+*.bak
+**/Properties/launchSettings.json
+
+# 🔧 User-specific & IDE files
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs.db
 
 # 🛠️ Test ve coverage dosyaları
+jest/
 coverage/
+__tests__/
 junit.xml
-mobile/AvsMobile/__tests__
-mobile/AvsMobile/.bundle
+
+# 🚀 iOS ve Android için gereksiz dosyalar
+mobile/Avs/ios/Pods/
+mobile/Avs/ios/build/
+mobile/Avs/ios/*.xcworkspace/
+mobile/Avs/ios/DerivedData/
+mobile/Avs/android/.gradle/
+mobile/Avs/android/app/build/
+mobile/Avs/android/app/src/debug/
+mobile/Avs/android/app/src/release/
+mobile/Avs/android/app/src/main/assets/index.android.bundle
 
 # 🛳️ Docker dosyaları
 .dockerignore
 docker-compose.override.yml
 
-# 🔧 Resharper
+# 🔧 Resharper ve JetBrains dosyaları
 _ReSharper*/
 *.DotSettings.user
