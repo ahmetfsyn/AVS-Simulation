@@ -22,12 +22,13 @@ pnpm-debug.log*
 *.sql
 
 # 📂 React ve React Native için (Expo'suz)
-mobile/Avs/metro-cache/
-mobile/Avs/coverage/
-mobile/Avs/index.android.bundle
-mobile/Avs/index.ios.bundle
-mobile/Avs/react-native-packager-cache-*/
+/mobile/Avs/metro-cache/
+/mobile/Avs/coverage/
+/mobile/Avs/index.android.bundle
+/mobile/Avs/index.ios.bundle
+/mobile/Avs/react-native-packager-cache-*/
 *.env
+.cxx/
 
 # 📂 C# / .NET için
 bin/
@@ -76,3 +77,14 @@ docker-compose.override.yml
 # 🔧 Resharper ve JetBrains dosyaları
 _ReSharper*/
 *.DotSettings.user
+
+# ESLint, TypeScript ve Test Dosyaları
+.eslintrc.js
+tsconfig.json
+config
+coverage/
+jest/
+__tests__/
+.prettierrc.js
+.watchmanconfig
+app.json
