@@ -9,6 +9,8 @@ import ServicePointsScreen from '../screens/Home/ServicePointsScreen';
 import PayForKioskScreen from '../screens/Home/PayForKioskScreen';
 import NfcReaderToAddWaterCardScreen from '../screens/Home/NfcReaderToAddWaterCardScreen';
 import MyCardsScreen from '../screens/Home/MyCardsScreen';
+import FeedbackScreen from '../screens/Home/FeedbackScreen';
+import LoadCreditInfoScreen from '../screens/Home/LoadCreditInfoScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,6 +30,8 @@ const HomeStack: React.FC = () => {
         component={NfcReaderToAddWaterCardScreen}
       />
       <Stack.Screen name="MyCards" component={MyCardsScreen} />
+      <Stack.Screen name="Feedback" component={FeedbackScreen} />
+      <Stack.Screen name="LoadCreditInfo" component={LoadCreditInfoScreen} />
     </Stack.Navigator>
   );
 };

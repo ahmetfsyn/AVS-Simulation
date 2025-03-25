@@ -31,19 +31,12 @@ const HomeScreen: React.FC = () => {
     isEnabled();
   }, [nfcEnabled]);
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingHorizontal: 16,
-    },
-  });
-
   return (
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={{
           paddingVertical: 8,
-          gap: 10,
+          gap: 15,
         }}
         showsVerticalScrollIndicator={false}>
         {/* Marquee */}
@@ -71,12 +64,12 @@ const HomeScreen: React.FC = () => {
             {waterCards.length > 0 ? (
               <Card.Content
                 style={{
-                  gap: 10,
+                  gap: 15,
                 }}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    gap: 5,
+                    gap: 10,
                     alignItems: 'center',
                   }}>
                   <Ionicons
@@ -93,7 +86,7 @@ const HomeScreen: React.FC = () => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    gap: 5,
+                    gap: 10,
                     alignItems: 'center',
                   }}>
                   <MaterialCommunityIcons
@@ -110,7 +103,7 @@ const HomeScreen: React.FC = () => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    gap: 5,
+                    gap: 10,
                     alignItems: 'center',
                   }}>
                   <MaterialCommunityIcons
@@ -125,7 +118,7 @@ const HomeScreen: React.FC = () => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    gap: 5,
+                    gap: 10,
                     alignItems: 'center',
                   }}>
                   <MaterialCommunityIcons
@@ -166,7 +159,20 @@ const HomeScreen: React.FC = () => {
             }}>
             Ödeme Yap
           </CustomButton>
-          <CustomButton mode="contained" style={{flex: 1}}>
+          <CustomButton
+            mode="contained"
+            style={{flex: 1}}
+            onPress={() => {
+              // if (!waterCards[activeIndex]) {
+              //   showMessage({
+              //     text1: 'İşlem Başarısız',
+              //     text2: 'Lütfen bir su abone kartı ekleyiniz',
+              //     type: 'error',
+              //   });
+              // } else {
+              navigation.navigate('LoadCreditInfo');
+              // }
+            }}>
             Bakiye Yükle
           </CustomButton>
         </View>
@@ -178,8 +184,8 @@ const HomeScreen: React.FC = () => {
 
             <Card.Content
               style={{
-                display: 'flex',
-                gap: 10,
+                rowGap: 20,
+                columnGap: 10,
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
@@ -193,43 +199,31 @@ const HomeScreen: React.FC = () => {
                   />
                 )}
                 mode="contained">
-                Fatura Sorgula
-              </CustomButton>
-
-              <CustomButton
-                icon={() => (
-                  <MaterialIcons
-                    size={24}
-                    color={theme.colors.primary}
-                    name="credit-card"
-                  />
-                )}
-                mode="contained-tonal">
-                Fatura Öde
-              </CustomButton>
-
-              <CustomButton
-                icon={() => (
-                  <MaterialIcons
-                    color={theme.colors.secondary}
-                    size={24}
-                    name="account-balance"
-                  />
-                )}
-                mode="contained">
-                Vergi ve Harç Öde
+                Faturalar
               </CustomButton>
               <CustomButton
                 icon={() => (
                   <MaterialCommunityIcons
-                    color={theme.colors.primary}
+                    color={theme.colors.secondary}
                     size={24}
                     name="format-list-bulleted"
                   />
                 )}
                 onPress={() => navigation.navigate('MyCards')}
-                mode="contained-tonal">
+                mode="contained">
                 Kartlarım
+              </CustomButton>
+
+              <CustomButton
+                icon={() => (
+                  <MaterialIcons
+                    color={theme.colors.primary}
+                    size={24}
+                    name="account-balance"
+                  />
+                )}
+                mode="contained-tonal">
+                Vergi ve Harç Öde
               </CustomButton>
 
               <CustomButton
@@ -252,6 +246,7 @@ const HomeScreen: React.FC = () => {
                     name="feedback"
                   />
                 )}
+                onPress={() => navigation.navigate('Feedback')}
                 mode="contained-tonal">
                 Öneri ve Şikayet
               </CustomButton>
@@ -337,4 +332,10 @@ const HomeScreen: React.FC = () => {
 };
 
 export default HomeScreen;
-('');
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+  },
+});

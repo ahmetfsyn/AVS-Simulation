@@ -9,8 +9,8 @@ const Stack = createStackNavigator();
 const StackRoutes: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false, animation: 'default'}}>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      {/* <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} /> */}
       <Stack.Screen name="App" component={TabRoutes} />
     </Stack.Navigator>
   );

@@ -1,12 +1,110 @@
-import { View, Text } from "react-native";
-import React from "react";
+import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {Avatar, Card, Divider, useTheme} from 'react-native-paper';
+import CustomButton from '../../components/Button/CustomButton';
+import {useDispatch, useSelector} from 'react-redux';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileScreen: React.FC = () => {
+  const user = useSelector((state: any) => state.app.user);
+  const theme = useTheme();
+  const userLabel = 'AS';
+  // user?.firstName.substring(0, 1) + user?.lastName.substring(0, 1);
+
+  const logout = () => {
+    console.log('cikis yapildi');
+  };
   return (
-    <View>
-      <Text>ProfileScreen</Text>
+    <View style={styles.container}>
+      <Card>
+        <Card.Title title="Ayarlar" titleVariant="titleMedium" />
+        <Card.Content
+          style={{
+            gap: 20,
+          }}>
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+            <Avatar.Text
+              label={userLabel}
+              color={theme.colors.primary}
+              style={{backgroundColor: theme.colors.secondary}}
+            />
+          </View>
+          <CustomButton
+            icon={() => (
+              <FontAwesome5Icon
+                name="user-alt"
+                color={theme.colors.secondary}
+                size={20}
+              />
+            )}
+            mode="contained">
+            Bilgilerim
+          </CustomButton>
+          <CustomButton
+            icon={() => (
+              <MaterialCommunityIcons
+                name="table"
+                color={theme.colors.primary}
+                size={20}
+              />
+            )}
+            mode="contained-tonal">
+            Geçmiş İşlemler
+          </CustomButton>
+          <CustomButton
+            icon={() => (
+              <MaterialCommunityIcons
+                name="credit-card-multiple"
+                color={theme.colors.secondary}
+                size={20}
+              />
+            )}
+            mode="contained">
+            Banka/Kredi Kartlarım
+          </CustomButton>
+          <CustomButton
+            icon={() => (
+              <MaterialIcons
+                name="password"
+                color={theme.colors.primary}
+                size={20}
+              />
+            )}
+            mode="contained-tonal">
+            Şifre Değiştir
+          </CustomButton>
+          <CustomButton
+            icon={() => (
+              <MaterialIcons
+                name="exit-to-app"
+                color={theme.colors.secondary}
+                size={20}
+              />
+            )}
+            onPress={logout}
+            mode="contained">
+            Çıkış Yap
+          </CustomButton>
+        </Card.Content>
+      </Card>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    gap: 15,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+});
 
 export default ProfileScreen;

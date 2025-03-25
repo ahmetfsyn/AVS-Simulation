@@ -34,9 +34,9 @@ const WaterCard: React.FC<{data: IWaterCardInfo}> = (props: WaterCardProps) => {
             position: 'absolute',
             padding: 10,
           }}>
-          <Text variant="titleSmall">{data.subscriberNo}</Text>
-          <Text variant="titleSmall">{data.cardCompany}</Text>
-          <Text variant="titleSmall">{data.name}</Text>
+          <Text variant="titleSmall">{data?.subscriberNo}</Text>
+          <Text variant="titleSmall">{data?.cardCompany}</Text>
+          <Text variant="titleSmall">{data?.name}</Text>
         </View>
       </View>
     </Card>
