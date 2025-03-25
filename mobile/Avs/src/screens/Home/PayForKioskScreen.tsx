@@ -1,32 +1,54 @@
 import {View, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, Text, useTheme} from 'react-native-paper';
 import LottieView from 'lottie-react-native';
-import NfcManager, {nfcManager, NfcTech} from 'react-native-nfc-manager';
-import CustomButton from '../../components/Button/CustomButton';
-NfcManager.start();
+import {showMessage} from '../../utils/showMessage';
+import {useNavigation} from '@react-navigation/native';
+import NfcManager from 'react-native-nfc-manager';
+import {ISuccessState} from '../../models/ISuccessState';
+import {readNfc} from '../../utils/readNfc';
 
 const PayForKioskScreen: React.FC = () => {
   const theme = useTheme();
-
-  async function readNdef() {
-    try {
-      // register for the NFC tag with NDEF in it
-      await NfcManager.requestTechnology(NfcTech.Ndef);
-      // the resolved tag object will contain `ndefMessage` property
-      const tag = await NfcManager.getTag();
-      console.warn('Tag found', tag);
-    } catch (ex) {
-      console.warn('Oops!', ex);
-    } finally {
-      // stop the nfc scanning
-      NfcManager.cancelTechnologyRequest();
-    }
-  }
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<ISuccessState>({
+    result: null,
+    error: null,
+  });
 
   useEffect(() => {
-    readNdef();
+    readNfc(setIsSuccess);
+
+    const timeout = setTimeout(() => {
+      setIsSuccess({
+        error: 'Kart okuma zaman aşımına uğradı',
+        result: false,
+      });
+    }, 10000);
+    return () => {
+      NfcManager.cancelTechnologyRequest();
+      clearTimeout(timeout);
+    };
   }, []);
+
+  useEffect(() => {
+    if (isSuccess.result === true) {
+      showMessage({
+        type: 'success',
+        text1: 'Başarılı',
+        text2: 'Ödeme işlemi başarıyla gerçekleşti.',
+      });
+      navigation.canGoBack() ? navigation.goBack() : null;
+    } else if (isSuccess.result === false) {
+      showMessage({
+        type: 'error',
+        text1: 'Başarısız',
+        text2: isSuccess.error,
+      });
+      navigation.canGoBack() ? navigation.goBack() : null;
+    }
+  }, [isSuccess.result]);
 
   const styles = StyleSheet.create({
     container: {
@@ -40,7 +62,6 @@ const PayForKioskScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Text variant="bodyLarge">Lütfen Kartınızı Okutunuz</Text> */}
       <View
         style={{
           flex: 1,
@@ -63,11 +84,7 @@ const PayForKioskScreen: React.FC = () => {
           </Card>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            display: 'flex',
-          }}>
+        <View style={{flex: 1}}>
           <LottieView
             source={require('../../../assets/scan-nfc-to-pay.json')}
             autoPlay

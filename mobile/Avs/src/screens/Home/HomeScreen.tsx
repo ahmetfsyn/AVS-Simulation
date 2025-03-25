@@ -1,59 +1,40 @@
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Divider,
-  IconButton,
-  Text,
-  useTheme,
-} from "react-native-paper";
-import CustomCarousel from "../../components/CustomCarousel";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Card, Portal, Text, useTheme} from 'react-native-paper';
+import CustomCarousel from '../../components/CustomCarousel';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import CustomButton from '../../components/Button/CustomButton';
+import {Marquee} from '@animatereactnative/marquee';
+import {useNavigation} from '@react-navigation/native';
+import NfcManager from 'react-native-nfc-manager';
+import {showMessage} from '../../utils/showMessage';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+import AddCard from '../../components/Card/AddCard';
 
-import CustomButton from "../../components/Button/CustomButton";
-import { Marquee } from "@animatereactnative/marquee";
-import { useNavigation } from "@react-navigation/native";
-
-const data = [
-  {
-    id: 1,
-    name: "Ahmet Yılmaz",
-    balance: 100,
-    subscriberNo: "1231233",
-    cardCompany: "Baylan",
-    debt: 250.5,
-  },
-  {
-    id: 2,
-    name: "Ahmet Yılmaz",
-    balance: 0,
-    subscriberNo: "2332322",
-    cardCompany: "Metlab",
-    debt: 0,
-  },
-];
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
-  const [activeIndex, setActiveIndex] = useState(0);
   const navigation = useNavigation();
-  // const [payModal, setPayModal] = useState(false);
+  const waterCards = useSelector((state: RootState) => state.app.waterCards);
+  const [nfcEnabled, setNfcEnabled] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  // const [visibleDialog, setVisibleDialog] = useState(false);
+
+  useEffect(() => {
+    const isEnabled = async () => {
+      const result = await NfcManager.isEnabled();
+      setNfcEnabled(result);
+    };
+
+    isEnabled();
+  }, [nfcEnabled]);
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       paddingHorizontal: 16,
-    },
-    abstractCard: {
-      backgroundColor: theme.colors.cardBackground,
     },
   });
 
@@ -64,8 +45,7 @@ const HomeScreen: React.FC = () => {
           paddingVertical: 8,
           gap: 10,
         }}
-        showsVerticalScrollIndicator={false}
-      >
+        showsVerticalScrollIndicator={false}>
         {/* Marquee */}
         <View>
           <Marquee spacing={24} speed={0.75}>
@@ -77,132 +57,133 @@ const HomeScreen: React.FC = () => {
 
         {/* Carousel */}
         <View>
-          {data.length > 0 ? (
-            <CustomCarousel
-              data={data}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-            ></CustomCarousel>
+          {waterCards.length > 0 ? (
+            <CustomCarousel data={waterCards} setActiveIndex={setActiveIndex} />
           ) : (
-            <Text variant="headlineSmall">Kartınız Bulunmamaktadır</Text>
+            <AddCard navigation={navigation} path="NfcReaderToAddWaterCard" />
           )}
         </View>
 
         {/* Kart Bilgileri */}
         <View>
-          <Card style={styles.abstractCard}>
-            <Card.Title
-              title="Kart Bilgileri"
-              titleVariant="titleMedium"
-            ></Card.Title>
-
-            <Card.Content
-              style={{
-                gap: 10,
-              }}
-            >
-              <View
+          <Card>
+            <Card.Title title="Kart Bilgileri" titleVariant="titleMedium" />
+            {waterCards.length > 0 ? (
+              <Card.Content
                 style={{
-                  flexDirection: "row",
-                  gap: 5,
-                  alignItems: "center",
-                }}
-              >
-                <Ionicons
-                  name="wallet"
-                  size={24}
-                  color={theme.colors.onBackground}
-                ></Ionicons>
-                <Text variant="labelLarge">Bakiye:</Text>
-                <Text variant="bodyLarge">{data[activeIndex].balance} TL</Text>
-              </View>
+                  gap: 10,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Ionicons
+                    name="wallet"
+                    size={24}
+                    color={theme.colors.onBackground}
+                  />
+                  <Text variant="labelLarge">Bakiye:</Text>
+                  <Text variant="bodyLarge">
+                    {waterCards[activeIndex]?.balance} TL
+                  </Text>
+                </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 5,
-                  alignItems: "center",
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="cash-minus"
-                  size={24}
-                  color={theme.colors.onBackground}
-                ></MaterialCommunityIcons>
-                <Text variant="labelLarge">Borç:</Text>
-                <Text variant="bodyLarge">{data[activeIndex].debt} TL</Text>
-              </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 5,
+                    alignItems: 'center',
+                  }}>
+                  <MaterialCommunityIcons
+                    name="cash-minus"
+                    size={24}
+                    color={theme.colors.onBackground}
+                  />
+                  <Text variant="labelLarge">Borç:</Text>
+                  <Text variant="bodyLarge">
+                    {waterCards[activeIndex]?.debt} TL
+                  </Text>
+                </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 5,
-                  alignItems: "center",
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="cog-counterclockwise"
-                  size={24}
-                  color={theme.colors.onBackground}
-                ></MaterialCommunityIcons>
-                <Text variant="labelLarge">Sayaç No:</Text>
-                <Text variant="bodyLarge">1231233</Text>
-              </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 5,
+                    alignItems: 'center',
+                  }}>
+                  <MaterialCommunityIcons
+                    name="cog-counterclockwise"
+                    size={24}
+                    color={theme.colors.onBackground}
+                  />
+                  <Text variant="labelLarge">Sayaç No:</Text>
+                  <Text variant="bodyLarge">1231233</Text>
+                </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 5,
-                  alignItems: "center",
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="water-pump"
-                  size={24}
-                  color={theme.colors.onBackground}
-                ></MaterialCommunityIcons>
-                <Text variant="labelLarge">Kullanılan Su (m³):</Text>
-                <Text variant="bodyLarge">1231233</Text>
-              </View>
-            </Card.Content>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    gap: 5,
+                    alignItems: 'center',
+                  }}>
+                  <MaterialCommunityIcons
+                    name="water-pump"
+                    size={24}
+                    color={theme.colors.onBackground}
+                  />
+                  <Text variant="labelLarge">Kullanılan Su (m³):</Text>
+                  <Text variant="bodyLarge">1231233</Text>
+                </View>
+              </Card.Content>
+            ) : (
+              <Card.Content>
+                <Text variant="bodyLarge">Kart bulunamadı.</Text>
+              </Card.Content>
+            )}
           </Card>
         </View>
 
         {/* Bakiye Yükle Butonu */}
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             gap: 10,
-          }}
-        >
+          }}>
           <CustomButton
             mode="contained-tonal"
-            onPress={() => navigation.navigate("PayForKiosk")}
-          >
+            onPress={async () => {
+              if (nfcEnabled) {
+                return navigation.navigate('PayForKiosk');
+              } else {
+                return showMessage({
+                  type: 'error',
+                  text1: 'Hata',
+                  text2: 'Lütfen NFC modülünü aktif ediniz.',
+                });
+              }
+            }}>
             Ödeme Yap
           </CustomButton>
-          <CustomButton mode="contained" style={{ flex: 1 }}>
+          <CustomButton mode="contained" style={{flex: 1}}>
             Bakiye Yükle
           </CustomButton>
         </View>
 
         {/* Hızlı İşlemler */}
         <View>
-          <Card style={styles.abstractCard}>
-            <Card.Title
-              title="Hızlı İşlemler"
-              titleVariant="titleMedium"
-            ></Card.Title>
+          <Card>
+            <Card.Title title="Hızlı İşlemler" titleVariant="titleMedium" />
 
             <Card.Content
               style={{
-                display: "flex",
+                display: 'flex',
                 gap: 10,
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}>
               <CustomButton
                 icon={() => (
                   <Ionicons
@@ -211,8 +192,7 @@ const HomeScreen: React.FC = () => {
                     name="receipt"
                   />
                 )}
-                mode="contained"
-              >
+                mode="contained">
                 Fatura Sorgula
               </CustomButton>
 
@@ -224,8 +204,7 @@ const HomeScreen: React.FC = () => {
                     name="credit-card"
                   />
                 )}
-                mode="contained-tonal"
-              >
+                mode="contained-tonal">
                 Fatura Öde
               </CustomButton>
 
@@ -237,8 +216,7 @@ const HomeScreen: React.FC = () => {
                     name="account-balance"
                   />
                 )}
-                mode="contained"
-              >
+                mode="contained">
                 Vergi ve Harç Öde
               </CustomButton>
               <CustomButton
@@ -249,8 +227,8 @@ const HomeScreen: React.FC = () => {
                     name="format-list-bulleted"
                   />
                 )}
-                mode="contained-tonal"
-              >
+                onPress={() => navigation.navigate('MyCards')}
+                mode="contained-tonal">
                 Kartlarım
               </CustomButton>
 
@@ -262,8 +240,7 @@ const HomeScreen: React.FC = () => {
                     name="local-offer"
                   />
                 )}
-                mode="contained"
-              >
+                mode="contained">
                 Kampanyalar
               </CustomButton>
 
@@ -275,8 +252,7 @@ const HomeScreen: React.FC = () => {
                     name="feedback"
                   />
                 )}
-                mode="contained-tonal"
-              >
+                mode="contained-tonal">
                 Öneri ve Şikayet
               </CustomButton>
 
@@ -288,9 +264,8 @@ const HomeScreen: React.FC = () => {
                     name="place"
                   />
                 )}
-                onPressIn={() => navigation.navigate("ServicePoints")}
-                mode="contained"
-              >
+                onPressIn={() => navigation.navigate('ServicePoints')}
+                mode="contained">
                 Hizmet Noktaları
               </CustomButton>
             </Card.Content>
@@ -298,8 +273,32 @@ const HomeScreen: React.FC = () => {
         </View>
       </ScrollView>
 
+      {/* Message Dialogs */}
+      {/* <Portal>
+        <Dialog
+          visible={visibleDialog}
+          onDismiss={() => setVisibleDialog(false)}>
+          <Dialog.Title>Ödeme Yöntemleri</Dialog.Title>
+          <Dialog.Content>
+            <Text variant="bodyMedium">Lütfen bir ödeme yöntemi seçiniz.</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <CustomButton
+              mode="contained"
+              onPress={() => setVisibleDialog(false)}>
+              Kiosk
+            </CustomButton>
+            <CustomButton
+              mode="contained"
+              onPress={() => setVisibleDialog(false)}>
+              Done
+            </CustomButton>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal> */}
+
       {/* <View>
-        <Card style={styles.abstractCard}>
+        <Card >
           <Card.Content>
             <DataTable>
               <DataTable.Header>
@@ -338,4 +337,4 @@ const HomeScreen: React.FC = () => {
 };
 
 export default HomeScreen;
-("");
+('');

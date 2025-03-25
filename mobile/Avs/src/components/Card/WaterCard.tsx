@@ -1,13 +1,18 @@
-import { View, StyleSheet } from "react-native";
-import React from "react";
-import { Card, IconButton, Text } from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {View, StyleSheet} from 'react-native';
+import React from 'react';
+import {Card, Text} from 'react-native-paper';
+import {IWaterCardInfo} from '../../models/abstracts/IWaterCardInfo';
 
-const WaterCard = (props: object) => {
-  const { data } = props;
+type WaterCardProps = {
+  data: IWaterCardInfo;
+};
+
+const WaterCard: React.FC<{data: IWaterCardInfo}> = (props: WaterCardProps) => {
+  const {data} = props;
+
   const styles = StyleSheet.create({
     container: {
-      display: "flex",
+      display: 'flex',
       borderRadius: 10,
     },
   });
@@ -16,21 +21,19 @@ const WaterCard = (props: object) => {
     <Card style={styles.container}>
       <View
         style={{
-          justifyContent: "flex-end",
-        }}
-      >
+          justifyContent: 'flex-end',
+        }}>
         <Card.Cover
-          source={require("../../../assets/su-abone-karti.png")}
+          source={require('../../../assets/su-abone-karti.png')}
           resizeMode="cover"
         />
 
         <View
           style={{
-            display: "flex",
-            position: "absolute",
+            display: 'flex',
+            position: 'absolute',
             padding: 10,
-          }}
-        >
+          }}>
           <Text variant="titleSmall">{data.subscriberNo}</Text>
           <Text variant="titleSmall">{data.cardCompany}</Text>
           <Text variant="titleSmall">{data.name}</Text>

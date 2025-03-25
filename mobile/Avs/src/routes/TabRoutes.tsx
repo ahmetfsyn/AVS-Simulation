@@ -1,13 +1,14 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useTheme } from "react-native-paper";
-
-import HomeScreen from "../screens/Home/HomeScreen";
-import ProfileScreen from "../screens/Home/ProfileScreen";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { createStackNavigator } from "@react-navigation/stack";
-import ServicePointsScreen from "../screens/Home/ServicePointsScreen";
-import PayForKioskScreen from "../screens/Home/PayForKioskScreen";
+import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useTheme} from 'react-native-paper';
+import HomeScreen from '../screens/Home/HomeScreen';
+import ProfileScreen from '../screens/Home/ProfileScreen';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {createStackNavigator} from '@react-navigation/stack';
+import ServicePointsScreen from '../screens/Home/ServicePointsScreen';
+import PayForKioskScreen from '../screens/Home/PayForKioskScreen';
+import NfcReaderToAddWaterCardScreen from '../screens/Home/NfcReaderToAddWaterCardScreen';
+import MyCardsScreen from '../screens/Home/MyCardsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -17,18 +18,16 @@ const HomeStack: React.FC = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animation: "fade",
-      }}
-    >
-      <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+        animation: 'fade',
+      }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="ServicePoints" component={ServicePointsScreen} />
+      <Stack.Screen name="PayForKiosk" component={PayForKioskScreen} />
       <Stack.Screen
-        name="ServicePoints"
-        component={ServicePointsScreen}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="PayForKiosk"
-        component={PayForKioskScreen}
-      ></Stack.Screen>
+        name="NfcReaderToAddWaterCard"
+        component={NfcReaderToAddWaterCardScreen}
+      />
+      <Stack.Screen name="MyCards" component={MyCardsScreen} />
     </Stack.Navigator>
   );
 };
@@ -42,12 +41,11 @@ const TabRoutes: React.FC = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: theme.colors.background,
-          borderColor: "transparent",
+          borderColor: 'transparent',
         },
 
-        animation: "fade",
-      }}
-    >
+        animation: 'fade',
+      }}>
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
@@ -57,7 +55,7 @@ const TabRoutes: React.FC = () => {
               name="home"
               color={theme.colors.onBackground}
               size={24}
-            ></FontAwesome5>
+            />
           ),
         }}
       />
@@ -70,7 +68,7 @@ const TabRoutes: React.FC = () => {
               name="user-alt"
               color={theme.colors.onBackground}
               size={24}
-            ></FontAwesome5>
+            />
           ),
         }}
       />
