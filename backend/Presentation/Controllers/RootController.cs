@@ -33,12 +33,12 @@ namespace Presentation.Controllers
                     Method="GET"
                     },
                     new(){
-                    Href = _linkGenerator.GetUriByName(HttpContext,nameof(UsersController.GetAllUsers) , new{}),
+                    Href = _linkGenerator.GetUriByName(HttpContext,nameof(UsersController.GetAllUsersAsync) , new{}),
                     Rel= "users",
                     Method="GET"
                     },
-  new(){
-                    Href = _linkGenerator.GetUriByName(HttpContext,nameof(UsersController.CreateUser) , new{}),
+                    new(){
+                    Href = _linkGenerator.GetUriByName(HttpContext,nameof(UsersController.CreateUserAsync) , new{}),
                     Rel= "users",
                     Method="POST"
                     },
