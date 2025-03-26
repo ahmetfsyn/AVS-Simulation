@@ -16,5 +16,6 @@ namespace Repositories.Contracts
         void CreateUser(User user);
         void DeleteUser(User user);
         void UpdateUser(User user);
+        Task<List<User>> GetAllUsersAsync(bool trackChanges);
     }
 }

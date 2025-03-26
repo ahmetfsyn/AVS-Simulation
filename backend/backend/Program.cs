@@ -27,10 +27,11 @@ builder.Services.ConfigureCors();
 
 builder.Services.ConfigureDataShaper();
 
-
-builder.Services.AddScoped<IUserLinks, UserLinks>();
 builder.Services.AddScoped<ICityHallLinks, CityHallLinks>();
 
+builder.Services.AddScoped<IUserLinks, UserLinks>();
+
+builder.Services.ConfigureVersioning();
 
 
 // NLog yapılandırmasını yükler, log dosyasını ve yapılandırmayı okur
