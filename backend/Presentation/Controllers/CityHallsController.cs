@@ -13,11 +13,11 @@ namespace Presentation.Controllers
     [ServiceFilter(typeof(LogFilterAttribute))]
     [ApiController]
     [Route("api/city-halls")]
-    public class CityHallController : ControllerBase
+    public class CityHallsController : ControllerBase
     {
         private readonly IServiceManager _manager;
 
-        public CityHallController(IServiceManager manager)
+        public CityHallsController(IServiceManager manager)
         {
             _manager = manager;
         }

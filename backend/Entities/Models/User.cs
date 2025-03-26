@@ -1,6 +1,5 @@
 ﻿namespace Entities.Models
 {
-
     // User Modeli
     public class User
     {
@@ -9,7 +8,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string TCNo { get; set; }
-
+        public ICollection<WaterCard> WaterCards { get; set; }
 
     }
 }

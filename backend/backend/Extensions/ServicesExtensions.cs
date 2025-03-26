@@ -1,4 +1,5 @@
 using Entities.Dtos;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,7 @@ namespace backend.Extensions
         {
             services.AddScoped<IDataShaper<UserDto>, DataShaper<UserDto>>();
             services.AddScoped<IDataShaper<CityHallDto>, DataShaper<CityHallDto>>();
+            services.AddScoped<IDataShaper<WaterCardDto>, DataShaper<WaterCardDto>>();
 
         }
 
@@ -69,6 +71,8 @@ namespace backend.Extensions
                 if (systemTextJsonOutputFormatter is not null)
                 {
                     systemTextJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.ahmetfsyn.hateoas+json");
+
+                    systemTextJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.ahmetfsyn.apiroot+json");
                 }
                 var xmlOutputFormatter = config.OutputFormatters.OfType<XmlDataContractSerializerOutputFormatter>()?.FirstOrDefault();
 
@@ -76,6 +80,8 @@ namespace backend.Extensions
                 if (xmlOutputFormatter is not null)
                 {
                     xmlOutputFormatter.SupportedMediaTypes.Add("application/vnd.ahmetfsyn.hateoas+xml");
+                    xmlOutputFormatter.SupportedMediaTypes.Add("application/vnd.ahmetfsyn.apiroot+xml");
+
                 }
             });
         }

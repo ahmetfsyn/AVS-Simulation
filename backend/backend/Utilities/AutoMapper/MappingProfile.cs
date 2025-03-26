@@ -12,13 +12,16 @@ public class MappingProfile : Profile
 
     public MappingProfile()
     {
-        CreateMap<UserDtoForUpdate, User>().ReverseMap();
         CreateMap<User, UserDto>();
         CreateMap<UserDtoForInsertion, User>();
-
+        CreateMap<UserDtoForUpdate, User>().ReverseMap();
 
         CreateMap<CityHall, CityHallDto>();
         CreateMap<CityHallDtoForInsertion, CityHall>();
+
+        CreateMap<WaterCard, WaterCardDto>();
+        CreateMap<WaterCardDtoForInsertion, WaterCard>();
+        CreateMap<WaterCardDtoForUpdate, WaterCard>().ReverseMap();
 
 
     }

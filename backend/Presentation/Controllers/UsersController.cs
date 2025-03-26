@@ -19,9 +19,10 @@ public class UsersController : ControllerBase
         _manager = manager;
     }
 
-    [HttpGet]
+    [HttpHead]
+    [HttpGet(Name = "GetAllUsers")]
     [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-    public async Task<IActionResult> GetAllUsers([FromQuery] UserParameters userParameters)
+    public async Task<IActionResult> GetAllUsersAsync([FromQuery] UserParameters userParameters)
     {
 
         var linkParameters = new LinkParameters()
@@ -43,7 +44,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetUserById([FromRoute(Name = "id")] int id)
+    public async Task<IActionResult> GetUserByIdAsync([FromRoute(Name = "id")] int id)
     {
 
         var user = await _manager.UserService.GetUserByIdAsync(id, false);
@@ -53,8 +54,8 @@ public class UsersController : ControllerBase
 
 
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] UserDtoForInsertion userDto)
+    [HttpPost(Name = "CreateUser")]
+    public async Task<IActionResult> CreateUserAsync([FromBody] UserDtoForInsertion userDto)
     {
 
         var user = await _manager.UserService.CreateUserAsync(userDto);
@@ -63,7 +64,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteUser([FromRoute] int id)
+    public async Task<IActionResult> DeleteUserAsync([FromRoute] int id)
     {
         await _manager.UserService.DeleteUserAsync(id, false);
         return NoContent();
@@ -71,7 +72,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UserDtoForUpdate updatedUser)
+    public async Task<IActionResult> UpdateUserAsync([FromRoute] int id, [FromBody] UserDtoForUpdate updatedUser)
     {
 
         if (updatedUser is null)
@@ -91,7 +92,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<IActionResult> PartiallyUpdateUser([FromRoute] int id, [FromBody] JsonPatchDocument<UserDtoForUpdate> patchUser)
+    public async Task<IActionResult> PartiallyUpdateUserAsync([FromRoute] int id, [FromBody] JsonPatchDocument<UserDtoForUpdate> patchUser)
     {
 
         if (patchUser is null)
@@ -118,5 +119,14 @@ public class UsersController : ControllerBase
         return NoContent();
 
     }
+
+
+    [HttpOptions]
+    public IActionResult GetUserOptions()
+    {
+        Response.Headers.Add("Allow", "GET,PUT,POST,PATCH,DELETE,HEAD,OPTIONS");
+        return Ok();
+    }
+
 
 }
