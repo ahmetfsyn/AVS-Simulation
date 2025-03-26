@@ -4,7 +4,7 @@ using Services.Contracts;
 namespace Presentation.Controllers
 {
 
-    [ApiVersion("2.0")]
+    [ApiVersion("2.0", Deprecated = true)]
     [ApiController]
     [Route("api/users")]
     public class UsersV2Controller : ControllerBase
