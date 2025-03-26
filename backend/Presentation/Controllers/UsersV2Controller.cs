@@ -6,7 +6,7 @@ namespace Presentation.Controllers
 
     [ApiVersion("2.0")]
     [ApiController]
-    [Route("api/{v:apiversion}/users")]
+    [Route("api/users")]
     public class UsersV2Controller : ControllerBase
     {
         private readonly IServiceManager _manager;

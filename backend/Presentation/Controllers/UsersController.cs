@@ -12,7 +12,7 @@ namespace Presentation.Controllers;
 [ApiVersion("1.0")]
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
-[Route("api/{v:apiversion}/users")]
+[Route("api/users")]
 public class UsersController : ControllerBase
 {
     private readonly IServiceManager _manager;
