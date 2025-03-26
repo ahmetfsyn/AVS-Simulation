@@ -13,6 +13,7 @@ namespace Presentation.Controllers;
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
 [Route("api/users")]
+[ResponseCache(CacheProfileName = "5mins")]
 public class UsersController : ControllerBase
 {
     private readonly IServiceManager _manager;
@@ -22,7 +23,7 @@ public class UsersController : ControllerBase
     }
 
 
-    [ResponseCache(Duration = 60)]
+    // [ResponseCache(Duration = 60)]
     [HttpHead]
     [HttpGet(Name = "GetAllUsers")]
     [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
