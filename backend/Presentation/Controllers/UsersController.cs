@@ -21,6 +21,8 @@ public class UsersController : ControllerBase
         _manager = manager;
     }
 
+
+    [ResponseCache(Duration = 60)]
     [HttpHead]
     [HttpGet(Name = "GetAllUsers")]
     [ServiceFilter(typeof(ValidateMediaTypeAttribute))]

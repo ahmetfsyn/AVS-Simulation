@@ -33,6 +33,9 @@ builder.Services.AddScoped<IUserLinks, UserLinks>();
 
 builder.Services.ConfigureVersioning();
 
+builder.Services.ConfigureResponseCaching();
+
+
 
 // NLog yapılandırmasını yükler, log dosyasını ve yapılandırmayı okur
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
@@ -79,6 +82,8 @@ if (app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
+
+app.UseResponseCaching();
 
 // Kullanıcı yetkilendirmesini aktif eder
 app.UseAuthorization();
