@@ -35,6 +35,9 @@ builder.Services.ConfigureVersioning();
 
 builder.Services.ConfigureResponseCaching();
 
+builder.Services.ConfigureHttpCacheHeaders();
+
+
 
 
 // NLog yapılandırmasını yükler, log dosyasını ve yapılandırmayı okur
@@ -45,6 +48,7 @@ builder.Services.AddControllers(config =>
 {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
+    config.CacheProfiles.Add("5mins", new CacheProfile() { Duration = 300 });
 })
 .AddXmlDataContractSerializerFormatters()
 .AddCustomCsvFormatter()
@@ -84,6 +88,8 @@ app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
 app.UseResponseCaching();
+
+app.UseHttpCacheHeaders();
 
 // Kullanıcı yetkilendirmesini aktif eder
 app.UseAuthorization();

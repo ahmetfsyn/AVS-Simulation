@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Entities.Dtos;
 using Entities.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -13,7 +14,8 @@ namespace Presentation.Controllers;
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
 [Route("api/users")]
-[ResponseCache(CacheProfileName = "5mins")]
+// [ResponseCache(CacheProfileName = "5mins")]
+// [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 80)]
 public class UsersController : ControllerBase
 {
     private readonly IServiceManager _manager;
