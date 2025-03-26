@@ -291,42 +291,6 @@ const HomeScreen: React.FC = () => {
           </Dialog.Actions>
         </Dialog>
       </Portal> */}
-
-      {/* <View>
-        <Card >
-          <Card.Content>
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title>Tarih</DataTable.Title>
-                <DataTable.Title numeric>Tutar</DataTable.Title>
-                <DataTable.Title numeric>Sonuç</DataTable.Title>
-              </DataTable.Header>
-
-              {items.slice(from, to).map((item) => (
-                <DataTable.Row key={item.key}>
-                  <DataTable.Cell>{item.name}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item.calories}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item.fat}</DataTable.Cell>
-                </DataTable.Row>
-              ))}
-
-              <DataTable.Pagination
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                page={page}
-                numberOfPages={Math.ceil(items.length / itemsPerPage)}
-                onPageChange={(page) => setPage(page)}
-                label={`${from + 1}-${to} of ${items.length}`}
-                numberOfItemsPerPage={itemsPerPage}
-                onItemsPerPageChange={onItemsPerPageChange}
-                showFastPaginationControls
-              />
-            </DataTable>
-          </Card.Content>
-        </Card>
-      </View> */}
     </View>
   );
 };

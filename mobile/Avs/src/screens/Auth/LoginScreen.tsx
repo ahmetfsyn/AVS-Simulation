@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {
   View,
-  StyleSheet,
-  ViewStyle,
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
@@ -13,29 +11,20 @@ import CustomTextInput from '../../components/TextInput/CustomTextInput';
 import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 import {useDispatch} from 'react-redux';
 import {signIn} from '../../redux/slices/appSlice';
-
-const tcKimlikNoLength = 11;
-const passwordMaxLength = 24;
-const passwordMinLength = 6;
-
-const validationSchema = Yup.object({
-  tcKimlikNo: Yup.string()
-    .required('Lütfen T.C kimlik numaranızı giriniz.')
-    .length(tcKimlikNoLength, 'T.C kimlik numarası 11 haneli olmalıdır.'),
-  password: Yup.string()
-    .required('Lütfen parolanızı giriniz.')
-    .min(passwordMinLength)
-    .max(passwordMaxLength),
-});
+import {styles} from '../../styles/loginScreenStyles';
+import {validationSchema} from '../../validations/LoginValidations';
+import {
+  passwordMaxLength,
+  tcNoLength,
+} from '../../validations/RegisterValidations';
 
 const LoginScreen: React.FC = () => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const onPressSignIn = (values: {tcKimlikNo: string; password: string}) => {
     setLoading(true);
     try {
@@ -53,14 +42,6 @@ const LoginScreen: React.FC = () => {
     navigate('Register');
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 16,
-      justifyContent: 'center',
-    } as ViewStyle,
-  });
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -71,17 +52,11 @@ const LoginScreen: React.FC = () => {
           <Card.Cover
             resizeMode="contain"
             source={require('../../../assets/bel-logo.png')}
-            style={{
-              padding: 16,
-              backgroundColor: 'transparent',
-              height: 128,
-            }}
+            style={styles.cardCover}
           />
           <Card.Title
             title="GİRİŞ YAP"
-            titleStyle={{
-              textAlign: 'center',
-            }}
+            titleStyle={styles.cardTitle}
             titleVariant="titleLarge"
           />
           <Card.Content>
@@ -108,7 +83,7 @@ const LoginScreen: React.FC = () => {
                     placeholder="T.C Kimlik No"
                     onChangeText={handleChange('tcKimlikNo')}
                     onBlur={handleBlur('tcKimlikNo')}
-                    maxLength={tcKimlikNoLength}
+                    maxLength={tcNoLength}
                     value={values.tcKimlikNo}
                     error={touched.tcKimlikNo && errors.tcKimlikNo}
                   />
@@ -123,12 +98,8 @@ const LoginScreen: React.FC = () => {
                     value={values.password}
                     error={touched.password && errors.password}
                   />
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
+                  {/* View of remeber me */}
+                  <View style={styles.rememberMeView}>
                     <Checkbox
                       status={rememberMe ? 'checked' : 'unchecked'}
                       onPress={() => {
@@ -137,14 +108,8 @@ const LoginScreen: React.FC = () => {
                     />
                     <Text variant="labelLarge">Beni Hatırla</Text>
                   </View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-start',
-                      position: 'relative',
-                    }}>
+                  {/* View of forgot password */}
+                  <View style={styles.forgotPassword}>
                     <Text variant="labelLarge">Şifrenizi mi Unuttunuz?</Text>
                     <CustomButton
                       mode="text"
@@ -152,13 +117,8 @@ const LoginScreen: React.FC = () => {
                       Şifremi Unuttum
                     </CustomButton>
                   </View>
-                  <View
-                    style={{
-                      gap: 10,
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}>
+                  {/* View of buttons */}
+                  <View style={styles.buttonsView}>
                     <CustomButton
                       mode="contained-tonal"
                       onPress={onPressSignUp}>
