@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using backend.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -36,6 +37,13 @@ builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
 
 builder.Services.ConfigureHttpCacheHeaders();
+
+builder.Services.AddMemoryCache();
+
+builder.Services.ConfigureRateLimitingOptions();
+
+builder.Services.AddHttpContextAccessor();
+
 
 
 
@@ -84,6 +92,8 @@ if (app.Environment.IsProduction())
 
 // HTTP'yi HTTPS'ye yönlendirir, güvenli bağlantı sağlar
 app.UseHttpsRedirection();
+
+app.UseIpRateLimiting();
 
 app.UseCors("CorsPolicy");
 

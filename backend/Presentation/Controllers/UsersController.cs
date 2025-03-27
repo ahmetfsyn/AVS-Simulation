@@ -32,6 +32,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetAllUsersAsync([FromQuery] UserParameters userParameters)
     {
 
+
         var linkParameters = new LinkParameters()
         {
             UserParameters = userParameters,

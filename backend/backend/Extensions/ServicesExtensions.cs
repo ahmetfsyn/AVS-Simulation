@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Entities.Dtos;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
@@ -108,12 +109,36 @@ namespace backend.Extensions
         {
             services.AddHttpCacheHeaders(expirationOptions =>
             {
-                expirationOptions.MaxAge = 90;
+                expirationOptions.MaxAge = 300;
                 expirationOptions.CacheLocation = CacheLocation.Public;
             }, validationOptions =>
             {
-                validationOptions.MustRevalidate = false;
+                validationOptions.MustRevalidate = true;
             });
+        }
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            var rateLimitRules = new List<RateLimitRule>()
+            {
+                new() {
+                Endpoint = "*",
+                Limit = 30,
+                Period = "1m"
+                }
+            };
+
+            services.Configure<IpRateLimitOptions>(options =>
+            {
+                options.GeneralRules = rateLimitRules;
+            });
+
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+
         }
     }
 }
