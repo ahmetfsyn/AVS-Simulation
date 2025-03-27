@@ -44,6 +44,9 @@ builder.Services.ConfigureRateLimitingOptions();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddAuthentication();
+
+builder.Services.ConfigureIdentity();
 
 
 
@@ -100,6 +103,8 @@ app.UseCors("CorsPolicy");
 app.UseResponseCaching();
 
 app.UseHttpCacheHeaders();
+
+app.UseAuthentication();
 
 // Kullanıcı yetkilendirmesini aktif eder
 app.UseAuthorization();

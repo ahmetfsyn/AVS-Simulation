@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repositories.EFCore;
@@ -11,9 +12,10 @@ using Repositories.EFCore;
 namespace backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20250327080618_StartPoint")]
+    partial class StartPoint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,43 +135,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "afe298a9-d3de-484c-bb0d-954fd1a221e8",
+                            Id = "fd2dc7df-1023-4009-877d-bf4e448cb0e8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "859c800b-2575-411a-a761-8eb04df5734a",
+                            ConcurrencyStamp = "a4e4a74a-1aee-46f6-85a6-3088ce7a5f49",
                             EmailConfirmed = false,
                             FirstName = "Ahmet",
                             LastName = "Sayan",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "06de496b-1066-45e7-8f77-cb4b1cb981a9",
+                            SecurityStamp = "957b7134-a02b-4b00-a48f-ef3e4af8f465",
                             TCNo = "12312312311",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "182f321b-a2d7-4503-80b9-93a80fa966c4",
+                            Id = "055d7394-570a-471b-8665-677d9ac1710f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a9544ec-056f-4b5e-ad76-12a3331bd4a8",
+                            ConcurrencyStamp = "4ce355dc-d31d-4d9a-8d1b-aa25f677d166",
                             EmailConfirmed = false,
                             FirstName = "Ceyda",
                             LastName = "Sayan",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "645e0f2a-bb7e-4bc3-9417-6d5f930a0316",
+                            SecurityStamp = "bd49d5c5-f96c-4883-bfa5-c3d6fb4778c3",
                             TCNo = "12312312312",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "f20080f8-1386-4c99-9b2f-b612905d66b1",
+                            Id = "c06cb4da-dbad-4d7d-8e07-5873ad2925e6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cc31e4be-5cfd-49db-a263-aa15d3627114",
+                            ConcurrencyStamp = "49f237e1-05bc-4e29-95c5-3bf7accbbcf0",
                             EmailConfirmed = false,
                             FirstName = "Furkan",
                             LastName = "Kara",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "264b78c1-0e7a-4f83-b46c-cd03be55e33c",
+                            SecurityStamp = "ad33b3ee-a3c0-4a8e-b98b-78838155792b",
                             TCNo = "12312312313",
                             TwoFactorEnabled = false
                         });
@@ -235,22 +237,6 @@ namespace backend.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "72b345f5-d3f8-4b4d-b8ce-2ff3e1700a5b",
-                            ConcurrencyStamp = "fefdcc76-d5e9-4869-b67c-3354328bd8bd",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "053d32b6-ccad-4567-a75e-85919623d925",
-                            ConcurrencyStamp = "645e4103-b95f-481e-ab7e-35d616010de1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

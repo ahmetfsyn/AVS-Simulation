@@ -30,7 +30,7 @@ namespace Repositories.EFCore
 
         public async Task<User> GetUserByIdAsync(int id, bool trackChanges)
         {
-            return await FindByCondition(user => user.Id == id, trackChanges)
+            return await FindByCondition(user => user.Id.Equals(id), trackChanges)
             .SingleOrDefaultAsync();
         }
 
