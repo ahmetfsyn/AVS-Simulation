@@ -41,5 +41,30 @@ namespace Presentation.Controllers
             return StatusCode(201);
 
         }
+        [HttpPost("login")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Authenticate([FromBody] UserDtoForAuthentication userDtoForAuthentication)
+        {
+
+            if (!await _service.AuthenticationService.ValidateUser(userDtoForAuthentication))
+            {
+                return Unauthorized();
+            }
+
+            var tokenDto = await _service.AuthenticationService.CreateToken(true);
+
+            return Ok(tokenDto);
+
+        }
+
+        [HttpPost("refresh-token")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> RefreshToken([FromBody] TokenDto tokenDto)
+        {
+
+            var newTokenDto = await _service.AuthenticationService.RefreshToken(tokenDto);
+
+            return Ok(newTokenDto);
+        }
     }
 }
