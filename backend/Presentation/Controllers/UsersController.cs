@@ -2,7 +2,6 @@ using System.Text.Json;
 using Entities.Dtos;
 using Entities.RequestFeatures;
 using Marvin.Cache.Headers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -27,11 +26,9 @@ public class UsersController : ControllerBase
 
 
     // [ResponseCache(Duration = 60)]
-    [Authorize(Roles = "User")]
     [HttpHead]
     [HttpGet(Name = "GetAllUsers")]
     [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-
     public async Task<IActionResult> GetAllUsersAsync([FromQuery] UserParameters userParameters)
     {
 
@@ -54,9 +51,8 @@ public class UsersController : ControllerBase
         return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
     }
 
-    [Authorize(Roles = "Admin")]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserByIdAsync([FromRoute(Name = "id")] string id)
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetUserByIdAsync([FromRoute(Name = "id")] int id)
     {
 
         var user = await _manager.UserService.GetUserByIdAsync(id, false);
@@ -67,7 +63,6 @@ public class UsersController : ControllerBase
 
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPost(Name = "CreateUser")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateUserAsync([FromBody] UserDtoForInsertion userDto)
     {
 
@@ -76,18 +71,16 @@ public class UsersController : ControllerBase
 
     }
 
-    [HttpDelete("{id}")]
-    [Authorize(Roles = "User")]
-    public async Task<IActionResult> DeleteUserAsync([FromRoute] string id)
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteUserAsync([FromRoute] int id)
     {
         await _manager.UserService.DeleteUserAsync(id, false);
         return NoContent();
 
     }
 
-    [Authorize(Roles = "User")]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUserAsync([FromRoute] string id, [FromBody] UserDtoForUpdate updatedUser)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateUserAsync([FromRoute] int id, [FromBody] UserDtoForUpdate updatedUser)
     {
 
         if (updatedUser is null)
@@ -106,10 +99,8 @@ public class UsersController : ControllerBase
 
     }
 
-    [HttpPatch("{id}")]
-    [Authorize(Roles = "User")]
-
-    public async Task<IActionResult> PartiallyUpdateUserAsync([FromRoute] string id, [FromBody] JsonPatchDocument<UserDtoForUpdate> patchUser)
+    [HttpPatch("{id:int}")]
+    public async Task<IActionResult> PartiallyUpdateUserAsync([FromRoute] int id, [FromBody] JsonPatchDocument<UserDtoForUpdate> patchUser)
     {
 
         if (patchUser is null)

@@ -7,7 +7,7 @@ namespace Entities.Models
 {
     public class ShapedEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public Entity Entity { get; set; }
 
 

@@ -9,14 +9,14 @@ namespace backend.Extensions;
 
 public static class ExceptionMiddlewareExtensions
 {
-    //     Bu sınıf, ASP.NET Core uygulamanızda **global hata işleme** (exception handling) sağlar. Uygulamanın herhangi bir yerinde bir hata oluştuğunda, bu middleware hatayı yakalar ve düzgün bir JSON yanıtı ile kullanıcıya bildirir.
+    //     Bu sınıf, ASP.NET Core uygulamanızda **global hata işleme** (exception handling) sağlar. Uygulamanın herhangi bir yerinde bir hata oluştuğunda, bu middleware hatayı yakalar ve düzgün bir JSON yanıtı ile kullanıcıya bildirir. 
 
     // - Eğer bir **NotFoundException** (bulunamadı hatası) oluşursa, 404 HTTP statü kodu döner.
     // - Diğer tüm hatalar için, 500 Internal Server Error statüsü döner.
     // - Hatalar, **`ILoggerService`** kullanılarak loglanır ve hata mesajları **`ErrorDetails`** formatında JSON olarak kullanıcıya iletilir.
 
     // Bu yapı, merkezi bir hata işleme mekanizması oluşturur, böylece tüm hatalar tek bir yerde yönetilebilir.
-    public static void ConfigureExceptionHandler(this WebApplication app,
+    public static void ConfigureExceptonHandler(this WebApplication app,
         ILoggerService logger)
     {
 

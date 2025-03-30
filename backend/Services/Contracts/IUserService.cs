@@ -21,12 +21,12 @@ namespace Services.Contracts
 
         // Async operations
         Task<(LinkResponse linkResponse, MetaData metaData)> GetAllUsersAsync(LinkParameters linkParameters, bool trackChanges);
-        Task<UserDto> GetUserByIdAsync(string id, bool trackChanges);
+        Task<UserDto> GetUserByIdAsync(int id, bool trackChanges);
         Task<UserDto> CreateUserAsync(UserDtoForInsertion user);
-        Task UpdateUserAsync(string id, UserDtoForUpdate userDto, bool trackChanges);
-        Task DeleteUserAsync(string id, bool trackChanges);
+        Task UpdateUserAsync(int id, UserDtoForUpdate userDto, bool trackChanges);
+        Task DeleteUserAsync(int id, bool trackChanges);
         Task SaveChangesForPatchAsync(UserDtoForUpdate userDtoForUpdate, User user);
-        Task<(UserDtoForUpdate userDtoUpdate, User user)> GetUserForPatchAsync(string id, bool trackChanges);
+        Task<(UserDtoForUpdate userDtoUpdate, User user)> GetUserForPatchAsync(int id, bool trackChanges);
         Task<List<User>> GetAllUsersAsync(bool trackChanges);
     }
 }
