@@ -79,6 +79,7 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
@@ -104,16 +105,11 @@ namespace backend.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("RefreshTokenExpiryTime")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
                     b.Property<string>("TCNo")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -137,46 +133,43 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5c7a9a85-3151-4c88-88e6-62e9a0d35bde",
+                            Id = "afe298a9-d3de-484c-bb0d-954fd1a221e8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31f06855-fa83-4587-9fc9-03de6d0a6156",
+                            ConcurrencyStamp = "859c800b-2575-411a-a761-8eb04df5734a",
                             EmailConfirmed = false,
                             FirstName = "Ahmet",
                             LastName = "Sayan",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "34962c4b-aeb9-4ade-822a-e8c377edfa4e",
+                            SecurityStamp = "06de496b-1066-45e7-8f77-cb4b1cb981a9",
                             TCNo = "12312312311",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "f30322b5-ef03-412c-813f-617044ef8c77",
+                            Id = "182f321b-a2d7-4503-80b9-93a80fa966c4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f7d2a48-3eb7-4f93-9361-4cd9393f7355",
+                            ConcurrencyStamp = "6a9544ec-056f-4b5e-ad76-12a3331bd4a8",
                             EmailConfirmed = false,
                             FirstName = "Ceyda",
                             LastName = "Sayan",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "3eb09a69-29db-4a28-87f9-17961974c31b",
+                            SecurityStamp = "645e0f2a-bb7e-4bc3-9417-6d5f930a0316",
                             TCNo = "12312312312",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "1b6b8585-d2e2-4918-b3fe-b753324f9cd3",
+                            Id = "f20080f8-1386-4c99-9b2f-b612905d66b1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6901cdf4-3775-4756-8fb7-9a361de7d5d1",
+                            ConcurrencyStamp = "cc31e4be-5cfd-49db-a263-aa15d3627114",
                             EmailConfirmed = false,
                             FirstName = "Furkan",
                             LastName = "Kara",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "3f8f0e26-a79a-4474-8f83-4a448317be02",
+                            SecurityStamp = "264b78c1-0e7a-4f83-b46c-cd03be55e33c",
                             TCNo = "12312312313",
                             TwoFactorEnabled = false
                         });
@@ -246,15 +239,15 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d155755e-33d7-4749-a83b-665711d06245",
-                            ConcurrencyStamp = "79439b89-ed61-4ec4-ae30-0682d06e4f81",
+                            Id = "72b345f5-d3f8-4b4d-b8ce-2ff3e1700a5b",
+                            ConcurrencyStamp = "fefdcc76-d5e9-4869-b67c-3354328bd8bd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "27a0f7fa-a806-4a76-9de7-f41091c4652e",
-                            ConcurrencyStamp = "e2b93989-3135-4443-b375-0b589e0d8f0d",
+                            Id = "053d32b6-ccad-4567-a75e-85919623d925",
+                            ConcurrencyStamp = "645e4103-b95f-481e-ab7e-35d616010de1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

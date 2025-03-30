@@ -28,7 +28,7 @@ namespace Repositories.EFCore
             .ToPagedList(users, userParameters.PageNumber, userParameters.PageSize);
         }
 
-        public async Task<User> GetUserByIdAsync(string id, bool trackChanges)
+        public async Task<User> GetUserByIdAsync(int id, bool trackChanges)
         {
             return await FindByCondition(user => user.Id.Equals(id), trackChanges)
             .SingleOrDefaultAsync();

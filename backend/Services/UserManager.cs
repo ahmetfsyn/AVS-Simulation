@@ -37,7 +37,7 @@ public class UserManager : IUserService
     }
 
 
-    public async Task DeleteUserAsync(string id, bool trackChanges)
+    public async Task DeleteUserAsync(int id, bool trackChanges)
     {
 
         var entity = await GetUserByIdAndCheckExist(id, trackChanges);
@@ -68,7 +68,7 @@ public class UserManager : IUserService
         return users;
     }
 
-    public async Task<UserDto> GetUserByIdAsync(string id, bool trackChanges)
+    public async Task<UserDto> GetUserByIdAsync(int id, bool trackChanges)
     {
         var entity = await GetUserByIdAndCheckExist(id, trackChanges);
 
@@ -77,7 +77,7 @@ public class UserManager : IUserService
     }
 
 
-    public async Task<(UserDtoForUpdate userDtoUpdate, User user)> GetUserForPatchAsync(string id, bool trackChanges)
+    public async Task<(UserDtoForUpdate userDtoUpdate, User user)> GetUserForPatchAsync(int id, bool trackChanges)
     {
 
         var entity = await GetUserByIdAndCheckExist(id, trackChanges);
@@ -95,7 +95,7 @@ public class UserManager : IUserService
     }
 
 
-    public async Task UpdateUserAsync(string id, UserDtoForUpdate userDto, bool trackChanges)
+    public async Task UpdateUserAsync(int id, UserDtoForUpdate userDto, bool trackChanges)
     {
 
         var entity = await GetUserByIdAndCheckExist(id, trackChanges);
@@ -107,7 +107,7 @@ public class UserManager : IUserService
     }
 
 
-    private async Task<User> GetUserByIdAndCheckExist(string id, bool trackChanges)
+    private async Task<User> GetUserByIdAndCheckExist(int id, bool trackChanges)
     {
 
         var entity = await _manager.User.GetUserByIdAsync(id, trackChanges);
