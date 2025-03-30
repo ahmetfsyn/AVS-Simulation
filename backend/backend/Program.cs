@@ -44,9 +44,9 @@ builder.Services.ConfigureRateLimitingOptions();
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication();
-
 builder.Services.ConfigureIdentity();
+
+builder.Services.ConfigureJWT(builder.Configuration);
 
 
 
@@ -78,7 +78,7 @@ var app = builder.Build();
 
 // LoggerService'i alır, hata yönetim middleware'ını yapılandırır
 var logger = app.Services.GetRequiredService<ILoggerService>();
-app.ConfigureExceptonHandler(logger);
+app.ConfigureExceptionHandler(logger);
 
 // Geliştirme ortamında Swagger UI'yı gösterir
 if (app.Environment.IsDevelopment())

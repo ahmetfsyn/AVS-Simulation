@@ -7,7 +7,7 @@ namespace Entities.Dtos
 {
     public record UserDto
     {
-        public int Id { get; init; }
+        public string Id { get; init; }
         public string FirstName { get; init; }
         public string LastName { get; init; }
         public string TCNo { get; init; }
