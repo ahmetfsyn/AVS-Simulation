@@ -12,7 +12,6 @@ namespace Entities.Models
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
 
-        public ICollection<WaterCard>? WaterCards { get; set; }
 
         //  ? Email zaten kalıtımdan geliyor.tanımlamaya gerek yok.
         // public  string? Email { get; set; }

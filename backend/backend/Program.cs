@@ -28,8 +28,6 @@ builder.Services.ConfigureCors();
 
 builder.Services.ConfigureDataShaper();
 
-builder.Services.AddScoped<ICityHallLinks, CityHallLinks>();
-
 builder.Services.AddScoped<IUserLinks, UserLinks>();
 
 builder.Services.ConfigureVersioning();

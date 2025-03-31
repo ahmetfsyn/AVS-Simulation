@@ -64,8 +64,6 @@ namespace backend.Extensions
         public static void ConfigureDataShaper(this IServiceCollection services)
         {
             services.AddScoped<IDataShaper<UserDto>, DataShaper<UserDto>>();
-            services.AddScoped<IDataShaper<CityHallDto>, DataShaper<CityHallDto>>();
-            services.AddScoped<IDataShaper<WaterCardDto>, DataShaper<WaterCardDto>>();
 
         }
 

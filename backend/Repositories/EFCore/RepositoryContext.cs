@@ -13,8 +13,6 @@ namespace Repositories.EFCore
 
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<CityHall> CityHalls { get; set; }
-
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }

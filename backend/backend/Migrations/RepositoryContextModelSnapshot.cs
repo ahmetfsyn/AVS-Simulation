@@ -22,39 +22,6 @@ namespace backend.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Entities.Models.CityHall", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CityHallName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CityHalls");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Mersin",
-                            CityHallName = "Tarsus Belediyesi"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Adana",
-                            CityHallName = "Seyhan Belediyesi"
-                        });
-                });
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
@@ -182,41 +149,6 @@ namespace backend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.WaterCard", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<long>("Balance")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("Credit")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("Debt")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("SubscriberNo")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("WaterCard");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {

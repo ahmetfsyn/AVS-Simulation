@@ -21,14 +21,6 @@ public class MappingProfile : Profile
         CreateMap<UserDtoForRegistration, User>();
 
 
-        CreateMap<CityHall, CityHallDto>();
-        CreateMap<CityHallDtoForInsertion, CityHall>();
-
-        CreateMap<WaterCard, WaterCardDto>();
-        CreateMap<WaterCardDtoForInsertion, WaterCard>();
-        CreateMap<WaterCardDtoForUpdate, WaterCard>().ReverseMap();
-
-
     }
 
 }

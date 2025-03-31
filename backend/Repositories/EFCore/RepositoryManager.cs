@@ -11,17 +11,14 @@ namespace Repositories.EFCore
 
         private readonly RepositoryContext _context;
         private readonly Lazy<IUserRepository> _userRepository;
-        private readonly Lazy<ICityHallRepository> _cityHallRepository;
 
         public RepositoryManager(RepositoryContext context)
         {
             _context = context;
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(_context));
-            _cityHallRepository = new Lazy<ICityHallRepository>(() => new CityHallRepository(_context));
         }
 
         public IUserRepository User => _userRepository.Value;
-        public ICityHallRepository CityHall => _cityHallRepository.Value;
 
 
         public void Save()
