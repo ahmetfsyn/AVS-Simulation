@@ -11,15 +11,19 @@ namespace Repositories.EFCore
 
         private readonly RepositoryContext _context;
         private readonly Lazy<IUserRepository> _userRepository;
+        private readonly Lazy<IWaterCardRepository> _waterCardRepository;
+
 
         public RepositoryManager(RepositoryContext context)
         {
             _context = context;
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(_context));
+            _waterCardRepository = new Lazy<IWaterCardRepository>(() => new WaterCardRepository(_context));
+
         }
 
         public IUserRepository User => _userRepository.Value;
-
+        public IWaterCardRepository WaterCard => _waterCardRepository.Value;
 
         public void Save()
         {

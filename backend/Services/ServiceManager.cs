@@ -17,7 +17,7 @@ namespace Services
     {
 
         private readonly Lazy<IUserService> _userService;
-
+        private readonly Lazy<IWaterCardService> _waterCardService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
 
 
@@ -28,11 +28,14 @@ namespace Services
         {
             _userService = new Lazy<IUserService>(() => new UserManager(repositoryManager, logger, mapper, userLinks));
 
+            _waterCardService = new Lazy<IWaterCardService>(() => new WaterCardManager(repositoryManager, logger, mapper));
 
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationManager(logger, mapper, userManager, configuration));
 
         }
         public IUserService UserService => _userService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
+
+        public IWaterCardService WaterCardService => _waterCardService.Value;
     }
 }

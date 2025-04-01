@@ -22,7 +22,6 @@ namespace backend.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -44,6 +43,9 @@ namespace backend.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
@@ -80,6 +82,9 @@ namespace backend.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
+                    b.Property<string>("SubscriberNo")
+                        .HasColumnType("text");
+
                     b.Property<string>("TCNo")
                         .HasColumnType("text");
 
@@ -104,51 +109,92 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5c7a9a85-3151-4c88-88e6-62e9a0d35bde",
+                            Id = "e1b64b19-0ef5-40ec-926d-26dc76c8fc6a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31f06855-fa83-4587-9fc9-03de6d0a6156",
+                            ConcurrencyStamp = "243fd4f1-775d-4ea1-8a5f-dd2b2c91af20",
                             EmailConfirmed = false,
                             FirstName = "Ahmet",
+                            IsBanned = false,
                             LastName = "Sayan",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "34962c4b-aeb9-4ade-822a-e8c377edfa4e",
+                            SecurityStamp = "51db393d-abf8-4340-81d6-6d309ec16b45",
+                            SubscriberNo = "2138875",
                             TCNo = "12312312311",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "f30322b5-ef03-412c-813f-617044ef8c77",
+                            Id = "6f78623c-db10-432b-ab2d-66a916203c65",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f7d2a48-3eb7-4f93-9361-4cd9393f7355",
+                            ConcurrencyStamp = "b8ed1114-3fec-4faa-9cb7-435b351b60e6",
                             EmailConfirmed = false,
                             FirstName = "Ceyda",
+                            IsBanned = false,
                             LastName = "Sayan",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "3eb09a69-29db-4a28-87f9-17961974c31b",
+                            SecurityStamp = "26b8c706-04b5-4350-9894-bf63bbd839a9",
+                            SubscriberNo = "5438463",
                             TCNo = "12312312312",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "1b6b8585-d2e2-4918-b3fe-b753324f9cd3",
+                            Id = "8b6da7d2-9d13-4197-84e3-81dde14d9311",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6901cdf4-3775-4756-8fb7-9a361de7d5d1",
+                            ConcurrencyStamp = "6b973304-c8a4-4876-9127-ad3b23b79fa4",
                             EmailConfirmed = false,
                             FirstName = "Furkan",
+                            IsBanned = false,
                             LastName = "Kara",
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "3f8f0e26-a79a-4474-8f83-4a448317be02",
+                            SecurityStamp = "d14c303a-93f7-4d09-a387-4a7a639cd69e",
+                            SubscriberNo = "3086816",
                             TCNo = "12312312313",
                             TwoFactorEnabled = false
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.WaterCard", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Credit")
+                        .IsRequired()
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MeterNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubscriberNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WaterCards");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f49fd629-d6b0-404f-93ba-14eeec31b253",
+                            Credit = 10,
+                            MeterNo = "1054805",
+                            SubscriberNo = "1234567"
+                        });
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -178,15 +224,15 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d155755e-33d7-4749-a83b-665711d06245",
-                            ConcurrencyStamp = "79439b89-ed61-4ec4-ae30-0682d06e4f81",
+                            Id = "7c8a1a34-8a9e-4985-88f5-c8bd94cb690d",
+                            ConcurrencyStamp = "029f1f43-da9d-425c-9762-f66616e84869",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "27a0f7fa-a806-4a76-9de7-f41091c4652e",
-                            ConcurrencyStamp = "e2b93989-3135-4443-b375-0b589e0d8f0d",
+                            Id = "521047f6-a878-4a77-a389-cae1f2cf746a",
+                            ConcurrencyStamp = "43aa9753-7681-4305-8ef0-e67f733e7f54",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -302,9 +348,7 @@ namespace backend.Migrations
                 {
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany("WaterCards")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

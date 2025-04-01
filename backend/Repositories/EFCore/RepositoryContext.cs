@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+﻿using System.Reflection;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Repositories.EFCore.Config;
 
 
 namespace Repositories.EFCore
@@ -13,6 +11,8 @@ namespace Repositories.EFCore
 
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<WaterCard> WaterCards { get; set; }
+
         public RepositoryContext(DbContextOptions options) : base(options)
         {
         }

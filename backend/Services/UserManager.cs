@@ -28,9 +28,9 @@ public class UserManager : IUserService
         _userLinks = userLinks;
     }
 
-    public async Task<UserDto> CreateUserAsync(UserDtoForInsertion userDto)
+    public async Task<UserDto> CreateUserAsync(UserDtoForInsertion userDtoForInsertion)
     {
-        var entity = _mapper.Map<User>(userDto);
+        var entity = _mapper.Map<User>(userDtoForInsertion);
         _manager.User.CreateUser(entity);
         await _manager.SaveAsync();
         return _mapper.Map<UserDto>(entity);
@@ -72,7 +72,6 @@ public class UserManager : IUserService
     {
         var entity = await GetUserByIdAndCheckExist(id, trackChanges);
 
-
         return _mapper.Map<UserDto>(entity);
     }
 
@@ -95,12 +94,12 @@ public class UserManager : IUserService
     }
 
 
-    public async Task UpdateUserAsync(string id, UserDtoForUpdate userDto, bool trackChanges)
+    public async Task UpdateUserAsync(string id, UserDtoForUpdate userDtoForUpdate, bool trackChanges)
     {
 
         var entity = await GetUserByIdAndCheckExist(id, trackChanges);
 
-        entity = _mapper.Map<User>(userDto);
+        entity = _mapper.Map<User>(userDtoForUpdate);
 
         _manager.User.UpdateUser(entity);
         await _manager.SaveAsync();
