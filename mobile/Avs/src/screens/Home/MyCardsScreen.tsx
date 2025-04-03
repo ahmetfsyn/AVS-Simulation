@@ -7,7 +7,7 @@ import {IconButton, useTheme} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddCard from '../../components/Card/AddCard';
 import {useNavigation} from '@react-navigation/native';
-import {removeWaterCard} from '../../redux/slices/appSlice';
+import {removeWaterCard} from '../../redux/slices/waterCardSlice';
 import {IWaterCardInfo} from '../../models/WaterCardInfo';
 
 const MyCardsScreen: React.FC = () => {

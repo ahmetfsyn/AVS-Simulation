@@ -16,26 +16,20 @@ namespace Services
     public class ServiceManager : IServiceManager
     {
 
-        private readonly Lazy<IUserService> _userService;
-        private readonly Lazy<IWaterCardService> _waterCardService;
-        private readonly Lazy<IAuthenticationService> _authenticationService;
+        private readonly IUserService _userService;
+        private readonly IWaterCardService _waterCardService;
+        private readonly IAuthenticationService _authenticationService;
 
-
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerService logger, IMapper mapper, IUserLinks userLinks,
-         UserManager<User> userManager,
-         IConfiguration configuration
-         )
+        public ServiceManager(IUserService userService, IWaterCardService waterCardService, IAuthenticationService authenticationService)
         {
-            _userService = new Lazy<IUserService>(() => new UserManager(repositoryManager, logger, mapper, userLinks));
-
-            _waterCardService = new Lazy<IWaterCardService>(() => new WaterCardManager(repositoryManager, logger, mapper));
-
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationManager(logger, mapper, userManager, configuration));
-
+            _userService = userService;
+            _waterCardService = waterCardService;
+            _authenticationService = authenticationService;
         }
-        public IUserService UserService => _userService.Value;
-        public IAuthenticationService AuthenticationService => _authenticationService.Value;
 
-        public IWaterCardService WaterCardService => _waterCardService.Value;
+        public IUserService UserService => _userService;
+        public IAuthenticationService AuthenticationService => _authenticationService;
+
+        public IWaterCardService WaterCardService => _waterCardService;
     }
 }

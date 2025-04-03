@@ -7,6 +7,8 @@ using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://0.0.0.0:7154");
+
 // API uç noktalarını keşfetmek için gerekli servisi ekler
 builder.Services.AddEndpointsApiExplorer();
 // Swagger'ı ekler, API'yi otomatik olarak dökümante eder
@@ -46,7 +48,9 @@ builder.Services.ConfigureIdentity();
 
 builder.Services.ConfigureJWT(builder.Configuration);
 
+builder.Services.RegisterRepositories();
 
+builder.Services.RegisterServices();
 
 
 // NLog yapılandırmasını yükler, log dosyasını ve yapılandırmayı okur
@@ -61,11 +65,17 @@ builder.Services.AddControllers(config =>
 })
 .AddXmlDataContractSerializerFormatters()
 .AddCustomCsvFormatter()
-.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); // Başka bir assembly'den controller'lar ekler
-// .AddNewtonsoftJson();  // Newtonsoft.Json ile JSON işleme
+.AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly) // Başka bir assembly'den controller'lar ekler
+.AddNewtonsoftJson(opt =>
+{
+
+    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+
+}
+);
 
 builder.Services.AddCustomMediaTypes();
-
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -73,6 +83,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 var app = builder.Build();
+
 
 // LoggerService'i alır, hata yönetim middleware'ını yapılandırır
 var logger = app.Services.GetRequiredService<ILoggerService>();
@@ -92,7 +103,7 @@ if (app.Environment.IsProduction())
 }
 
 // HTTP'yi HTTPS'ye yönlendirir, güvenli bağlantı sağlar
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseIpRateLimiting();
 

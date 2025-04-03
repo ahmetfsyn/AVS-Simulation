@@ -33,6 +33,7 @@ public static class ExceptionMiddlewareExtensions
 
                         context.Response.StatusCode = contextFeature.Error switch
                         {
+                            RegistrationFailedException => StatusCodes.Status409Conflict,
                             NotFoundException => StatusCodes.Status404NotFound,
                             _ => StatusCodes.Status500InternalServerError
                         };

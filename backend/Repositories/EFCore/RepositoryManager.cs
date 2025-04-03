@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Repositories.Contracts;
 
 namespace Repositories.EFCore
@@ -10,20 +7,18 @@ namespace Repositories.EFCore
     {
 
         private readonly RepositoryContext _context;
-        private readonly Lazy<IUserRepository> _userRepository;
-        private readonly Lazy<IWaterCardRepository> _waterCardRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IWaterCardRepository _waterCardRepository;
 
-
-        public RepositoryManager(RepositoryContext context)
+        public RepositoryManager(RepositoryContext context, IUserRepository userRepository, IWaterCardRepository waterCardRepository)
         {
             _context = context;
-            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(_context));
-            _waterCardRepository = new Lazy<IWaterCardRepository>(() => new WaterCardRepository(_context));
-
+            _userRepository = userRepository;
+            _waterCardRepository = waterCardRepository;
         }
 
-        public IUserRepository User => _userRepository.Value;
-        public IWaterCardRepository WaterCard => _waterCardRepository.Value;
+        public IUserRepository User => _userRepository;
+        public IWaterCardRepository WaterCard => _waterCardRepository;
 
         public void Save()
         {

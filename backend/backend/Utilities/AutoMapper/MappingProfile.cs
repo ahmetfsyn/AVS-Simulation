@@ -10,13 +10,15 @@ public class MappingProfile : Profile
     // CreateMap<UserDtoUpdate, User>() komutu, UserDtoUpdate nesnesinin User nesnesine dönüştürülmesini sağlar.
     // Bu yapı, UserDtoUpdate DTO'su ile User entity'si arasında veri aktarımını kolaylaştırır.
 
-    /*************  ✨ Codeium Command ⭐  *************/
-    /******  896c1bc0-b7b6-4cd0-ac4b-1137261bd0f6  *******/
     public MappingProfile()
     {
         CreateMap<User, UserDto>();
         CreateMap<UserDtoForInsertion, User>();
         CreateMap<UserDtoForUpdate, User>().ReverseMap();
+
+        CreateMap<WaterCard, WaterCardDto>();
+        CreateMap<WaterCardDtoForInsertion, WaterCard>();
+        CreateMap<WaterCardDtoForUpdate, WaterCard>().ReverseMap();
 
         CreateMap<UserDtoForRegistration, User>();
 

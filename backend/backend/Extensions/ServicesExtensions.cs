@@ -150,12 +150,17 @@ namespace backend.Extensions
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
-                // options.Password.RequiredLength = 6;
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_@.";
+                // options.User.AllowedUserNameCharacters = null;
+                // options.Password.RequiredLength = 6;
 
 
-            }).AddEntityFrameworkStores<RepositoryContext>().AddDefaultTokenProviders();
+            })
+            .AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders();
+            // .AddUserValidator<CustomUserValidator>();
+
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
@@ -181,6 +186,21 @@ namespace backend.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
             });
+        }
+
+        public static void RegisterRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWaterCardRepository, WaterCardRepository>();
+
+        }
+
+        public static void RegisterServices(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, UserManager>();
+            services.AddScoped<IWaterCardService, WaterCardManager>();
+            services.AddScoped<IAuthenticationService, AuthenticationManager>();
+
         }
     }
 }

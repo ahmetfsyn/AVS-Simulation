@@ -1,10 +1,11 @@
+
+using System.ComponentModel.DataAnnotations;
+
 namespace Entities.Dtos
 {
-    public record WaterCardDtoForUpdate
+    public record WaterCardDtoForUpdate : WaterCardDtoForManipulation
     {
-
-        public string? Id { get; set; }
-        public int? Credit { get; set; } = 0;
-        public string? SubscriberNo { get; set; }
+        [Required(ErrorMessage = "Credit is required field.")]
+        public int? Credit { get; init; }
     }
 }

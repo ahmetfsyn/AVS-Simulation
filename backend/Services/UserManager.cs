@@ -62,11 +62,11 @@ public class UserManager : IUserService
         return (linkResponse: links, metaData: usersWithMetaData.MetaData);
     }
 
-    public async Task<List<User>> GetAllUsersAsync(bool trackChanges)
-    {
-        var users = await _manager.User.GetAllUsersAsync(trackChanges);
-        return users;
-    }
+    // public async Task<List<User>> GetAllUsersAsync(bool trackChanges)
+    // {
+    //     var users = await _manager.User.GetAllUsersAsync(trackChanges);
+    //     return users;
+    // }
 
     public async Task<UserDto> GetUserByIdAsync(string id, bool trackChanges)
     {

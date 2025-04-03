@@ -1,11 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
-import appReducer from './slices/appSlice';
+import authReducer from './slices/authSlice';
+import waterCardReducer from './slices/waterCardSlice';
+
 export const store = configureStore({
   reducer: {
-    app: appReducer,
+    auth: authReducer,
+    waterCard: waterCardReducer,
   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

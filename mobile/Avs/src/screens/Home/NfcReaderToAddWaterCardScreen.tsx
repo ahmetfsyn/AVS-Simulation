@@ -6,7 +6,7 @@ import {showMessage} from '../../utils/showMessage';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import NfcManager, {Ndef, NfcTech} from 'react-native-nfc-manager';
 import {useDispatch, useSelector} from 'react-redux';
-import {addWaterCard} from '../../redux/slices/appSlice';
+import {addWaterCard} from '../../redux/slices/waterCardSlice';
 import {RootState} from '../../redux/store';
 import {IWaterCard} from '../../models/WaterCard';
 

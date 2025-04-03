@@ -27,6 +27,6 @@ namespace Services.Contracts
         Task DeleteUserAsync(string id, bool trackChanges);
         Task SaveChangesForPatchAsync(UserDtoForUpdate userDtoForUpdate, User user);
         Task<(UserDtoForUpdate userDtoUpdate, User user)> GetUserForPatchAsync(string id, bool trackChanges);
-        Task<List<User>> GetAllUsersAsync(bool trackChanges);
+        // Task<List<User>> GetAllUsersAsync(bool trackChanges);
     }
 }

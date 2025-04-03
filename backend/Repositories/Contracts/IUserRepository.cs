@@ -10,7 +10,8 @@ namespace Repositories.Contracts
 
         // Async operations
         Task<PagedList<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges);
-        Task<List<User>> GetAllUsersAsync(bool trackChanges); // api v2 de kullanılan bir method ama gereksiz .
+
+        // Task<List<User>> GetAllUsersAsync(bool trackChanges); api v2 de kullanılan bir method ama gereksiz .
         Task<User> GetUserByIdAsync(string id, bool trackChanges);
 
         // Sync operations

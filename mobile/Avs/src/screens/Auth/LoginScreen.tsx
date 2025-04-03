@@ -12,7 +12,6 @@ import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
 import {useDispatch} from 'react-redux';
-import {signIn} from '../../redux/slices/appSlice';
 import {styles} from '../../styles/loginScreenStyles';
 import {validationSchema} from '../../validations/LoginValidations';
 import {
@@ -28,7 +27,7 @@ const LoginScreen: React.FC = () => {
   const onPressSignIn = (values: {tcKimlikNo: string; password: string}) => {
     setLoading(true);
     try {
-      dispatch(signIn(values));
+      // dispatch(signIn(values));
     } catch (error) {
       console.error(error);
     } finally {

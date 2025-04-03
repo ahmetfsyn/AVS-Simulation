@@ -74,9 +74,12 @@ namespace Services
 
             if (result.Succeeded)
             {
-
                 await _userManager.AddToRolesAsync(user, userDtoForRegistration.Roles);
-
+            }
+            else
+            {
+                var errorMessage = string.Join("; ", result.Errors.Select(e => e.Description));
+                throw new RegistrationFailedException(errorMessage);
             }
             return result;
 

@@ -9,7 +9,10 @@ import Toast, {
   SuccessToast,
 } from 'react-native-toast-message';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
 NfcManager.start();
+const queryClient = new QueryClient();
 interface AppTheme {
   colors: {
     background: string;
@@ -91,12 +94,14 @@ export default function App() {
   };
 
   return (
-    <PaperProvider theme={appTheme}>
-      <GestureHandlerRootView
-        style={{flex: 1, backgroundColor: appTheme.colors.background}}>
-        <AppRoutes />
-      </GestureHandlerRootView>
-      <Toast config={toastConfig}></Toast>
-    </PaperProvider>
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider theme={appTheme}>
+        <GestureHandlerRootView
+          style={{flex: 1, backgroundColor: appTheme.colors.background}}>
+          <AppRoutes />
+        </GestureHandlerRootView>
+        <Toast config={toastConfig}></Toast>
+      </PaperProvider>
+    </QueryClientProvider>
   );
 }

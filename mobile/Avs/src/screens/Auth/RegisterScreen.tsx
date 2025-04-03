@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Card} from 'react-native-paper';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
@@ -6,37 +6,42 @@ import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
-import {signUp} from '../../redux/slices/appSlice';
-import {IUser} from '../../models/User';
 import {
   passwordMaxLength,
-  tcNoLength,
   validationSchema,
 } from '../../validations/RegisterValidations';
 import {styles} from '../../styles/registerScreenStyles';
+import {useMutation} from '@tanstack/react-query';
+import {RegisterParams} from '../../models/types/AuthParams';
+import {register} from '../../services/authService';
+import {showMessage} from '../../utils/showMessage';
 
 const RegisterScreen: React.FC = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
+  const mutation = useMutation({
+    mutationFn: register,
+  });
 
+  const [loading, setLoading] = useState(false);
   const onPressSignIn = () => {
     navigation.canGoBack() ? navigation.goBack() : null;
   };
 
-  const onPressSignUp = (values: any): void => {
+  const onPressSignUp = async (values: RegisterParams): Promise<void> => {
+    setLoading(true);
     try {
-      setLoading(true);
-      dispatch(signUp({...values, id: Math.floor(Math.random() * 1000)}));
-      navigation.navigate('Login');
+      await mutation.mutateAsync(values);
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data);
+      showMessage({
+        text1: 'İşlem Başarısız',
+        text2: error.response.data.Details,
+        type: 'error',
+      });
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <ScrollView
       style={styles.container}
@@ -56,11 +61,11 @@ const RegisterScreen: React.FC = () => {
         <Card.Content>
           <Formik
             initialValues={{
-              tcNo: '',
-              password: '',
-              confirmPassword: '',
               firstName: '',
               lastName: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
             }}
             onSubmit={onPressSignUp}
             validationSchema={validationSchema}>
@@ -94,13 +99,12 @@ const RegisterScreen: React.FC = () => {
                 />
                 <CustomTextInput
                   mode="flat"
-                  inputMode="decimal"
-                  placeholder="T.C Kimlik No"
-                  onChangeText={handleChange('tcNo')}
-                  onBlur={handleBlur('tcNo')}
-                  maxLength={tcNoLength}
-                  value={values.tcNo}
-                  error={touched.tcNo && errors.tcNo}
+                  inputMode="email"
+                  placeholder="E-mail"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  error={touched.email && errors.email}
                 />
 
                 <CustomTextInput

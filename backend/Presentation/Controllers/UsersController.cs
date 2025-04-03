@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Entities.Dtos;
 using Entities.RequestFeatures;
-using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +26,13 @@ public class UsersController : ControllerBase
 
 
     // [ResponseCache(Duration = 60)]
-    [Authorize(Roles = "User")]
+    // [Authorize(Roles = "User")]
     [HttpHead]
     [HttpGet(Name = "GetAllUsers")]
     [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
 
     public async Task<IActionResult> GetAllUsersAsync([FromQuery] UserParameters userParameters)
     {
-
 
         var linkParameters = new LinkParameters()
         {
@@ -54,7 +52,7 @@ public class UsersController : ControllerBase
         return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) : Ok(result.linkResponse.ShapedEntities);
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserByIdAsync([FromRoute(Name = "id")] string id)
     {
@@ -64,10 +62,9 @@ public class UsersController : ControllerBase
 
     }
 
-
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPost(Name = "CreateUser")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     public async Task<IActionResult> CreateUserAsync([FromBody] UserDtoForInsertion userDto)
     {
 
