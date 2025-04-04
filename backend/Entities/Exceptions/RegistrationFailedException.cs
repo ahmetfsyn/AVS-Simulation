@@ -1,15 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace Entities.Exceptions
 {
     public class RegistrationFailedException : BadRequestException
     {
-        public RegistrationFailedException(string message) : base(message)
+        public string ErrorCode { get; }
+        public List<IdentityError> ErrorList { get; }
+        public RegistrationFailedException(string errorCode, List<IdentityError> errorList) : base(errorCode)
         {
-
+            ErrorList = errorList;
+            ErrorCode = errorCode;
         }
+
+
     }
 }

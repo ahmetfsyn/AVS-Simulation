@@ -25,7 +25,7 @@ namespace Presentation.Controllers
         {
             await _service.AuthenticationService.RegisterUser(userDtoForRegistration);
 
-            return StatusCode(201);
+            return NoContent();
 
         }
         [HttpPost("login")]

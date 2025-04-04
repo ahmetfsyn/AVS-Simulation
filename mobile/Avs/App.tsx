@@ -1,11 +1,12 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AppRoutes from './src/routes/AppRoutes';
 import {MD3DarkTheme, MD3LightTheme, PaperProvider} from 'react-native-paper';
 import {StatusBar, Platform, useColorScheme, View} from 'react-native';
 import {useMemo} from 'react';
 import Toast, {
-  BaseToast,
   ErrorToast,
+  InfoToast,
   SuccessToast,
 } from 'react-native-toast-message';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
@@ -17,12 +18,13 @@ interface AppTheme {
   colors: {
     background: string;
     onBackground: string;
+    cardBackground: string;
     primary: string;
     secondary: string;
     error: string;
     success: string;
     warning: string;
-    cardBackground: string;
+    info: string;
   };
 }
 
@@ -46,12 +48,13 @@ export default function App() {
         error: '#EF6B7C',
         success: 'lightgreen',
         warning: '#FFC107',
+        info: '#00AEEF',
       },
     };
   }, [isDarkTheme]);
 
   const toastConfig = {
-    success: props => (
+    success: (props: any) => (
       <SuccessToast
         {...props}
         style={{
@@ -60,7 +63,6 @@ export default function App() {
           borderRightColor: appTheme.colors.success,
           borderRightWidth: 5,
         }}
-        contentContainerStyle={{paddingHorizontal: 15}}
         text1Style={{
           fontSize: 14,
           color: 'black',
@@ -72,13 +74,32 @@ export default function App() {
       />
     ),
 
-    error: props => (
+    error: (props: any) => (
       <ErrorToast
         {...props}
         style={{
           borderLeftColor: appTheme.colors.error,
           backgroundColor: appTheme.colors.onBackground,
           borderRightColor: appTheme.colors.error,
+          borderRightWidth: 5,
+        }}
+        text1Style={{
+          fontSize: 14,
+          color: 'black',
+        }}
+        text2Style={{
+          fontSize: 12,
+          color: 'black',
+        }}
+      />
+    ),
+    info: (props: any) => (
+      <InfoToast
+        {...props}
+        style={{
+          borderLeftColor: appTheme.colors.info,
+          backgroundColor: appTheme.colors.onBackground,
+          borderRightColor: appTheme.colors.info,
           borderRightWidth: 5,
         }}
         text1Style={{
@@ -100,7 +121,7 @@ export default function App() {
           style={{flex: 1, backgroundColor: appTheme.colors.background}}>
           <AppRoutes />
         </GestureHandlerRootView>
-        <Toast config={toastConfig}></Toast>
+        <Toast config={toastConfig} />
       </PaperProvider>
     </QueryClientProvider>
   );

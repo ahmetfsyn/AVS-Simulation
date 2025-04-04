@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
   HelperText,
   TextInput,
   TextInputProps,
   useTheme,
-} from "react-native-paper";
+} from 'react-native-paper';
 
 interface CustomTextInputProps extends TextInputProps {
   error?: string | boolean; // Formik'ten gelen hata mesajı
@@ -19,11 +19,12 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     <>
       <TextInput
         {...props}
-        placeholderTextColor={"#979797"}
-        underlineColor={"#979797"}
+        mode={props.mode || 'flat'}
+        placeholderTextColor={'#979797'}
+        underlineColor={'#979797'}
         style={[
           {
-            backgroundColor: "transparent",
+            backgroundColor: 'transparent',
             color: theme.colors.onSurface,
           },
           style,

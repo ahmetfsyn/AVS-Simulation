@@ -78,8 +78,7 @@ namespace Services
             }
             else
             {
-                var errorMessage = string.Join("; ", result.Errors.Select(e => e.Description));
-                throw new RegistrationFailedException(errorMessage);
+                throw new RegistrationFailedException("REGISTRATION_FAILED", result.Errors.ToList());
             }
             return result;
 

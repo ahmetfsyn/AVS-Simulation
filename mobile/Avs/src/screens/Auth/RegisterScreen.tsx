@@ -4,7 +4,7 @@ import {Card} from 'react-native-paper';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
 import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation} from '@react-navigation/native';
-import {Formik} from 'formik';
+import {Formik, FormikHelpers} from 'formik';
 import {ScrollView} from 'react-native-gesture-handler';
 import {
   passwordMaxLength,
@@ -21,21 +21,40 @@ const RegisterScreen: React.FC = () => {
   const mutation = useMutation({
     mutationFn: register,
   });
-
   const [loading, setLoading] = useState(false);
-  const onPressSignIn = () => {
+
+  const onPressSignIn = (): void => {
     navigation.canGoBack() ? navigation.goBack() : null;
   };
 
-  const onPressSignUp = async (values: RegisterParams): Promise<void> => {
+  const onPressSignUp = async (
+    values: RegisterParams,
+    {resetForm}: FormikHelpers<any>,
+  ): Promise<void> => {
     setLoading(true);
     try {
       await mutation.mutateAsync(values);
-    } catch (error) {
-      console.error(error.response.data);
+
+      showMessage({
+        text1: 'İşlem Başarılı',
+        text2: 'Başarıyla kayıt oldunuz.',
+        type: 'success',
+      });
+
+      //  ? Eğer email doğrulamayı zorunlu kılarsan giriş yapabilmesi için, alttaki yorum satırını aktif et
+      // setTimeout(() => {
+      //   showMessage({
+      //     text1: 'Bilgilendirme',
+      //     text2: 'Lütfen mail adresinizi kontrol ediniz.',
+      //     type: 'info',
+      //   });
+      // }, 4000);
+      resetForm();
+      navigation.navigate('Login');
+    } catch (error: any) {
       showMessage({
         text1: 'İşlem Başarısız',
-        text2: error.response.data.Details,
+        text2: error.message,
         type: 'error',
       });
     } finally {
@@ -54,7 +73,7 @@ const RegisterScreen: React.FC = () => {
           style={styles.cardCover}
         />
         <Card.Title
-          title="KAYIT OL"
+          title="Kayıt Ol"
           titleStyle={styles.cardTitle}
           titleVariant="titleLarge"
         />
@@ -76,11 +95,11 @@ const RegisterScreen: React.FC = () => {
               values,
               errors,
               touched,
+              isValid,
             }) => (
               // View of inputs
               <View style={styles.viewOfInputs}>
                 <CustomTextInput
-                  mode="flat"
                   inputMode="decimal"
                   placeholder="Ad"
                   onChangeText={handleChange('firstName')}
@@ -89,7 +108,6 @@ const RegisterScreen: React.FC = () => {
                   error={touched.firstName && errors.firstName}
                 />
                 <CustomTextInput
-                  mode="flat"
                   inputMode="decimal"
                   placeholder="Soyad"
                   onChangeText={handleChange('lastName')}
@@ -98,7 +116,6 @@ const RegisterScreen: React.FC = () => {
                   error={touched.lastName && errors.lastName}
                 />
                 <CustomTextInput
-                  mode="flat"
                   inputMode="email"
                   placeholder="E-mail"
                   onChangeText={handleChange('email')}
@@ -108,7 +125,6 @@ const RegisterScreen: React.FC = () => {
                 />
 
                 <CustomTextInput
-                  mode="flat"
                   placeholder="Parola"
                   inputMode="text"
                   secureTextEntry
@@ -119,7 +135,6 @@ const RegisterScreen: React.FC = () => {
                   error={touched.password && errors.password}
                 />
                 <CustomTextInput
-                  mode="flat"
                   placeholder="Parola Tekrar"
                   inputMode="text"
                   secureTextEntry
@@ -141,7 +156,7 @@ const RegisterScreen: React.FC = () => {
                       flex: 1,
                     }}
                     loading={loading}
-                    disabled={loading}
+                    disabled={loading || !isValid}
                     onPress={handleSubmit}>
                     Kayıt Ol
                   </CustomButton>
