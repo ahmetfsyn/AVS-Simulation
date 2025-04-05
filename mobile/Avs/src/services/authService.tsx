@@ -1,27 +1,25 @@
-import {registrationErrorMessages} from '../enums/RegistrationErrorMessages';
+import {AxiosError} from 'axios';
+import {registrationErrorMessages} from '../errorMessages/RegistrationErrorMessages';
 import {RegistrationFailedError} from '../errors/RegistrationFailedError';
-import {RegisterParams} from '../models/types/AuthParams';
+import {LoginParams, RegisterParams} from '../models/types/AuthParams';
+import {IdentityError} from '../models/types/IdentityError';
 import api from './api';
 
 export const register = async (formValues: RegisterParams): Promise<void> => {
-  formValues.roles = ['User'];
-
   formValues.username = (
     formValues.firstName +
     formValues.lastName +
     Date.now()
   ).replaceAll(' ', '');
-
+  console.log(formValues);
   try {
     await api.post('/api/auth', formValues);
-
-    await sendConfirmEmail(formValues.email);
+    // await sendConfirmEmail(formValues.email);
   } catch (error: any) {
+    console.error(error);
     const {ErrorList} = error?.response?.data;
 
-    console.error('error list: ', ErrorList);
-
-    ErrorList.forEach((identityError: any) => {
+    ErrorList.forEach((identityError: IdentityError) => {
       throw new RegistrationFailedError(
         registrationErrorMessages[identityError.Code] ||
           'Bilinmeyen bir hata oluştu.',
@@ -30,15 +28,15 @@ export const register = async (formValues: RegisterParams): Promise<void> => {
   }
 };
 
-export const login = async (email: string, password: string) => {
+export const login = async (values: LoginParams): Promise<void> => {
   try {
-    const response = await api.post('/auth/login', {email, password});
+    const response = await api.post('/api/auth/login', values);
 
     console.log(response.data);
 
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     throw error;
   }
 };
@@ -51,10 +49,10 @@ export const logout = async () => {
   }
 };
 
-const sendConfirmEmail = async (email: string) => {
-  try {
-    console.log('Emailinize onaylama linki gönderildi. ', email);
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const sendConfirmEmail = async (email: string) => {
+//   try {
+//     console.log('Emailinize onaylama linki gönderildi. ', email);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };

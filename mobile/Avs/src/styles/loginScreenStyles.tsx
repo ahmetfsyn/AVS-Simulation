@@ -4,7 +4,11 @@ export const styles = StyleSheet.create({
   container: {
     ...basePageStyles.container,
     padding: 16,
+  },
+  scrollViewContentContainer: {
+    display: 'flex',
     justifyContent: 'center',
+    marginVertical: 'auto',
   },
   cardCover: {
     padding: 16,

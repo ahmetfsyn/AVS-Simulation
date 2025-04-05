@@ -1,66 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {Card} from 'react-native-paper';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
 import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation} from '@react-navigation/native';
-import {Formik, FormikHelpers} from 'formik';
+import {Formik} from 'formik';
 import {ScrollView} from 'react-native-gesture-handler';
 import {
   passwordMaxLength,
   validationSchema,
 } from '../../validations/RegisterValidations';
 import {styles} from '../../styles/registerScreenStyles';
-import {useMutation} from '@tanstack/react-query';
+import {useSignUp} from '../../hooks/useSignUp';
 import {RegisterParams} from '../../models/types/AuthParams';
-import {register} from '../../services/authService';
-import {showMessage} from '../../utils/showMessage';
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation();
-  const mutation = useMutation({
-    mutationFn: register,
-  });
-  const [loading, setLoading] = useState(false);
-
+  const {loading, signUp} = useSignUp();
   const onPressSignIn = (): void => {
     navigation.canGoBack() ? navigation.goBack() : null;
   };
 
-  const onPressSignUp = async (
-    values: RegisterParams,
-    {resetForm}: FormikHelpers<any>,
-  ): Promise<void> => {
-    setLoading(true);
-    try {
-      await mutation.mutateAsync(values);
-
-      showMessage({
-        text1: 'İşlem Başarılı',
-        text2: 'Başarıyla kayıt oldunuz.',
-        type: 'success',
-      });
-
-      //  ? Eğer email doğrulamayı zorunlu kılarsan giriş yapabilmesi için, alttaki yorum satırını aktif et
-      // setTimeout(() => {
-      //   showMessage({
-      //     text1: 'Bilgilendirme',
-      //     text2: 'Lütfen mail adresinizi kontrol ediniz.',
-      //     type: 'info',
-      //   });
-      // }, 4000);
-      resetForm();
-      navigation.navigate('Login');
-    } catch (error: any) {
-      showMessage({
-        text1: 'İşlem Başarısız',
-        text2: error.message,
-        type: 'error',
-      });
-    } finally {
-      setLoading(false);
-    }
+  const formikInitialValues: RegisterParams = {
+    confirmPassword: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    roles: ['User'],
   };
+
   return (
     <ScrollView
       style={styles.container}
@@ -79,14 +48,8 @@ const RegisterScreen: React.FC = () => {
         />
         <Card.Content>
           <Formik
-            initialValues={{
-              firstName: '',
-              lastName: '',
-              email: '',
-              password: '',
-              confirmPassword: '',
-            }}
-            onSubmit={onPressSignUp}
+            initialValues={formikInitialValues}
+            onSubmit={signUp}
             validationSchema={validationSchema}>
             {({
               handleChange,

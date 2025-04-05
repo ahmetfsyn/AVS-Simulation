@@ -4,11 +4,12 @@ export type RegisterParams = {
   email: string;
   password: string;
   confirmPassword: string;
-  roles: ['User'];
-  username: string;
+  roles?: string[];
+  username?: string;
 };
 
 export type LoginParams = {
   email: string;
   password: string;
+  rememberMe?: boolean;
 };
