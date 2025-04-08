@@ -6,10 +6,13 @@ import {login} from '../services/authService';
 import {useMutation} from '@tanstack/react-query';
 import {FormikHelpers} from 'formik';
 import {showMessage} from '../utils/showMessage';
+import {setCredentials} from '../redux/slices/authSlice';
 
 export const useSignIn = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const mutation = useMutation({
     mutationFn: login,
   });
@@ -19,8 +22,9 @@ export const useSignIn = () => {
   ): Promise<void> => {
     setLoading(true);
     try {
-      await mutation.mutateAsync(values);
+      const result = await mutation.mutateAsync(values);
 
+      dispatch(setCredentials(result.data));
       showMessage({
         text1: 'İşlem Başarılı',
         text2: 'Başarıyla giriş yaptınız.',
@@ -29,8 +33,13 @@ export const useSignIn = () => {
       navigation.navigate('App');
 
       //   resetForm();
-    } catch (error) {
+    } catch (error: any) {
       //   console.error(error);
+      showMessage({
+        text1: 'İşlem Başarısız',
+        text2: error.message,
+        type: 'error',
+      });
     } finally {
       setLoading(false);
     }

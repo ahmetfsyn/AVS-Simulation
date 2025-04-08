@@ -39,11 +39,24 @@ public static class ExceptionMiddlewareExtensions
 
                         switch (error)
                         {
+                            case LoginFailedException loginError:
+                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                                errorCode = loginError.ErrorCode.ToString();
+                                errorList = loginError.ErrorList;
+                                break;
+
                             case RegistrationFailedException registrationError:
-                                context.Response.StatusCode = StatusCodes.Status409Conflict;
+                                bool isConflict = registrationError.ErrorList
+                                    .Any(e => e.Code.Equals("DuplicateEmail", StringComparison.OrdinalIgnoreCase));
+
+                                context.Response.StatusCode = isConflict
+                                    ? StatusCodes.Status409Conflict
+                                    : StatusCodes.Status400BadRequest;
+
                                 errorCode = registrationError.ErrorCode.ToString();
                                 errorList = registrationError.ErrorList;
                                 break;
+
 
                             case NotFoundException notFoundError:
                                 context.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -60,7 +73,7 @@ public static class ExceptionMiddlewareExtensions
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             StatusCode = context.Response.StatusCode,
-                            Details = contextFeature.Error.Message,
+                            // Details = contextFeature.Error.Message,
                             ErrorCode = errorCode,
                             ErrorList = errorList
                         }.ToString());

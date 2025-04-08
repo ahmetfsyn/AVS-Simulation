@@ -1,37 +1,39 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IUser, User} from '../../models/User';
-import {IWaterCardInfo, WaterCardInfo} from '../../models/WaterCardInfo';
-import {IUserInfo, UserInfo} from '../../models/UserInfo';
-import {IWaterCard} from '../../models/WaterCard';
-import {generateUniqueSevenDigitNumber} from '../../utils/generateUniqueSevenDigitNumber';
-import axios from 'axios';
-import api from '../../services/api';
-import {RegisterParams} from '../../models/types/AuthParams';
-// import type {PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {IUser} from '../../models/User';
+import {LoginPayload} from '../../models/types/LoginPayload';
 
-export interface AuthState {
-  user: {
-    firstName: '';
-    lastName: '';
-    email: '';
-    tcNo: '';
-    subscriberNo: '';
-    isEmailVerified: false;
-    isBanned: false;
-  } | null;
-}
+export type AuthState = {
+  user?: IUser | null;
+  accessToken?: string;
+  refreshToken?: string;
+};
 
 const initialState: AuthState = {
   user: null,
+  accessToken: '',
+  refreshToken: '',
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
-  extraReducers: builder => {},
+  reducers: {
+    setCredentials: (state, action: PayloadAction<LoginPayload>) => {
+      const {userDto, tokenDto} = action.payload;
+
+      state.user = userDto;
+      state.accessToken = tokenDto.accessToken;
+      state.refreshToken = tokenDto.refreshToken;
+      // console.log(state.user);
+    },
+    removeCredentials: state => {
+      state.user = null;
+      state.accessToken = '';
+      state.refreshToken = '';
+    },
+  },
 });
 
-export const {} = authSlice.actions;
+export const {setCredentials, removeCredentials} = authSlice.actions;
 
 export default authSlice.reducer;

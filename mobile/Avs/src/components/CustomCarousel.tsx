@@ -2,19 +2,14 @@ import {Dimensions} from 'react-native';
 import React from 'react';
 import Carousel from 'react-native-reanimated-carousel';
 import WaterCard from '../components/Card/WaterCard';
-import {IWaterCardInfo} from '../models/abstracts/IWaterCardInfo';
+import {CustomCarouselProps} from '../models/types/CustomCarouselProps';
 
 const {width, height} = Dimensions.get('window');
 
-type CustomCarouselProps = {
-  data: IWaterCardInfo[];
-  setActiveIndex: (index: number) => void;
-};
-
-const CustomCarousel: React.FC<CustomCarouselProps> = props => {
+const CustomCarousel: React.FC<CustomCarouselProps> = (
+  props: CustomCarouselProps,
+) => {
   const {setActiveIndex, data} = props;
-
-  // console.log('render oldu');
 
   return (
     <Carousel

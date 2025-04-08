@@ -6,6 +6,7 @@ namespace Services.Contracts
 {
     public interface IWaterCardService
     {
+        Task<IEnumerable<WaterCardDto>> GetWaterCardsByUserIdAsync(string userId, bool trackChanges);
         Task<WaterCardDto> GetWaterCardByIdAsync(string id, bool trackChanges);
         Task<WaterCardDto> CreateWaterCardAsync(WaterCardDtoForInsertion waterCardDtoForInsertion);
         Task UpdateWaterCardAsync(string id, WaterCardDtoForUpdate waterCardDtoForUpdate, bool trackChanges);

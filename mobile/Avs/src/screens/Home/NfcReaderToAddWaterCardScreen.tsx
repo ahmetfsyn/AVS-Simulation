@@ -6,28 +6,25 @@ import {showMessage} from '../../utils/showMessage';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import NfcManager, {Ndef, NfcTech} from 'react-native-nfc-manager';
 import {useDispatch, useSelector} from 'react-redux';
-import {addWaterCard} from '../../redux/slices/waterCardSlice';
 import {RootState} from '../../redux/store';
 import {IWaterCard} from '../../models/WaterCard';
+import {addWaterCards} from '../../services/waterCardService';
 
-interface IsSuccessState {
+export type IsSuccessState = {
   result: boolean | null;
   error: string | null;
-}
+};
 
 const NfcReaderToAddWaterCardScreen: React.FC = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+
   const [isSuccess, setIsSuccess] = useState<IsSuccessState>({
     result: null,
     error: null,
   });
-  const userInfo = useSelector((state: RootState) => state.app.user);
-  const userWaterCards = useSelector(
-    (state: RootState) => state.app.waterCards,
-  );
 
-  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   async function readNdef() {
     setLoading(true);
@@ -55,9 +52,7 @@ const NfcReaderToAddWaterCardScreen: React.FC = () => {
             .join('');
 
           const waterCard: IWaterCard = JSON.parse(decodedText);
-          console.log(waterCard);
 
-          dispatch(addWaterCard(waterCard));
           setIsSuccess({result: true, error: null});
         } else {
           return {result: false, error: 'Etiket boş.'};

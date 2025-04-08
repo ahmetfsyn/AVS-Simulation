@@ -22,7 +22,7 @@ const LoginScreen: React.FC = () => {
   const formikInitialValues: LoginParams = {
     email: '',
     password: '',
-    rememberMe: rememberMe || false,
+    rememberMe: rememberMe,
   };
 
   const onPressSignUp = () => {

@@ -23,6 +23,19 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+
+        [HttpGet("user/{userId}", Name = "GetWaterCardsByUserId")]
+        [Authorize(Roles = "User")]
+        // [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> GetWaterCardsByUserIdAsync([FromRoute] string userId)
+        {
+
+            var waterCards = await _manager.WaterCardService.GetWaterCardsByUserIdAsync(userId, false);
+
+            return Ok(waterCards);
+        }
+
+
         [HttpPost(Name = "CreateWaterCard")]
         [Authorize(Roles = "User")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]

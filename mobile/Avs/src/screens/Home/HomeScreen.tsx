@@ -1,6 +1,12 @@
 import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Card, Portal, Text, useTheme} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Card,
+  Portal,
+  Text,
+  useTheme,
+} from 'react-native-paper';
 import CustomCarousel from '../../components/CustomCarousel';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,16 +16,28 @@ import {Marquee} from '@animatereactnative/marquee';
 import {useNavigation} from '@react-navigation/native';
 import NfcManager from 'react-native-nfc-manager';
 import {showMessage} from '../../utils/showMessage';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import AddCard from '../../components/Card/AddCard';
+import {useMutation} from '@tanstack/react-query';
+import {getWaterCards} from '../../services/waterCardService';
+import {useGetWaterCards} from '../../hooks/useGetWaterCards';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation();
-  const waterCards = useSelector((state: RootState) => state.app.waterCards);
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const {user, accessToken, refreshToken} = useSelector(
+    (state: RootState) => state.auth,
+  );
+  const {isLoading} = useGetWaterCards({
+    userId: user?.id,
+    accessToken,
+  });
+
+  const {waterCards} = useSelector((state: RootState) => state.waterCard);
+
   // const [visibleDialog, setVisibleDialog] = useState(false);
 
   useEffect(() => {
@@ -50,7 +68,9 @@ const HomeScreen: React.FC = () => {
 
         {/* Carousel */}
         <View>
-          {waterCards.length > 0 ? (
+          {isLoading ? (
+            <ActivityIndicator size="large" color={theme.colors.onBackground} />
+          ) : waterCards && waterCards.length > 0 ? (
             <CustomCarousel data={waterCards} setActiveIndex={setActiveIndex} />
           ) : (
             <AddCard navigation={navigation} path="NfcReaderToAddWaterCard" />
@@ -61,7 +81,7 @@ const HomeScreen: React.FC = () => {
         <View>
           <Card>
             <Card.Title title="Kart Bilgileri" titleVariant="titleMedium" />
-            {waterCards.length > 0 ? (
+            {waterCards && waterCards?.length > 0 ? (
               <Card.Content
                 style={{
                   gap: 15,

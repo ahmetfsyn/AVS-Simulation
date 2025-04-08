@@ -84,17 +84,35 @@ namespace Services
 
         }
 
-        public async Task<bool> ValidateUser(UserDtoForAuthentication userDtoForAuthentication)
+        public async Task<UserDto> ValidateUser(UserDtoForAuthentication userDtoForAuthentication)
         {
             _user = await _userManager.FindByEmailAsync(userDtoForAuthentication.Email);
 
-            var result = (_user != null) && (await _userManager.CheckPasswordAsync(_user, userDtoForAuthentication.Password));
+            if (_user is null)
+            {
+                throw new LoginFailedException("LOGIN_FAILED", new List<IdentityError>
+                {
+                    new() { Code = "InvalidEmail", Description = "No user found with this email address." }
+                });
+            }
+
+            var result = await _userManager.CheckPasswordAsync(_user, userDtoForAuthentication.Password);
+
             if (!result)
             {
-                _logger.LogWarning($"{nameof(ValidateUser)} : Authentication is failed. Wrong email or password.");
+                _logger.LogWarning($"{nameof(ValidateUser)} : Authentication failed. Wrong email or password.");
+
+                throw new LoginFailedException("LOGIN_FAILED", new List<IdentityError>
+                {
+                    new() { Code = "InvalidEmailOrPassword", Description = "Email or password is incorrect." }
+                });
             }
-            return result;
+
+            var userDto = _mapper.Map<UserDto>(_user);
+
+            return userDto;
         }
+
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signInCredentials, List<Claim> claims)
         {

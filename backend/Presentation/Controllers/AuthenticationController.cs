@@ -1,5 +1,6 @@
 
 using Entities.Dtos;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
@@ -33,14 +34,15 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Authenticate([FromBody] UserDtoForAuthentication userDtoForAuthentication)
         {
 
-            if (!await _service.AuthenticationService.ValidateUser(userDtoForAuthentication))
-            {
-                return Unauthorized();
-            }
-
+            var userDto = await _service.AuthenticationService.ValidateUser(userDtoForAuthentication);
             var tokenDto = await _service.AuthenticationService.CreateToken(true);
 
-            return Ok(tokenDto);
+            return Ok(new LoginDto()
+            {
+                TokenDto = tokenDto,
+                UserDto = userDto
+            });
+
 
         }
 

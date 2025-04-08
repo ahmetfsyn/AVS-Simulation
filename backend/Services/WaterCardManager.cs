@@ -44,6 +44,16 @@ namespace Services
             return _mapper.Map<WaterCardDto>(entity);
         }
 
+        public async Task<IEnumerable<WaterCardDto>> GetWaterCardsByUserIdAsync(string userId, bool trackChanges)
+        {
+            var entities = await GetWaterCardsByUserIdAndCheckExist(userId, trackChanges);
+
+            var waterCardDtos = _mapper.Map<IEnumerable<WaterCardDto>>(entities);
+
+            return waterCardDtos;
+        }
+
+
         public async Task<(WaterCardDtoForUpdate waterCardDtoForUpdate, WaterCard waterCard)> GetWaterCardForPatchAsync(string id, bool trackChanges)
         {
             var entity = await GetWaterCardByIdAndCheckExist(id, trackChanges);
@@ -75,5 +85,15 @@ namespace Services
 
             return entity;
         }
+
+        private async Task<IEnumerable<WaterCard>> GetWaterCardsByUserIdAndCheckExist(string userId, bool trackChanges)
+        {
+            var entities = await _manager.WaterCard.GetWaterCardsByUserIdAsync(userId, trackChanges);
+
+            return entities;
+        }
+
+
+
     }
 }

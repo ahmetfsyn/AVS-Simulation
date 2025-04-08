@@ -10,10 +10,10 @@ namespace Entities.Exceptions
 
         }
 
-        protected BadRequestException(string errorCode, List<IdentityError> errorList) : base(errorCode)
-        {
+        // protected BadRequestException(string errorCode, List<IdentityError> errorList) : base(errorCode)
+        // {
 
-        }
+        // }
     }
 
 

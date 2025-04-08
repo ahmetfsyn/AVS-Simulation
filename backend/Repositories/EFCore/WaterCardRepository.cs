@@ -37,6 +37,11 @@ namespace Repositories.EFCore
 
         }
 
+        public async Task<IEnumerable<WaterCard>> GetWaterCardsByUserIdAsync(string userId, bool trackChanges)
+        {
 
+            return await FindByCondition((waterCard) => waterCard.UserId.Equals(userId), trackChanges).ToListAsync();
+
+        }
     }
 }

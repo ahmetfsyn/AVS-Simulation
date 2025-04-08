@@ -1,6 +1,7 @@
-import {AxiosError} from 'axios';
 import {registrationErrorMessages} from '../errorMessages/RegistrationErrorMessages';
 import {RegistrationFailedError} from '../errors/RegistrationFailedError';
+import {loginErrorMessages} from '../errorMessages/LoginErrorMessages';
+import {LoginFailedError} from '../errors/LoginFailedError';
 import {LoginParams, RegisterParams} from '../models/types/AuthParams';
 import {IdentityError} from '../models/types/IdentityError';
 import api from './api';
@@ -28,16 +29,18 @@ export const register = async (formValues: RegisterParams): Promise<void> => {
   }
 };
 
-export const login = async (values: LoginParams): Promise<void> => {
+export const login = async (values: LoginParams): Promise<any> => {
   try {
-    const response = await api.post('/api/auth/login', values);
+    const {data} = await api.post('/api/auth/login', values);
+    return {data, remmeberMe: values.rememberMe};
+  } catch (error: any) {
+    const {ErrorList} = error?.response?.data;
 
-    console.log(response.data);
-
-    return response.data;
-  } catch (error) {
-    console.error(error.message);
-    throw error;
+    ErrorList.forEach((identityError: IdentityError) => {
+      throw new LoginFailedError(
+        loginErrorMessages[identityError.Code] || 'Bilinmeyen bir hata oluştu.',
+      );
+    });
   }
 };
 
