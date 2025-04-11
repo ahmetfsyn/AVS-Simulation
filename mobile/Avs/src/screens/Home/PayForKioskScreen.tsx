@@ -6,7 +6,6 @@ import {showMessage} from '../../utils/showMessage';
 import {useNavigation} from '@react-navigation/native';
 import NfcManager from 'react-native-nfc-manager';
 import {ISuccessState} from '../../models/ISuccessState';
-import {readNfc} from '../../utils/readNfc';
 
 const PayForKioskScreen: React.FC = () => {
   const theme = useTheme();
@@ -18,8 +17,6 @@ const PayForKioskScreen: React.FC = () => {
   });
 
   useEffect(() => {
-    readNfc(setIsSuccess);
-
     const timeout = setTimeout(() => {
       setIsSuccess({
         error: 'Kart okuma zaman aşımına uğradı',

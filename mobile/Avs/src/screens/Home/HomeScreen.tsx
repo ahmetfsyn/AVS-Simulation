@@ -1,8 +1,9 @@
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Card,
+  Dialog,
   Portal,
   Text,
   useTheme,
@@ -19,26 +20,27 @@ import {showMessage} from '../../utils/showMessage';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import AddCard from '../../components/Card/AddCard';
-import {useMutation} from '@tanstack/react-query';
-import {getWaterCards} from '../../services/waterCardService';
 import {useGetWaterCards} from '../../hooks/useGetWaterCards';
+import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
+import {IWaterCard} from '../../models/WaterCard';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [visibleDialog, setVisibleDialog] = useState(false);
+
   const {user, accessToken, refreshToken} = useSelector(
     (state: RootState) => state.auth,
   );
-  const {isLoading} = useGetWaterCards({
+  const {isLoading, error} = useGetWaterCards({
     userId: user?.id,
     accessToken,
   });
-
-  const {waterCards} = useSelector((state: RootState) => state.waterCard);
-
-  // const [visibleDialog, setVisibleDialog] = useState(false);
+  const waterCards = useSelector(
+    (state: RootState) => state.waterCard.waterCards,
+  );
 
   useEffect(() => {
     const isEnabled = async () => {
@@ -79,83 +81,15 @@ const HomeScreen: React.FC = () => {
 
         {/* Kart Bilgileri */}
         <View>
-          <Card>
-            <Card.Title title="Kart Bilgileri" titleVariant="titleMedium" />
-            {waterCards && waterCards?.length > 0 ? (
-              <Card.Content
-                style={{
-                  gap: 15,
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 10,
-                    alignItems: 'center',
-                  }}>
-                  <Ionicons
-                    name="wallet"
-                    size={24}
-                    color={theme.colors.onBackground}
-                  />
-                  <Text variant="labelLarge">Bakiye:</Text>
-                  <Text variant="bodyLarge">
-                    {waterCards[activeIndex]?.balance} TL
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 10,
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons
-                    name="cash-minus"
-                    size={24}
-                    color={theme.colors.onBackground}
-                  />
-                  <Text variant="labelLarge">Borç:</Text>
-                  <Text variant="bodyLarge">
-                    {waterCards[activeIndex]?.debt} TL
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 10,
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons
-                    name="cog-counterclockwise"
-                    size={24}
-                    color={theme.colors.onBackground}
-                  />
-                  <Text variant="labelLarge">Sayaç No:</Text>
-                  <Text variant="bodyLarge">1231233</Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 10,
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons
-                    name="water-pump"
-                    size={24}
-                    color={theme.colors.onBackground}
-                  />
-                  <Text variant="labelLarge">Kullanılan Su (m³):</Text>
-                  <Text variant="bodyLarge">1231233</Text>
-                </View>
-              </Card.Content>
-            ) : (
+          {waterCards[activeIndex] ? (
+            <WaterCardInfoCard waterCard={waterCards[activeIndex]} />
+          ) : (
+            <Card>
               <Card.Content>
                 <Text variant="bodyLarge">Kart bulunamadı.</Text>
               </Card.Content>
-            )}
-          </Card>
+            </Card>
+          )}
         </View>
 
         {/* Bakiye Yükle Butonu */}
@@ -165,32 +99,33 @@ const HomeScreen: React.FC = () => {
             gap: 10,
           }}>
           <CustomButton
+            icon={() => (
+              <MaterialCommunityIcons
+                name="cash-fast"
+                size={20}
+                color={theme.colors.primary}
+              />
+            )}
             mode="contained-tonal"
             onPress={async () => {
-              if (nfcEnabled) {
-                return navigation.navigate('PayForKiosk');
-              } else {
-                return showMessage({
-                  type: 'error',
-                  text1: 'Hata',
-                  text2: 'Lütfen NFC modülünü aktif ediniz.',
-                });
-              }
+              setVisibleDialog(true);
             }}>
             Ödeme Yap
           </CustomButton>
           <CustomButton
+            icon={() => (
+              <MaterialCommunityIcons
+                name="wallet-plus"
+                size={20}
+                color={theme.colors.secondary}
+              />
+            )}
             mode="contained"
             style={{flex: 1}}
             onPress={() => {
-              // if (!waterCards[activeIndex]) {
-              //   showMessage({
-              //     text1: 'İşlem Başarısız',
-              //     text2: 'Lütfen bir su abone kartı ekleyiniz',
-              //     type: 'error',
-              //   });
-              // } else {
-              navigation.navigate('LoadCreditInfo');
+              navigation.navigate('LoadCreditInfo', {
+                waterCardIndex: activeIndex,
+              });
               // }
             }}>
             Bakiye Yükle
@@ -289,7 +224,7 @@ const HomeScreen: React.FC = () => {
       </ScrollView>
 
       {/* Message Dialogs */}
-      {/* <Portal>
+      <Portal>
         <Dialog
           visible={visibleDialog}
           onDismiss={() => setVisibleDialog(false)}>
@@ -297,20 +232,26 @@ const HomeScreen: React.FC = () => {
           <Dialog.Content>
             <Text variant="bodyMedium">Lütfen bir ödeme yöntemi seçiniz.</Text>
           </Dialog.Content>
-          <Dialog.Actions>
+          <Dialog.Actions
+            style={{
+              justifyContent: 'space-between',
+            }}>
             <CustomButton
-              mode="contained"
+              mode="contained-tonal"
               onPress={() => setVisibleDialog(false)}>
-              Kiosk
+              QR Kod İle Ödeme
             </CustomButton>
             <CustomButton
               mode="contained"
-              onPress={() => setVisibleDialog(false)}>
-              Done
+              onPress={() => {
+                setVisibleDialog(false);
+                // navigation.navigate();
+              }}>
+              Temassız Ödeme
             </CustomButton>
           </Dialog.Actions>
         </Dialog>
-      </Portal> */}
+      </Portal>
     </View>
   );
 };

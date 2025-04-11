@@ -13,7 +13,6 @@ const WaterCard: React.FC<{data: IWaterCardInfo}> = (props: WaterCardProps) => {
   const styles = StyleSheet.create({
     container: {
       display: 'flex',
-      borderRadius: 10,
     },
   });
 

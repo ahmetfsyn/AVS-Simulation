@@ -64,7 +64,7 @@ export default function App() {
           borderRightWidth: 5,
         }}
         text1Style={{
-          fontSize: 14,
+          fontSize: 12,
           color: 'black',
         }}
         text2Style={{
@@ -84,7 +84,7 @@ export default function App() {
           borderRightWidth: 5,
         }}
         text1Style={{
-          fontSize: 14,
+          fontSize: 12,
           color: 'black',
         }}
         text2Style={{
@@ -103,7 +103,7 @@ export default function App() {
           borderRightWidth: 5,
         }}
         text1Style={{
-          fontSize: 14,
+          fontSize: 12,
           color: 'black',
         }}
         text2Style={{

@@ -1,88 +1,34 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Card, Text, useTheme} from 'react-native-paper';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
 import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import WaterCard from '../../components/Card/WaterCard';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+import {IWaterCard} from '../../models/WaterCard';
+import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
+import {ScrollView} from 'react-native-gesture-handler';
+import {showMessage} from '../../utils/showMessage';
+import {MIN_CREDIT} from '../../hooks/useLoadCredit';
 
-const LoadCreditInfoScreen = () => {
+const LoadCreditInfoScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const theme = useTheme();
+  const {waterCardIndex}: any = route.params;
+  const [amount, setAmount] = useState<number>(0);
+  const waterCard = useSelector(
+    (state: RootState): IWaterCard =>
+      state.waterCard.waterCards[waterCardIndex || 0],
+  );
 
-  const {waterCard} = route.params || {};
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}>
       <WaterCard data={waterCard} />
-      <Card>
-        <Card.Title title="Kart Bilgileri" titleVariant="titleMedium" />
-        <Card.Content
-          style={{
-            gap: 15,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-            }}>
-            <Ionicons
-              name="wallet"
-              size={24}
-              color={theme.colors.onBackground}
-            />
-            <Text variant="labelLarge">Bakiye:</Text>
-            <Text variant="bodyLarge">{waterCard?.balance} TL</Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-            }}>
-            <MaterialCommunityIcons
-              name="cash-minus"
-              size={24}
-              color={theme.colors.onBackground}
-            />
-            <Text variant="labelLarge">Borç:</Text>
-            <Text variant="bodyLarge">{waterCard?.debt} TL</Text>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-            }}>
-            <MaterialCommunityIcons
-              name="cog-counterclockwise"
-              size={24}
-              color={theme.colors.onBackground}
-            />
-            <Text variant="labelLarge">Sayaç No:</Text>
-            <Text variant="bodyLarge">{waterCard?.counter}</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-            }}>
-            <MaterialCommunityIcons
-              name="cog-counterclockwise"
-              size={24}
-              color={theme.colors.onBackground}
-            />
-            <Text variant="labelLarge">Adres:</Text>
-            <Text variant="bodyLarge">{waterCard?.counter}</Text>
-          </View>
-        </Card.Content>
-      </Card>
+      <WaterCardInfoCard waterCard={waterCard} />
       <Card>
         <Card.Title
           title="Bakiye Yükleme Bilgileri"
@@ -95,11 +41,13 @@ const LoadCreditInfoScreen = () => {
           <Text variant="bodyLarge">
             Lütfen kartınıza yüklemek istediğiniz tutarı giriniz.
           </Text>
-
           <CustomTextInput
             mode="flat"
             style={{textAlign: 'center'}}
             placeholder="Tutar(₺) giriniz."
+            inputMode="decimal"
+            onChangeText={value => setAmount(Number(value))}
+            value={amount === 0 && ''}
           />
         </Card.Content>
         <Card.Actions>
@@ -109,12 +57,29 @@ const LoadCreditInfoScreen = () => {
             mode="text">
             İptal
           </CustomButton>
-          <CustomButton mode="contained" onPress={() => console.log('basildi')}>
+          <CustomButton
+            mode="contained"
+            disabled={amount === 0}
+            onPress={() => {
+              if (amount < MIN_CREDIT) {
+                showMessage({
+                  text1: 'İşlem Başarısız',
+                  text2: 'Lütfen minimum 35 TL giriniz.',
+                  type: 'error',
+                });
+              } else {
+                navigation.navigate('NfcReaderToLoadCredit', {
+                  amount,
+                  waterCard,
+                });
+                setAmount(0);
+              }
+            }}>
             Onayla
           </CustomButton>
         </Card.Actions>
       </Card>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -122,7 +87,6 @@ export default LoadCreditInfoScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
     gap: 15,
   },

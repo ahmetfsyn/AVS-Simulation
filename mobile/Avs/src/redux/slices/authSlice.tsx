@@ -22,6 +22,7 @@ export const authSlice = createSlice({
       const {userDto, tokenDto} = action.payload;
 
       state.user = userDto;
+      console.log(userDto);
       state.accessToken = tokenDto.accessToken;
       state.refreshToken = tokenDto.refreshToken;
       // console.log(state.user);

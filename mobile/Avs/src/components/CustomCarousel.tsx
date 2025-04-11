@@ -24,6 +24,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = (
       scrollAnimationDuration={1000}
       onSnapToItem={index => setActiveIndex(index)}
       renderItem={({item}) => <WaterCard data={item} />}
+      style={{}}
     />
   );
 };

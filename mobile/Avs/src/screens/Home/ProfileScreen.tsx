@@ -6,9 +6,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {RootState} from '../../redux/store';
 
 const ProfileScreen: React.FC = () => {
-  const user = useSelector((state: any) => state.app.user);
+  const user = useSelector((state: RootState) => state.auth.user);
   const theme = useTheme();
   const userLabel = 'AS';
   // user?.firstName.substring(0, 1) + user?.lastName.substring(0, 1);
@@ -80,6 +81,9 @@ const ProfileScreen: React.FC = () => {
             Şifre Değiştir
           </CustomButton>
           <CustomButton
+            style={{
+              marginHorizontal: 'auto',
+            }}
             icon={() => (
               <MaterialIcons
                 name="exit-to-app"

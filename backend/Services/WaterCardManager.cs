@@ -72,9 +72,10 @@ namespace Services
         {
             var entity = await GetWaterCardByIdAndCheckExist(id, trackChanges);
 
-            entity = _mapper.Map<WaterCard>(waterCardDtoForUpdate);
+            _mapper.Map(waterCardDtoForUpdate, entity);
 
             _manager.WaterCard.UpdateWaterCard(entity);
+
             await _manager.SaveAsync();
         }
 

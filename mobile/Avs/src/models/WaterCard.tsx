@@ -1,20 +1,19 @@
 export interface IWaterCard {
-  id: number;
-  // cardCompany: string;
-  subscriberNo: string;
+  id?: string;
+  subscriberNo?: string;
   credit: number;
-  meterId: number;
+  meterNo?: number;
 }
 
 export class WaterCard implements IWaterCard {
-  id: number;
-  subscriberNo: string;
+  id: string;
+  subscriberNo: string = '';
   credit: number = 0;
-  meterId: number;
+  meterNo: number;
 
-  constructor(id: number, meterId: number, subscriberNo: string) {
+  constructor(id: string, meterNo: number, subscriberNo: string) {
     this.id = id;
-    this.meterId = meterId;
+    this.meterNo = meterNo;
     this.subscriberNo = subscriberNo;
   }
 }

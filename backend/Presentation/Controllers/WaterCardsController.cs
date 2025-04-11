@@ -1,6 +1,4 @@
-using System.Text.Json;
 using Entities.Dtos;
-using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +34,15 @@ namespace Presentation.Controllers
         }
 
 
+        [HttpDelete("{waterCardId}", Name = "DeleteWaterCardById")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> DeleteWaterCardByIdAsync([FromRoute] string waterCardId)
+        {
+            await _manager.WaterCardService.DeleteWaterCardAsync(waterCardId, true);
+            return Ok();
+        }
+
+
         [HttpPost(Name = "CreateWaterCard")]
         [Authorize(Roles = "User")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -47,10 +54,10 @@ namespace Presentation.Controllers
 
         }
 
-        [HttpPatch("{id}", Name = "PartiallyUpdateWaterCard")]
+        [HttpPatch("{waterCardId}", Name = "PartiallyUpdateWaterCard")]
         [Authorize(Roles = "User")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> PartiallyUpdateWaterCardAsync([FromRoute] string id, [FromBody] JsonPatchDocument<WaterCardDtoForUpdate> waterCardDtoForUpdate)
+        public async Task<IActionResult> PartiallyUpdateWaterCardAsync([FromRoute] string waterCardId, [FromBody] JsonPatchDocument<WaterCardDtoForUpdate> waterCardDtoForUpdate)
         {
 
             if (waterCardDtoForUpdate is null || waterCardDtoForUpdate.Operations.Count == 0)
@@ -58,7 +65,7 @@ namespace Presentation.Controllers
                 return BadRequest();
             }
 
-            var result = await _manager.WaterCardService.GetWaterCardForPatchAsync(id, true);
+            var result = await _manager.WaterCardService.GetWaterCardForPatchAsync(waterCardId, true);
 
             waterCardDtoForUpdate.ApplyTo(result.waterCardDtoForUpdate, ModelState);
 
@@ -74,6 +81,31 @@ namespace Presentation.Controllers
             return Ok(result.waterCard);
 
         }
+
+
+
+        [Authorize(Roles = "User")]
+        [HttpPut("{waterCardId}")]
+        public async Task<IActionResult> UpdateWaterCardAsync([FromRoute] string waterCardId, [FromBody] WaterCardDtoForUpdate waterCardDtoForUpdate)
+        {
+
+            if (waterCardDtoForUpdate is null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
+
+            await _manager.WaterCardService.UpdateWaterCardAsync(waterCardId, waterCardDtoForUpdate, true);
+
+            return NoContent();
+
+        }
+
+
 
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {View, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Card, Text, useTheme} from 'react-native-paper';
@@ -6,17 +7,18 @@ import {showMessage} from '../../utils/showMessage';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import NfcManager from 'react-native-nfc-manager';
 import {useReadNdef} from '../../hooks/useReadNdef';
-import {useAddWaterCard} from '../../hooks/useAddWaterCard';
+import {useLoadCredit} from '../../hooks/useLoadCredit';
 import PageInfoCard from '../../components/Card/PageInfoCard';
 
-const NfcReaderToAddWaterCardScreen: React.FC = () => {
+const NfcReaderToLoadCreditScreen: React.FC = () => {
   const navigation = useNavigation();
-  const {isLoading, data, error} = useReadNdef();
-  const {addWaterCardAsync} = useAddWaterCard();
+  const {isLoading, data} = useReadNdef();
+  const {amount, waterCard}: any = useRoute().params;
+  const {loadCreditToWaterCardAsync} = useLoadCredit();
 
   useEffect(() => {
     if (data) {
-      addWaterCardAsync(data);
+      loadCreditToWaterCardAsync({amount, creditCard: data, waterCard});
     }
   }, [data]);
 
@@ -66,7 +68,7 @@ const NfcReaderToAddWaterCardScreen: React.FC = () => {
               <PageInfoCard
                 style={{textAlign: 'center'}}
                 variant="titleLarge"
-                text="Su abone kartınızı eklemek için telefonun arkasına yaklaştırınız"
+                text="Lütfen bakiye yüklemek için kredi veya banka kartınızı okutunuz."
               />
             </View>
 
@@ -95,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NfcReaderToAddWaterCardScreen;
+export default NfcReaderToLoadCreditScreen;

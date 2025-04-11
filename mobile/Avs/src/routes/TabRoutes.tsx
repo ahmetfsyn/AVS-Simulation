@@ -11,6 +11,7 @@ import NfcReaderToAddWaterCardScreen from '../screens/Home/NfcReaderToAddWaterCa
 import MyCardsScreen from '../screens/Home/MyCardsScreen';
 import FeedbackScreen from '../screens/Home/FeedbackScreen';
 import LoadCreditInfoScreen from '../screens/Home/LoadCreditInfoScreen';
+import NfcReaderToLoadCreditScreen from '../screens/Home/NfcReaderToLoadCreditScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,6 +33,10 @@ const HomeStack: React.FC = () => {
       <Stack.Screen name="MyCards" component={MyCardsScreen} />
       <Stack.Screen name="Feedback" component={FeedbackScreen} />
       <Stack.Screen name="LoadCreditInfo" component={LoadCreditInfoScreen} />
+      <Stack.Screen
+        name="NfcReaderToLoadCredit"
+        component={NfcReaderToLoadCreditScreen}
+      />
     </Stack.Navigator>
   );
 };

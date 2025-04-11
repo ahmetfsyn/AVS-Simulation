@@ -4,7 +4,7 @@ import {NavigationProp} from '@react-navigation/native';
 import {Card, Text} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type AddCardProps = {
+export type AddCardProps = {
   navigation: Omit<NavigationProp<ReactNavigation.RootParamList>, 'getState'>;
   path: string;
 };

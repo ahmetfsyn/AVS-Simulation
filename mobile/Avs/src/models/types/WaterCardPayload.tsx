@@ -1,5 +1,5 @@
-import {IWaterCard} from '../WaterCard';
+// import {IWaterCard} from '../WaterCard';
 
-export type WaterCardPayload = {
-  waterCards?: IWaterCard[];
-};
+// export type WaterCardPayload = {
+//   waterCards?: IWaterCard[];
+// };

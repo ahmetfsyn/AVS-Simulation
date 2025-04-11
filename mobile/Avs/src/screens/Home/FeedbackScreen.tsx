@@ -4,6 +4,7 @@ import {Card, Checkbox, Text} from 'react-native-paper';
 import {Formik} from 'formik';
 import CustomButton from '../../components/Button/CustomButton';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
+import PageInfoCard from '../../components/Card/PageInfoCard';
 
 const FeedBackScreen: React.FC = () => {
   const onPressSubmit = () => {
@@ -18,14 +19,13 @@ const FeedBackScreen: React.FC = () => {
           gap: 10,
         }}
         showsVerticalScrollIndicator={false}>
-        <Card>
-          <Card.Content>
-            <Text variant="bodyMedium">
-              Öneri ve şikayetleriniz için aşağıdaki formu doldurarak bize
-              bildirebilirsiniz.
-            </Text>
-          </Card.Content>
-        </Card>
+        <PageInfoCard
+          text="Öneri ve şikayetleriniz için aşağıdaki formu doldurarak bize bildirebilirsiniz."
+          variant="titleMedium"
+          style={{
+            textAlign: 'center',
+          }}
+        />
         <Card>
           <Card.Title
             title="Öneri ve Şikayet Formu"

@@ -12,6 +12,7 @@ namespace Entities.Dtos
         public string LastName { get; init; }
         public string TCNo { get; init; }
         public string Email { get; init; }
+        public string SubscriberNo { get; init; }
 
 
     }

@@ -7,5 +7,6 @@ namespace Entities.Dtos
     {
         [Required(ErrorMessage = "Credit is required field.")]
         public int? Credit { get; init; }
+
     }
 }

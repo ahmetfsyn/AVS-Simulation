@@ -1,33 +1,22 @@
 import {View, StyleSheet, ScrollView} from 'react-native';
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import WaterCard from '../../components/Card/WaterCard';
-import {IconButton, useTheme} from 'react-native-paper';
+import {ActivityIndicator, IconButton, useTheme} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddCard from '../../components/Card/AddCard';
 import {useNavigation} from '@react-navigation/native';
-import {removeWaterCard} from '../../redux/slices/waterCardSlice';
-import {IWaterCardInfo} from '../../models/WaterCardInfo';
+import {useDeleteWaterCard} from '../../hooks/useDeleteWaterCard';
 
 const MyCardsScreen: React.FC = () => {
-  const waterCards: IWaterCardInfo[] = useSelector(
-    (state: RootState) => state.app.waterCards,
+  const waterCards = useSelector(
+    (state: RootState) => state?.waterCard?.waterCards,
   );
-  const dispatch = useDispatch();
+  const {accessToken} = useSelector((state: RootState) => state.auth);
   const navigation = useNavigation();
   const theme = useTheme();
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 16,
-    },
-  });
-
-  const deleteWaterCard = (waterCard: IWaterCardInfo): void => {
-    dispatch(removeWaterCard(waterCard));
-  };
+  const {removeWaterCardAsync, isLoading} = useDeleteWaterCard();
 
   return (
     <ScrollView
@@ -38,7 +27,7 @@ const MyCardsScreen: React.FC = () => {
         paddingBottom: 32,
       }}>
       <AddCard navigation={navigation} path="NfcReaderToAddWaterCard" />
-      {waterCards.map((waterCard, index) => (
+      {waterCards?.map((waterCard, index) => (
         <View
           key={index}
           style={{
@@ -49,20 +38,27 @@ const MyCardsScreen: React.FC = () => {
           <View
             style={{
               position: 'absolute',
-              bottom: 0,
-              right: 0,
+              bottom: 5,
+              right: 5,
               backgroundColor: theme.colors.error,
-              borderRadius: 10,
+              borderRadius: 50,
             }}>
             <IconButton
-              onPress={() => deleteWaterCard(waterCard)}
-              icon={() => (
-                <MaterialCommunityIcons
-                  name="trash-can"
-                  size={24}
-                  color={theme.colors.onBackground}
-                />
-              )}
+              disabled={isLoading}
+              onPress={() =>
+                removeWaterCardAsync({waterCard, accessToken: accessToken!})
+              }
+              icon={() => {
+                return isLoading ? (
+                  <ActivityIndicator size={32} color="white" />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="trash-can"
+                    size={24}
+                    color={theme.colors.onBackground}
+                  />
+                );
+              }}
             />
           </View>
         </View>
@@ -70,5 +66,12 @@ const MyCardsScreen: React.FC = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+});
 
 export default MyCardsScreen;

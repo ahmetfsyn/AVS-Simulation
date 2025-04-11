@@ -4,6 +4,7 @@ export interface IUser {
   firstName?: string;
   lastName?: string;
   tcNo?: string;
+  subscriberNo?: string;
 
   toJson(): object;
 }
@@ -13,12 +14,20 @@ export class User implements IUser {
   firstName: string;
   lastName: string;
   tcNo: string;
+  subscriberNo: string;
 
-  constructor(id: string, firstName: string, lastName: string, tcNo: string) {
+  constructor(
+    id: string,
+    firstName: string,
+    lastName: string,
+    tcNo: string,
+    subscriberNo: string,
+  ) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.tcNo = tcNo;
+    this.subscriberNo = subscriberNo;
   }
   toJson(): object {
     return {
@@ -26,6 +35,7 @@ export class User implements IUser {
       firstName: this.firstName,
       lastName: this.lastName,
       tcNo: this.tcNo,
+      subscriberNo: this.subscriberNo,
     };
   }
 }
