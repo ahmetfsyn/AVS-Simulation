@@ -11,10 +11,6 @@ const Stack = createStackNavigator();
 
 const StackRoutes: React.FC = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-  const navigation = useNavigation();
-  useEffect(() => {
-    console.log(accessToken);
-  }, [accessToken]);
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false, animation: 'default'}}>

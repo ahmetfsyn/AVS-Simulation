@@ -1,34 +1,32 @@
-import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
-import {Card, Text, useTheme} from 'react-native-paper';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import CustomButton from '../../components/Button/CustomButton';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import WaterCard from '../../components/Card/WaterCard';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
-import {IWaterCard} from '../../models/WaterCard';
-import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
-import {ScrollView} from 'react-native-gesture-handler';
-import {showMessage} from '../../utils/showMessage';
-import {MIN_CREDIT} from '../../hooks/useLoadCredit';
+import {
+  Card,
+  Text,
+  CustomButton,
+  CustomTextInput,
+  MIN_CREDIT,
+  React,
+  ScrollView,
+  StyleSheet,
+  WaterCard,
+  WaterCardInfoCard,
+  showMessage,
+  useNavigation,
+  useRoute,
+  useState,
+} from '../../imports/LoadCreditInfoScreenImports';
 
 const LoadCreditInfoScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const route = useRoute();
-  const {waterCardIndex}: any = route.params;
+  const {waterCard, meter}: any = route.params;
   const [amount, setAmount] = useState<number>(0);
-  const waterCard = useSelector(
-    (state: RootState): IWaterCard =>
-      state.waterCard.waterCards[waterCardIndex || 0],
-  );
 
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}>
-      <WaterCard data={waterCard} />
-      <WaterCardInfoCard waterCard={waterCard} />
+      <WaterCard waterCard={waterCard} meter={meter} />
+      <WaterCardInfoCard waterCard={waterCard} meter={meter} />
       <Card>
         <Card.Title
           title="Bakiye Yükleme Bilgileri"

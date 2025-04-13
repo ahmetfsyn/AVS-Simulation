@@ -8,25 +8,18 @@ import {register} from '../services/authService';
 
 export const useSignUp = () => {
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   const mutation = useMutation({
     mutationFn: register,
-  });
-
-  const signUp = async (
-    values: RegisterParams,
-    {resetForm}: FormikHelpers<any>,
-  ): Promise<void> => {
-    setLoading(true);
-    try {
-      await mutation.mutateAsync(values);
-
+    onSuccess: () => {
       showMessage({
         text1: 'İşlem Başarılı',
         text2: 'Başarıyla kayıt oldunuz.',
         type: 'success',
       });
+
+      // E-posta dorulama maili göndereilbirisn
 
       // E-posta doğrulama mesajını ekleyebilirsin
       //   setTimeout(() => {
@@ -36,6 +29,16 @@ export const useSignUp = () => {
       //       type: 'info',
       //     });
       //   }, 4000);
+    },
+  });
+
+  const signUp = async (
+    values: RegisterParams,
+    {resetForm}: FormikHelpers<any>,
+  ): Promise<void> => {
+    setLoading(true);
+    try {
+      await mutation.mutateAsync(values);
 
       resetForm();
       navigation.navigate('Login');

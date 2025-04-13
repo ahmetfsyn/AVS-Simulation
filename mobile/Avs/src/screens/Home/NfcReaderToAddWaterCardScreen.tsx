@@ -1,16 +1,20 @@
-import {View, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Card, Text, useTheme} from 'react-native-paper';
-import LottieView from 'lottie-react-native';
-import {showMessage} from '../../utils/showMessage';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import NfcManager from 'react-native-nfc-manager';
-import {useReadNdef} from '../../hooks/useReadNdef';
-import {useAddWaterCard} from '../../hooks/useAddWaterCard';
-import PageInfoCard from '../../components/Card/PageInfoCard';
-
+/* eslint-disable react-hooks/exhaustive-deps */
+import {
+  ActivityIndicator,
+  LottieView,
+  NfcManager,
+  PageInfoCard,
+  React,
+  StyleSheet,
+  View,
+  showMessage,
+  useAddWaterCard,
+  useEffect,
+  useNavigation,
+  useReadNdef,
+} from '../../imports/NfcReaderToAddWaterCardScreenImports';
 const NfcReaderToAddWaterCardScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const {isLoading, data, error} = useReadNdef();
   const {addWaterCardAsync} = useAddWaterCard();
 

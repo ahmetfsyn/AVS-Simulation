@@ -1,10 +1,14 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
-import {Card, Checkbox, Text} from 'react-native-paper';
-import {Formik} from 'formik';
-import CustomButton from '../../components/Button/CustomButton';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import PageInfoCard from '../../components/Card/PageInfoCard';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Card,
+  CustomButton,
+  CustomTextInput,
+  Formik,
+  PageInfoCard,
+  React,
+} from '../../imports/FeedbackScreenImports';
 
 const FeedBackScreen: React.FC = () => {
   const onPressSubmit = () => {
@@ -70,7 +74,7 @@ const FeedBackScreen: React.FC = () => {
                     value={values.content}
                     error={touched.content && errors.content}
                   />
-                  <CustomButton onPress={handleSubmit} mode="contained">
+                  <CustomButton onPress={() => handleSubmit()} mode="contained">
                     Gönder
                   </CustomButton>
                 </View>

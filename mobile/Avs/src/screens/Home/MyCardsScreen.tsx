@@ -1,20 +1,25 @@
-import {View, StyleSheet, ScrollView} from 'react-native';
-import React from 'react';
-import {useSelector} from 'react-redux';
+import {
+  ActivityIndicator,
+  AddCard,
+  IconButton,
+  MaterialCommunityIcons,
+  View,
+  React,
+  ScrollView,
+  StyleSheet,
+  WaterCard,
+  useDeleteWaterCard,
+  useNavigation,
+  useSelector,
+  useTheme,
+} from '../../imports/MyCardScreenImports';
 import {RootState} from '../../redux/store';
-import WaterCard from '../../components/Card/WaterCard';
-import {ActivityIndicator, IconButton, useTheme} from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AddCard from '../../components/Card/AddCard';
-import {useNavigation} from '@react-navigation/native';
-import {useDeleteWaterCard} from '../../hooks/useDeleteWaterCard';
-
 const MyCardsScreen: React.FC = () => {
   const waterCards = useSelector(
     (state: RootState) => state?.waterCard?.waterCards,
   );
-  const {accessToken} = useSelector((state: RootState) => state.auth);
-  const navigation = useNavigation();
+  const meters = useSelector((state: RootState) => state?.meter?.meters);
+  const navigation = useNavigation<any>();
   const theme = useTheme();
   const {removeWaterCardAsync, isLoading} = useDeleteWaterCard();
 
@@ -34,7 +39,7 @@ const MyCardsScreen: React.FC = () => {
             display: 'flex',
             position: 'relative',
           }}>
-          <WaterCard data={waterCard} />
+          <WaterCard waterCard={waterCard} meter={meters[index]} />
           <View
             style={{
               position: 'absolute',
@@ -45,9 +50,7 @@ const MyCardsScreen: React.FC = () => {
             }}>
             <IconButton
               disabled={isLoading}
-              onPress={() =>
-                removeWaterCardAsync({waterCard, accessToken: accessToken!})
-              }
+              onPress={() => removeWaterCardAsync({waterCard})}
               icon={() => {
                 return isLoading ? (
                   <ActivityIndicator size={32} color="white" />

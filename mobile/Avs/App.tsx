@@ -2,36 +2,24 @@
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AppRoutes from './src/routes/AppRoutes';
 import {MD3DarkTheme, MD3LightTheme, PaperProvider} from 'react-native-paper';
-import {StatusBar, Platform, useColorScheme, View} from 'react-native';
+import {useColorScheme} from 'react-native';
 import {useMemo} from 'react';
 import Toast, {
   ErrorToast,
   InfoToast,
   SuccessToast,
 } from 'react-native-toast-message';
-import NfcManager, {NfcTech} from 'react-native-nfc-manager';
+import NfcManager from 'react-native-nfc-manager';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {IAppTheme} from './src/models/AppTheme';
 
 NfcManager.start();
 const queryClient = new QueryClient();
-interface AppTheme {
-  colors: {
-    background: string;
-    onBackground: string;
-    cardBackground: string;
-    primary: string;
-    secondary: string;
-    error: string;
-    success: string;
-    warning: string;
-    info: string;
-  };
-}
 
 export default function App() {
   const isDarkTheme = useColorScheme() === 'dark';
 
-  const appTheme = useMemo<AppTheme>(() => {
+  const appTheme = useMemo<IAppTheme>(() => {
     const baseTheme = isDarkTheme ? MD3DarkTheme : MD3LightTheme;
 
     return {

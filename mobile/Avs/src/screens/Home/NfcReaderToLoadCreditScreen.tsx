@@ -1,17 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {View, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Card, Text, useTheme} from 'react-native-paper';
-import LottieView from 'lottie-react-native';
-import {showMessage} from '../../utils/showMessage';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import NfcManager from 'react-native-nfc-manager';
-import {useReadNdef} from '../../hooks/useReadNdef';
-import {useLoadCredit} from '../../hooks/useLoadCredit';
-import PageInfoCard from '../../components/Card/PageInfoCard';
-
+import {
+  ActivityIndicator,
+  LottieView,
+  NfcManager,
+  PageInfoCard,
+  React,
+  StyleSheet,
+  View,
+  showMessage,
+  useEffect,
+  useLoadCredit,
+  useNavigation,
+  useReadNdef,
+  useRoute,
+} from '../../imports/NfcReaderToLoadCreditScreen';
 const NfcReaderToLoadCreditScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const {isLoading, data} = useReadNdef();
   const {amount, waterCard}: any = useRoute().params;
   const {loadCreditToWaterCardAsync} = useLoadCredit();

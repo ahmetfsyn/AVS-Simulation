@@ -6,12 +6,12 @@ import {setMetersRedux} from '../redux/slices/meterSlice';
 
 export const useGetMeters = (params: any) => {
   const dispatch = useDispatch();
-  const {subscriberNo, userId, accessToken} = params;
+  const {subscriberNo, userId} = params;
 
   const {data, error, isLoading} = useQuery({
-    queryKey: ['useGetMeters', subscriberNo, accessToken],
+    queryKey: ['useGetMeters', subscriberNo],
     queryFn: ({queryKey}) => getMeters({queryKey}),
-    enabled: !!userId && !!accessToken,
+    enabled: !!userId,
   });
   useEffect(() => {
     if (data) {

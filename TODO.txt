@@ -1,3 +1,2 @@
 04.04.2025 22:24
-1- Login sayfasındaki hataları showMessage ile göstercem.
-2- Backendde uygun hatalar fırlatıp loglamalar yapcam.
+1-

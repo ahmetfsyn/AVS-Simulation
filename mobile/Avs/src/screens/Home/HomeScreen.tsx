@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {View, StyleSheet, ScrollView} from 'react-native';
-import React, {act, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Card,
@@ -14,7 +14,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomButton from '../../components/Button/CustomButton';
-import {Marquee} from '@animatereactnative/marquee';
 import {useNavigation} from '@react-navigation/native';
 import NfcManager from 'react-native-nfc-manager';
 import {useDispatch, useSelector} from 'react-redux';
@@ -23,31 +22,25 @@ import AddCard from '../../components/Card/AddCard';
 import {useGetWaterCards} from '../../hooks/useGetWaterCards';
 import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
 import {useGetMeters} from '../../hooks/useGetMeters';
-import {IWaterCard} from '../../models/WaterCard';
-import {IMeter} from '../../models/Meter';
+import WaterCard from '../../components/Card/WaterCard';
+import MarqueeBanner from '../../components/MarqueeBanner';
+import PageInfoCard from '../../components/Card/PageInfoCard';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [meter, setMeter] = useState<IMeter>();
-  const [currentWaterCard] = useState<IWaterCard>();
-
   const [visibleDialog, setVisibleDialog] = useState(false);
 
-  const {user, accessToken, refreshToken} = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const {user} = useSelector((state: RootState) => state.auth);
   const {isLoading, error} = useGetWaterCards({
     subscriberNo: user?.subscriberNo,
-    accessToken,
     userId: user?.id,
   });
 
   const {isLoading2, error2} = useGetMeters({
     subscriberNo: user?.subscriberNo,
-    accessToken,
     userId: user?.id,
   });
 
@@ -56,20 +49,6 @@ const HomeScreen: React.FC = () => {
   );
 
   const meters = useSelector((state: RootState) => state.meter.meters);
-
-  const getMeterBySelectedWaterCard = (waterCard: IWaterCard) => {
-    return meters.find(_meter => _meter.meterNo === waterCard.meterNo);
-  };
-
-  useEffect(() => {
-    if (meters) {
-      setMeter(getMeterBySelectedWaterCard(waterCards[activeIndex]));
-    }
-  }, [meters, activeIndex]);
-
-  useEffect(() => {
-    setMeter(meters[activeIndex]);
-  }, [activeIndex]);
 
   useEffect(() => {
     const isEnabled = async () => {
@@ -89,23 +68,19 @@ const HomeScreen: React.FC = () => {
         }}
         showsVerticalScrollIndicator={false}>
         {/* Marquee */}
-        <View>
-          <Marquee spacing={24} speed={0.75}>
-            <Text variant="titleLarge">
-              Tarsus Belediyesi Mobil Uygulamasına Hoşgeldiniz.
-            </Text>
-          </Marquee>
-        </View>
-
+        <MarqueeBanner text="Tarsus Belediyesi Mobil Uygulamasına Hoşgeldiniz." />
         {/* Carousel */}
         <View>
           {isLoading || isLoading2 ? (
             <ActivityIndicator size="large" color={theme.colors.onBackground} />
           ) : waterCards && waterCards.length > 0 ? (
             <CustomCarousel
+              data={waterCards}
               activeIndex={activeIndex}
-              data={[waterCards, meters]}
               setActiveIndex={setActiveIndex}
+              renderItem={(item, index) => {
+                return <WaterCard waterCard={item} meter={meters[index]} />;
+              }}
             />
           ) : (
             <AddCard navigation={navigation} path="NfcReaderToAddWaterCard" />
@@ -122,11 +97,7 @@ const HomeScreen: React.FC = () => {
               meter={meters[activeIndex]}
             />
           ) : (
-            <Card>
-              <Card.Content>
-                <Text variant="bodyLarge">Kart bulunamadı.</Text>
-              </Card.Content>
-            </Card>
+            <PageInfoCard text="Kartınız bulunamadı" variant="bodyLarge" />
           )}
         </View>
 
@@ -162,7 +133,8 @@ const HomeScreen: React.FC = () => {
             style={{flex: 1}}
             onPress={() => {
               navigation.navigate('LoadCreditInfo', {
-                waterCardIndex: activeIndex,
+                waterCard: waterCards[activeIndex],
+                meter: meters[activeIndex],
               });
               // }
             }}>

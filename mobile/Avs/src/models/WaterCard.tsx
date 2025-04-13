@@ -3,4 +3,5 @@ export interface IWaterCard {
   subscriberNo?: string;
   credit: number;
   meterNo?: number;
+  userId?: string;
 }

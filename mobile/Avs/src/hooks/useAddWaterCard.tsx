@@ -9,7 +9,7 @@ import {useState} from 'react';
 import {showMessage} from '../utils/showMessage';
 
 export const useAddWaterCard = () => {
-  const {user, accessToken} = useSelector((state: RootState) => state.auth);
+  const {user} = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const mutation = useMutation({
@@ -29,8 +29,7 @@ export const useAddWaterCard = () => {
       };
 
       const newWaterCard = await mutation.mutateAsync({
-        accessToken,
-        user,
+        user: user!,
         waterCard,
       });
 
@@ -41,6 +40,7 @@ export const useAddWaterCard = () => {
         type: 'success',
       });
     } catch (error) {
+      console.error(error);
       showMessage({
         text1: 'İşlem Başarısız',
         text2: 'Kartınız eklenemedi.',

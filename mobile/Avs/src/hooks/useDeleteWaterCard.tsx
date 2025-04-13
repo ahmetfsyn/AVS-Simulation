@@ -4,7 +4,6 @@ import {DeleteWaterCardParams} from '../models/types/DeleteWaterCardParams';
 import {useState} from 'react';
 import {showMessage} from '../utils/showMessage';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
 import {removeWaterCardRedux} from '../redux/slices/waterCardSlice';
 
 export const useDeleteWaterCard = () => {
@@ -15,7 +14,7 @@ export const useDeleteWaterCard = () => {
   });
 
   const removeWaterCardAsync = async (params: DeleteWaterCardParams) => {
-    const {accessToken, waterCard} = params;
+    const {waterCard} = params;
     setLoading(true);
     try {
       const result = await mutation.mutateAsync(params);

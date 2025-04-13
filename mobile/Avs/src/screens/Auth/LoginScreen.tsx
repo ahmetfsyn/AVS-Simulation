@@ -1,19 +1,21 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {Card, Checkbox, Text, useTheme} from 'react-native-paper';
-import CustomTextInput from '../../components/TextInput/CustomTextInput';
-import CustomButton from '../../components/Button/CustomButton';
-import {Formik} from 'formik';
-import {styles} from '../../styles/loginScreenStyles';
-import {validationSchema} from '../../validations/LoginValidations';
 import {
+  Card,
+  Checkbox,
+  Text,
+  CustomButton,
+  CustomTextInput,
+  Formik,
+  ScrollView,
+  View,
   passwordMaxLength,
-  tcNoLength,
-} from '../../validations/RegisterValidations';
-import {ScrollView} from 'react-native';
+  styles,
+  validationSchema,
+  useNavigation,
+  useSignIn,
+  React,
+  useState,
+} from '../../imports/LoginScreenImports';
 import {LoginParams} from '../../models/types/AuthParams';
-import {useNavigation} from '@react-navigation/native';
-import {useSignIn} from '../../hooks/useSignIn';
 
 const LoginScreen: React.FC = () => {
   const {navigate} = useNavigation();

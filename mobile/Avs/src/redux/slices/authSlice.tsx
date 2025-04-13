@@ -12,8 +12,8 @@ export type AuthState = {
 
 const initialState: AuthState = {
   user: null,
-  accessToken: '',
-  refreshToken: '',
+  accessToken: null,
+  refreshToken: null,
 };
 
 export const refreshTokenThunk = createAsyncThunk(

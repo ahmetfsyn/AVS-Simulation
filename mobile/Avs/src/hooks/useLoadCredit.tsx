@@ -1,5 +1,4 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
 import {updateWaterCardRedux} from '../redux/slices/waterCardSlice';
 import {useMutation} from '@tanstack/react-query';
 import {
@@ -17,7 +16,6 @@ export const MAX_CREDIT = 1000;
 
 export const useLoadCredit = () => {
   const dispatch = useDispatch();
-  const {user, accessToken} = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const mutation = useMutation({
@@ -73,7 +71,6 @@ export const useLoadCredit = () => {
       ];
 
       await mutation.mutateAsync({
-        accessToken: accessToken!,
         updatedWaterCard,
         waterCard,
       });

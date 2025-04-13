@@ -1,15 +1,22 @@
 import {Dimensions} from 'react-native';
 import React from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-import WaterCard from '../components/Card/WaterCard';
-import {CustomCarouselProps} from '../models/types/CustomCarouselProps';
 
 const {width, height} = Dimensions.get('window');
 
-const CustomCarousel: React.FC<CustomCarouselProps> = (
-  props: CustomCarouselProps,
-) => {
-  const {setActiveIndex, data, activeIndex} = props;
+export interface CustomCarouselProps<T> {
+  data: T[];
+  renderItem: (item: T, index: number) => React.ReactElement;
+  setActiveIndex: (index: number) => void;
+  activeIndex: number;
+}
+
+const CustomCarousel = <T,>({
+  data,
+  renderItem,
+  setActiveIndex,
+  activeIndex,
+}: CustomCarouselProps<T>): React.ReactElement => {
   return (
     <Carousel
       width={width - 32}
@@ -22,13 +29,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = (
       loop={false}
       scrollAnimationDuration={750}
       onSnapToItem={index => setActiveIndex(index)}
-      renderItem={({item}) => (
-        <WaterCard
-          waterCard={data[0][activeIndex]}
-          meter={data[1][activeIndex]}
-        />
-      )}
-      style={{}}
+      renderItem={({item, index}) => renderItem(item, index)}
     />
   );
 };

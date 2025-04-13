@@ -1,6 +1,6 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React from 'react';
-import {Avatar, Card, Divider, useTheme} from 'react-native-paper';
+import {Avatar, Card, useTheme} from 'react-native-paper';
 import CustomButton from '../../components/Button/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -8,8 +8,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {RootState} from '../../redux/store';
 import {removeCredentials} from '../../redux/slices/authSlice';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 
 const ProfileScreen: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -33,11 +31,11 @@ const ProfileScreen: React.FC = () => {
             }}>
             <Avatar.Text
               label={
-                user &&
+                user! &&
                 (
-                  user?.firstName?.substring(0, 1) +
-                  user?.lastName?.substring(0, 1)!
-                )?.toUpperCase()
+                  user.firstName?.substring(0, 1)! +
+                  user.lastName?.substring(0, 1)!
+                ).toUpperCase()
               }
               color={theme.colors.primary}
               style={{backgroundColor: theme.colors.secondary}}

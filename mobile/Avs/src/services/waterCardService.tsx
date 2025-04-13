@@ -6,7 +6,6 @@ import {DeleteWaterCardParams} from '../models/types/DeleteWaterCardParams';
 import {UpdateWaterCardParams} from '../models/types/UpdateWaterCardParams';
 
 export type UpdatePartiallyWaterCardParams = {
-  accessToken: string;
   waterCard: IWaterCard;
   updatedWaterCard: UpdatedWaterCard[];
 };
@@ -17,13 +16,12 @@ export type UpdatedWaterCard = {
   value: string | number;
 };
 export const getWaterCards = async ({queryKey}: any): Promise<IWaterCard[]> => {
-  const [_key, userId, subscriberNo, accessToken] = queryKey;
+  const [_key, userId, subscriberNo] = queryKey;
   try {
     const waterCardsResponse = await api.get(
       `/api/water-cards/user/${userId}`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Cache-Control': 'no-cache',
           Accept: 'application/json',
         },
@@ -37,11 +35,7 @@ export const getWaterCards = async ({queryKey}: any): Promise<IWaterCard[]> => {
   }
 };
 
-export const addWaterCard = async ({
-  accessToken,
-  user,
-  waterCard,
-}: AddWaterCardParams) => {
+export const addWaterCard = async ({user, waterCard}: AddWaterCardParams) => {
   try {
     const response: AxiosResponse = await api.post(
       '/api/water-cards',
@@ -53,7 +47,6 @@ export const addWaterCard = async ({
       },
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           Accept: 'application/json',
           'Cache-Control': 'no-cache',
         },
@@ -70,11 +63,9 @@ export const addWaterCard = async ({
 
 export const deleteWaterCard = async (params: DeleteWaterCardParams) => {
   try {
-    // console.log(params);
-    const {accessToken, waterCard} = params;
+    const {waterCard} = params;
     const response = await api.delete(`/api/water-cards/${waterCard.id}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
         Accept: 'application/json',
         'Cache-Control': 'no-cache',
       },
@@ -90,14 +81,13 @@ export const deleteWaterCard = async (params: DeleteWaterCardParams) => {
 export const updateWaterCard = async (params: UpdateWaterCardParams) => {
   try {
     console.log(params, ' updateWaterCards api servis metodu çalıştı.');
-    const {accessToken, waterCard, updatedWaterCard} = params;
+    const {waterCard, updatedWaterCard} = params;
     console.log(updatedWaterCard);
     const response = await api.patch(
       `/api/water-cards/${waterCard.id}`,
       updatedWaterCard,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           Accept: 'application/json',
           'Cache-Control': 'no-cache',
         },
@@ -114,13 +104,12 @@ export const updatePartiallyWaterCard = async (
   params: UpdatePartiallyWaterCardParams,
 ) => {
   console.log(params);
-  const {accessToken, updatedWaterCard, waterCard} = params;
+  const {updatedWaterCard, waterCard} = params;
   const response = await api.patch(
     `/api/water-cards/${waterCard.id}`,
     updatedWaterCard,
     {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
         Accept: 'application/json',
         'Cache-Control': 'no-cache',
       },

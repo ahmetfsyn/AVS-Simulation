@@ -83,9 +83,6 @@ const WaterCardInfoCard = (props: WaterCardInfoCardProps) => {
     </Card>
   );
 };
-
-export default WaterCardInfoCard;
-
 {
   /* <View
           style={{
@@ -102,3 +99,5 @@ export default WaterCardInfoCard;
           <Text variant="bodyLarge">{waterCard?.debt} TL</Text>
         </View> */
 }
+
+export default WaterCardInfoCard;
