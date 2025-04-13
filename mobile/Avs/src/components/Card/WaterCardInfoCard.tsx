@@ -22,7 +22,7 @@ const WaterCardInfoCard = (props: WaterCardInfoCardProps) => {
         <Animatable.View
           key={waterCard?.id}
           animation="fadeIn"
-          duration={500}
+          duration={1000}
           style={{
             gap: 10,
             flexWrap: 'wrap',

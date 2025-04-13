@@ -20,7 +20,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = (
         parallaxScrollingOffset: 90,
       }}
       loop={false}
-      scrollAnimationDuration={1000}
+      scrollAnimationDuration={750}
       onSnapToItem={index => setActiveIndex(index)}
       renderItem={({item}) => (
         <WaterCard
