@@ -4,33 +4,90 @@ import {Card, Text, useTheme} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {IWaterCard} from '../../models/WaterCard';
+import {IMeter} from '../../models/Meter';
+import * as Animatable from 'react-native-animatable';
 
 export type WaterCardInfoCardProps = {
   waterCard: IWaterCard;
+  meter: IMeter;
 };
-
 const WaterCardInfoCard = (props: WaterCardInfoCardProps) => {
   const theme = useTheme();
-  const {waterCard} = props;
+  const {waterCard, meter} = props;
+
   return (
     <Card>
       <Card.Title title="Kart Bilgileri" titleVariant="titleMedium" />
-      <Card.Content
-        style={{
-          gap: 15,
-        }}>
-        <View
+      <Card.Content>
+        <Animatable.View
+          key={waterCard?.id}
+          animation="fadeIn"
+          duration={500}
           style={{
-            flexDirection: 'row',
             gap: 10,
-            alignItems: 'center',
+            flexWrap: 'wrap',
           }}>
-          <Ionicons name="wallet" size={24} color={theme.colors.onBackground} />
-          <Text variant="labelLarge">Bakiye:</Text>
-          <Text variant="bodyLarge">{waterCard?.credit} TL</Text>
-        </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 10,
+              alignItems: 'center',
+            }}>
+            <Ionicons
+              name="wallet"
+              size={24}
+              color={theme.colors.onBackground}
+            />
+            <Text variant="labelLarge">Bakiye:</Text>
+            <Text variant="bodyLarge">{waterCard?.credit} TL</Text>
+          </View>
 
-        {/* <View
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 10,
+              alignItems: 'center',
+            }}>
+            <MaterialCommunityIcons
+              name="cog-counterclockwise"
+              size={24}
+              color={theme.colors.onBackground}
+            />
+            <Text variant="labelLarge">Sayaç No:</Text>
+            <Text variant="bodyLarge">{waterCard?.meterNo}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 10,
+              alignItems: 'center',
+            }}>
+            <MaterialCommunityIcons
+              name="book-account"
+              size={24}
+              color={theme.colors.onBackground}
+            />
+            <Text variant="labelLarge">Adres:</Text>
+            <Text
+              variant="bodyLarge"
+              numberOfLines={2}
+              style={{
+                flexShrink: 1,
+                flexWrap: 'wrap',
+              }}>
+              {meter?.address}
+            </Text>
+          </View>
+        </Animatable.View>
+      </Card.Content>
+    </Card>
+  );
+};
+
+export default WaterCardInfoCard;
+
+{
+  /* <View
           style={{
             flexDirection: 'row',
             gap: 10,
@@ -43,41 +100,5 @@ const WaterCardInfoCard = (props: WaterCardInfoCardProps) => {
           />
           <Text variant="labelLarge">Borç:</Text>
           <Text variant="bodyLarge">{waterCard?.debt} TL</Text>
-        </View> */}
-
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 10,
-            alignItems: 'center',
-          }}>
-          <MaterialCommunityIcons
-            name="cog-counterclockwise"
-            size={24}
-            color={theme.colors.onBackground}
-          />
-          <Text variant="labelLarge">Sayaç No:</Text>
-          <Text variant="bodyLarge">{waterCard?.meterNo}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 10,
-            alignItems: 'center',
-          }}>
-          <MaterialCommunityIcons
-            name="book-account"
-            size={24}
-            color={theme.colors.onBackground}
-          />
-          <Text variant="labelLarge">Adres:</Text>
-          <Text variant="bodyLarge">
-            {waterCard?.address || 'Rastgele adres'}
-          </Text>
-        </View>
-      </Card.Content>
-    </Card>
-  );
-};
-
-export default WaterCardInfoCard;
+        </View> */
+}

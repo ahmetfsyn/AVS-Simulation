@@ -22,6 +22,103 @@ namespace backend.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Entities.Models.CityHall", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<long>("MaxCredit")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MinCredit")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CityHalls");
+                });
+
+            modelBuilder.Entity("Entities.Models.CityHall_WaterCompany", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CityHallId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("WaterCompanyId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityHallId");
+
+                    b.HasIndex("WaterCompanyId");
+
+                    b.ToTable("CityHallWaterCompanies");
+                });
+
+            modelBuilder.Entity("Entities.Models.Kiosk", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CityHallId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Latitude")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Longitude")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityHallId");
+
+                    b.ToTable("Kiosk");
+                });
+
+            modelBuilder.Entity("Entities.Models.Meter", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MeterNo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SubscriberNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("WaterCompanyId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriberNo");
+
+                    b.HasIndex("WaterCompanyId");
+
+                    b.ToTable("Meters");
+                });
+
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -83,6 +180,7 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("SubscriberNo")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("TCNo")
@@ -104,60 +202,10 @@ namespace backend.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.HasIndex("SubscriberNo")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "e1b64b19-0ef5-40ec-926d-26dc76c8fc6a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "243fd4f1-775d-4ea1-8a5f-dd2b2c91af20",
-                            EmailConfirmed = false,
-                            FirstName = "Ahmet",
-                            IsBanned = false,
-                            LastName = "Sayan",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "51db393d-abf8-4340-81d6-6d309ec16b45",
-                            SubscriberNo = "2138875",
-                            TCNo = "12312312311",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "6f78623c-db10-432b-ab2d-66a916203c65",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b8ed1114-3fec-4faa-9cb7-435b351b60e6",
-                            EmailConfirmed = false,
-                            FirstName = "Ceyda",
-                            IsBanned = false,
-                            LastName = "Sayan",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "26b8c706-04b5-4350-9894-bf63bbd839a9",
-                            SubscriberNo = "5438463",
-                            TCNo = "12312312312",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "8b6da7d2-9d13-4197-84e3-81dde14d9311",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b973304-c8a4-4876-9127-ad3b23b79fa4",
-                            EmailConfirmed = false,
-                            FirstName = "Furkan",
-                            IsBanned = false,
-                            LastName = "Kara",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "d14c303a-93f7-4d09-a387-4a7a639cd69e",
-                            SubscriberNo = "3086816",
-                            TCNo = "12312312313",
-                            TwoFactorEnabled = false
-                        });
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.WaterCard", b =>
@@ -167,7 +215,9 @@ namespace backend.Migrations
 
                     b.Property<int?>("Credit")
                         .IsRequired()
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("MeterNo")
                         .IsRequired()
@@ -182,18 +232,22 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("SubscriberNo");
 
                     b.ToTable("WaterCards");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "f49fd629-d6b0-404f-93ba-14eeec31b253",
-                            Credit = 10,
-                            MeterNo = "1054805",
-                            SubscriberNo = "1234567"
-                        });
+            modelBuilder.Entity("Entities.Models.WaterCompany", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WaterCompanies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -224,15 +278,15 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7c8a1a34-8a9e-4985-88f5-c8bd94cb690d",
-                            ConcurrencyStamp = "029f1f43-da9d-425c-9762-f66616e84869",
+                            Id = "1d427053-655e-4746-a495-b5c63bb42cdc",
+                            ConcurrencyStamp = "16fa73f6-46d6-4a71-8b96-9650189526c0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "521047f6-a878-4a77-a389-cae1f2cf746a",
-                            ConcurrencyStamp = "43aa9753-7681-4305-8ef0-e67f733e7f54",
+                            Id = "053f7be2-014c-47cb-9595-c2e0049d0839",
+                            ConcurrencyStamp = "2b28602e-5e2c-4e52-867f-2d7119510c66",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -344,11 +398,62 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Models.CityHall_WaterCompany", b =>
+                {
+                    b.HasOne("Entities.Models.CityHall", "CityHall")
+                        .WithMany("CityHallWaterCompanies")
+                        .HasForeignKey("CityHallId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.WaterCompany", "WaterCompany")
+                        .WithMany("CityHallWaterCompanies")
+                        .HasForeignKey("WaterCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CityHall");
+
+                    b.Navigation("WaterCompany");
+                });
+
+            modelBuilder.Entity("Entities.Models.Kiosk", b =>
+                {
+                    b.HasOne("Entities.Models.CityHall", "CityHall")
+                        .WithMany("Kiosks")
+                        .HasForeignKey("CityHallId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CityHall");
+                });
+
+            modelBuilder.Entity("Entities.Models.Meter", b =>
+                {
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany("Meters")
+                        .HasForeignKey("SubscriberNo")
+                        .HasPrincipalKey("SubscriberNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.WaterCompany", "WaterCompany")
+                        .WithMany("Meters")
+                        .HasForeignKey("WaterCompanyId");
+
+                    b.Navigation("User");
+
+                    b.Navigation("WaterCompany");
+                });
+
             modelBuilder.Entity("Entities.Models.WaterCard", b =>
                 {
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany("WaterCards")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("SubscriberNo")
+                        .HasPrincipalKey("SubscriberNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -404,9 +509,25 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Entities.Models.CityHall", b =>
+                {
+                    b.Navigation("CityHallWaterCompanies");
+
+                    b.Navigation("Kiosks");
+                });
+
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
+                    b.Navigation("Meters");
+
                     b.Navigation("WaterCards");
+                });
+
+            modelBuilder.Entity("Entities.Models.WaterCompany", b =>
+                {
+                    b.Navigation("CityHallWaterCompanies");
+
+                    b.Navigation("Meters");
                 });
 #pragma warning restore 612, 618
         }

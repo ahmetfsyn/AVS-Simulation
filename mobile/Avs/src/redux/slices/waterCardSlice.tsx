@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IWaterCard} from '../../models/WaterCard';
-import {UpdateWaterCardParams} from '../../services/waterCardService';
 
 export type WaterCardState = {
   waterCards: IWaterCard[];
@@ -17,7 +16,9 @@ export const waterCardSlice = createSlice({
     setWaterCardsRedux: (state, action: PayloadAction<IWaterCard[]>) => {
       // console.log(action.payload);
       if (action.payload) {
-        state.waterCards = action.payload;
+        state.waterCards = action.payload.sort(
+          (a, b) => Number(a.meterNo) - Number(b.meterNo),
+        );
       }
     },
     addWaterCardRedux: (state, action: PayloadAction<IWaterCard>) => {

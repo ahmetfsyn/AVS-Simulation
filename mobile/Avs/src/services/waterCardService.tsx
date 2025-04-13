@@ -17,18 +17,20 @@ export type UpdatedWaterCard = {
   value: string | number;
 };
 export const getWaterCards = async ({queryKey}: any): Promise<IWaterCard[]> => {
-  const [_key, userId, accessToken] = queryKey;
-
+  const [_key, userId, subscriberNo, accessToken] = queryKey;
   try {
-    const response = await api.get(`/api/water-cards/user/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Cache-Control': 'no-cache',
-        Accept: 'application/json',
+    const waterCardsResponse = await api.get(
+      `/api/water-cards/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Cache-Control': 'no-cache',
+          Accept: 'application/json',
+        },
       },
-    });
+    );
 
-    return response.data;
+    return waterCardsResponse.data;
   } catch (error) {
     console.error(error);
     throw error;

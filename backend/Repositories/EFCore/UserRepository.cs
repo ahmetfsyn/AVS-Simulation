@@ -34,9 +34,9 @@ namespace Repositories.EFCore
             .SingleOrDefaultAsync();
         }
 
-        public async Task<List<User>> GetAllUsersAsync(bool trackChanges)
-        {
-            return await FindAll(trackChanges).OrderBy(user => user.Id).ToListAsync();
-        }
+        // public async Task<List<User>> GetAllUsersAsync(bool trackChanges)
+        // {
+        //     return await FindAll(trackChanges).OrderBy(user => user.Id).ToListAsync();
+        // }
     }
 }

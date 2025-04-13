@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Presentation.ActionFilters;
+using Repositories;
 using Repositories.Contracts;
 using Repositories.EFCore;
+using Repositories.EFCore.Extensions;
 using Services;
 using Services.Contracts;
 
@@ -64,6 +66,7 @@ namespace backend.Extensions
         public static void ConfigureDataShaper(this IServiceCollection services)
         {
             services.AddScoped<IDataShaper<UserDto>, DataShaper<UserDto>>();
+            services.AddScoped<IDataShaper<MeterDto>, DataShaper<MeterDto>>();
 
         }
 
@@ -154,13 +157,10 @@ namespace backend.Extensions
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_@.";
                 // options.User.AllowedUserNameCharacters = null;
                 // options.Password.RequiredLength = 6;
-
-
             })
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
             // .AddUserValidator<CustomUserValidator>();
-
         }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
@@ -192,6 +192,10 @@ namespace backend.Extensions
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IWaterCardRepository, WaterCardRepository>();
+            services.AddScoped<IMeterRepository, MeterRepository>();
+            services.AddScoped<IWaterCompanyRepository, WaterCompanyRepository>();
+
+
 
         }
 
@@ -199,6 +203,8 @@ namespace backend.Extensions
         {
             services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IWaterCardService, WaterCardManager>();
+            services.AddScoped<IMeterService, MeterManager>();
+            services.AddScoped<IWaterCompanyService, WaterCompanyManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
 
         }

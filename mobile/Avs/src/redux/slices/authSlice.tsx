@@ -1,11 +1,13 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IUser} from '../../models/User';
 import {LoginPayload} from '../../models/types/LoginPayload';
+import {RootState} from '../store';
+import axios from 'axios';
 
 export type AuthState = {
   user?: IUser | null;
-  accessToken?: string;
-  refreshToken?: string;
+  accessToken?: string | null;
+  refreshToken?: string | null;
 };
 
 const initialState: AuthState = {
@@ -14,13 +16,31 @@ const initialState: AuthState = {
   refreshToken: '',
 };
 
+export const refreshTokenThunk = createAsyncThunk(
+  'auth/refreshToken',
+  async (_, {getState, rejectWithValue}) => {
+    const {refreshToken} = (getState() as RootState).auth;
+    try {
+      const response = await axios.post(
+        'http://192.168.137.1:7154/api/auth/refresh',
+        {
+          refreshToken,
+        },
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setCredentials: (state, action: PayloadAction<LoginPayload>) => {
       const {userDto, tokenDto} = action.payload;
-
       state.user = userDto;
       console.log(userDto);
       state.accessToken = tokenDto.accessToken;
@@ -29,8 +49,8 @@ export const authSlice = createSlice({
     },
     removeCredentials: state => {
       state.user = null;
-      state.accessToken = '';
-      state.refreshToken = '';
+      state.accessToken = null;
+      state.refreshToken = null;
     },
   },
 });

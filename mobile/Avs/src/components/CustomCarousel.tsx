@@ -9,8 +9,7 @@ const {width, height} = Dimensions.get('window');
 const CustomCarousel: React.FC<CustomCarouselProps> = (
   props: CustomCarouselProps,
 ) => {
-  const {setActiveIndex, data} = props;
-
+  const {setActiveIndex, data, activeIndex} = props;
   return (
     <Carousel
       width={width - 32}
@@ -23,7 +22,12 @@ const CustomCarousel: React.FC<CustomCarouselProps> = (
       loop={false}
       scrollAnimationDuration={1000}
       onSnapToItem={index => setActiveIndex(index)}
-      renderItem={({item}) => <WaterCard data={item} />}
+      renderItem={({item}) => (
+        <WaterCard
+          waterCard={data[0][activeIndex]}
+          meter={data[1][activeIndex]}
+        />
+      )}
       style={{}}
     />
   );

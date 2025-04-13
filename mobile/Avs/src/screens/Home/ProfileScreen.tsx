@@ -7,15 +7,16 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {RootState} from '../../redux/store';
+import {removeCredentials} from '../../redux/slices/authSlice';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 const ProfileScreen: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const theme = useTheme();
-  const userLabel = 'AS';
-  // user?.firstName.substring(0, 1) + user?.lastName.substring(0, 1);
-
+  const dispatch = useDispatch();
   const logout = () => {
-    console.log('cikis yapildi');
+    dispatch(removeCredentials());
   };
   return (
     <View style={styles.container}>
@@ -31,7 +32,13 @@ const ProfileScreen: React.FC = () => {
               alignItems: 'center',
             }}>
             <Avatar.Text
-              label={userLabel}
+              label={
+                user &&
+                (
+                  user?.firstName?.substring(0, 1) +
+                  user?.lastName?.substring(0, 1)!
+                )?.toUpperCase()
+              }
               color={theme.colors.primary}
               style={{backgroundColor: theme.colors.secondary}}
             />

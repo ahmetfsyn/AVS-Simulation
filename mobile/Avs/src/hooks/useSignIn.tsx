@@ -9,7 +9,6 @@ import {showMessage} from '../utils/showMessage';
 import {setCredentials} from '../redux/slices/authSlice';
 
 export const useSignIn = () => {
-  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -30,11 +29,10 @@ export const useSignIn = () => {
         text2: 'Başarıyla giriş yaptınız.',
         type: 'success',
       });
-      navigation.navigate('App');
 
       //   resetForm();
     } catch (error: any) {
-      //   console.error(error);
+      console.error(error);
       showMessage({
         text1: 'İşlem Başarısız',
         text2: error.message,
@@ -43,8 +41,6 @@ export const useSignIn = () => {
     } finally {
       setLoading(false);
     }
-
-    // navigate('App');
   };
 
   return {signIn, loading};

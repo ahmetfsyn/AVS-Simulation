@@ -31,6 +31,8 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
 
 builder.Services.AddScoped<IUserLinks, UserLinks>();
+builder.Services.AddScoped<IMeterLinks, MeterLinks>();
+
 
 builder.Services.ConfigureVersioning();
 
@@ -71,6 +73,7 @@ builder.Services.AddControllers(config =>
 
     opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+    opt.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
 
 }
 );

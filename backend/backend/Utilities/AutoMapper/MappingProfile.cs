@@ -20,6 +20,8 @@ public class MappingProfile : Profile
         CreateMap<WaterCardDtoForInsertion, WaterCard>();
         CreateMap<WaterCardDtoForUpdate, WaterCard>().ReverseMap();
 
+        CreateMap<Meter, MeterDto>();
+
         CreateMap<UserDtoForRegistration, User>();
 
 

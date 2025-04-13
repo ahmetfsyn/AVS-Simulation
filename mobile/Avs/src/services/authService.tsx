@@ -44,13 +44,7 @@ export const login = async (values: LoginParams): Promise<any> => {
   }
 };
 
-export const logout = async () => {
-  try {
-    await api.post('/auth/logout');
-  } catch (error) {
-    console.error('Çıkış sırasında hata:', error);
-  }
-};
+export const refreshToken = async () => {};
 
 // const sendConfirmEmail = async (email: string) => {
 //   try {

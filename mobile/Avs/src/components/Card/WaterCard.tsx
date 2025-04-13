@@ -1,20 +1,14 @@
 import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {Card, Text} from 'react-native-paper';
-import {IWaterCardInfo} from '../../models/abstracts/IWaterCardInfo';
+import {IWaterCard} from '../../models/WaterCard';
+import {IMeter} from '../../models/Meter';
 
-type WaterCardProps = {
-  data: IWaterCardInfo;
-};
-
-const WaterCard: React.FC<{data: IWaterCardInfo}> = (props: WaterCardProps) => {
-  const {data} = props;
-
-  const styles = StyleSheet.create({
-    container: {
-      display: 'flex',
-    },
-  });
+const WaterCard: React.FC<{waterCard: IWaterCard; meter: IMeter}> = (props: {
+  waterCard: IWaterCard;
+  meter: IMeter;
+}) => {
+  const {meter, waterCard} = props;
 
   return (
     <Card style={styles.container}>
@@ -33,13 +27,18 @@ const WaterCard: React.FC<{data: IWaterCardInfo}> = (props: WaterCardProps) => {
             position: 'absolute',
             padding: 10,
           }}>
-          <Text variant="titleSmall">{data?.subscriberNo}</Text>
-          <Text variant="titleSmall">{data?.cardCompany}</Text>
-          <Text variant="titleSmall">{data?.name}</Text>
+          <Text variant="titleSmall">{waterCard?.subscriberNo}</Text>
+          <Text variant="titleSmall">{meter?.waterCompanyName}</Text>
+          <Text variant="titleSmall">{meter?.meterNo}</Text>
         </View>
       </View>
     </Card>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+  },
+});
 
 export default WaterCard;

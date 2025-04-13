@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
-} from "@react-navigation/native";
-import StackRoutes from "./StackRoutes";
-import { useTheme } from "react-native-paper";
-import { SafeAreaView } from "react-native";
+} from '@react-navigation/native';
+import StackRoutes from './StackRoutes';
+import {useTheme} from 'react-native-paper';
 
 const AppRoutes: React.FC = () => {
   const theme = useTheme();

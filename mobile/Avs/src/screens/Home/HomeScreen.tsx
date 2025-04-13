@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {View, StyleSheet, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {act, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Card,
@@ -16,31 +17,59 @@ import CustomButton from '../../components/Button/CustomButton';
 import {Marquee} from '@animatereactnative/marquee';
 import {useNavigation} from '@react-navigation/native';
 import NfcManager from 'react-native-nfc-manager';
-import {showMessage} from '../../utils/showMessage';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import AddCard from '../../components/Card/AddCard';
 import {useGetWaterCards} from '../../hooks/useGetWaterCards';
 import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
+import {useGetMeters} from '../../hooks/useGetMeters';
 import {IWaterCard} from '../../models/WaterCard';
+import {IMeter} from '../../models/Meter';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [meter, setMeter] = useState<IMeter>();
+  const [currentWaterCard] = useState<IWaterCard>();
+
   const [visibleDialog, setVisibleDialog] = useState(false);
 
   const {user, accessToken, refreshToken} = useSelector(
     (state: RootState) => state.auth,
   );
   const {isLoading, error} = useGetWaterCards({
-    userId: user?.id,
+    subscriberNo: user?.subscriberNo,
     accessToken,
+    userId: user?.id,
   });
+
+  const {isLoading2, error2} = useGetMeters({
+    subscriberNo: user?.subscriberNo,
+    accessToken,
+    userId: user?.id,
+  });
+
   const waterCards = useSelector(
     (state: RootState) => state.waterCard.waterCards,
   );
+
+  const meters = useSelector((state: RootState) => state.meter.meters);
+
+  const getMeterBySelectedWaterCard = (waterCard: IWaterCard) => {
+    return meters.find(_meter => _meter.meterNo === waterCard.meterNo);
+  };
+
+  useEffect(() => {
+    if (meters) {
+      setMeter(getMeterBySelectedWaterCard(waterCards[activeIndex]));
+    }
+  }, [meters, activeIndex]);
+
+  useEffect(() => {
+    setMeter(meters[activeIndex]);
+  }, [activeIndex]);
 
   useEffect(() => {
     const isEnabled = async () => {
@@ -70,10 +99,14 @@ const HomeScreen: React.FC = () => {
 
         {/* Carousel */}
         <View>
-          {isLoading ? (
+          {isLoading || isLoading2 ? (
             <ActivityIndicator size="large" color={theme.colors.onBackground} />
           ) : waterCards && waterCards.length > 0 ? (
-            <CustomCarousel data={waterCards} setActiveIndex={setActiveIndex} />
+            <CustomCarousel
+              activeIndex={activeIndex}
+              data={[waterCards, meters]}
+              setActiveIndex={setActiveIndex}
+            />
           ) : (
             <AddCard navigation={navigation} path="NfcReaderToAddWaterCard" />
           )}
@@ -81,8 +114,13 @@ const HomeScreen: React.FC = () => {
 
         {/* Kart Bilgileri */}
         <View>
-          {waterCards[activeIndex] ? (
-            <WaterCardInfoCard waterCard={waterCards[activeIndex]} />
+          {isLoading || isLoading2 ? (
+            <ActivityIndicator />
+          ) : waterCards?.length > 0 ? (
+            <WaterCardInfoCard
+              waterCard={waterCards[activeIndex]}
+              meter={meters[activeIndex]}
+            />
           ) : (
             <Card>
               <Card.Content>
