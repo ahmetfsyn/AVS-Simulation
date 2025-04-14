@@ -10,6 +10,7 @@ import {useEffect, useState} from 'react';
 import {showMessage} from '../utils/showMessage';
 import {IWaterCard} from '../models/WaterCard';
 import {ICreditCard} from '../models/CreditCard';
+import {useNavigation} from '@react-navigation/native';
 
 export const MIN_CREDIT = 36; // 1 ton suya karşılık ödenmesi gereken tutar.
 export const MAX_CREDIT = 1000;
@@ -18,16 +19,10 @@ export const useLoadCredit = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigation = useNavigation<any>();
   const mutation = useMutation({
     mutationFn: (params: UpdatePartiallyWaterCardParams) =>
       updatePartiallyWaterCard(params),
-    onSuccess: () => {
-      showMessage({
-        text1: 'İşlem Başarılı',
-        text2: 'Bakiyeniz başarıyla yüklendi.',
-        type: 'success',
-      });
-    },
     onError: mutationError => {
       console.error(mutationError);
       setError(mutationError.message);
@@ -74,12 +69,8 @@ export const useLoadCredit = () => {
         updatedWaterCard,
         waterCard,
       });
-      dispatch(
-        updateWaterCardRedux({
-          amount,
-          waterCard,
-        }),
-      );
+
+      navigation.navigate('NfcReaderToWriteCreditToWaterCard', params);
     } catch (updateWaterCardAsyncError: any) {
       setError(updateWaterCardAsyncError.messge);
       console.error(updateWaterCardAsyncError);

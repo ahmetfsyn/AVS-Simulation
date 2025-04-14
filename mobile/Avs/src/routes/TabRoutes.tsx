@@ -12,6 +12,7 @@ import MyCardsScreen from '../screens/Home/MyCardsScreen';
 import FeedbackScreen from '../screens/Home/FeedbackScreen';
 import LoadCreditInfoScreen from '../screens/Home/LoadCreditInfoScreen';
 import NfcReaderToLoadCreditScreen from '../screens/Home/NfcReaderToLoadCreditScreen';
+import NfcReaderToWriteCreditToWaterCardScreen from '../screens/Home/NfcReaderToWriteCreditToWaterCardScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -36,6 +37,10 @@ const HomeStack: React.FC = () => {
       <Stack.Screen
         name="NfcReaderToLoadCredit"
         component={NfcReaderToLoadCreditScreen}
+      />
+      <Stack.Screen
+        name="NfcReaderToWriteCreditToWaterCard"
+        component={NfcReaderToWriteCreditToWaterCardScreen}
       />
     </Stack.Navigator>
   );

@@ -22,12 +22,10 @@ export const waterCardSlice = createSlice({
       }
     },
     addWaterCardRedux: (state, action: PayloadAction<IWaterCard>) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.waterCards?.push(action.payload);
     },
     removeWaterCardRedux: (state, action: PayloadAction<IWaterCard>) => {
-      console.log(action.payload);
-
       const waterCardId = action.payload.id;
       state.waterCards = state.waterCards?.filter(
         waterCard => waterCard.id !== waterCardId,
@@ -39,7 +37,7 @@ export const waterCardSlice = createSlice({
     ) => {
       const {amount, waterCard} = action.payload;
 
-      console.log(action.payload);
+      // console.log(action.payload);
       const waterCard_ = state.waterCards.find(
         (_waterCard: IWaterCard) => _waterCard.id === waterCard.id,
       );
@@ -47,7 +45,7 @@ export const waterCardSlice = createSlice({
       if (waterCard_) {
         waterCard_.credit += amount;
       }
-      console.log(waterCard_);
+      // console.log(waterCard_);
     },
   },
   extraReducers: () => {},

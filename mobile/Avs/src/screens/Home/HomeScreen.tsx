@@ -47,7 +47,6 @@ const HomeScreen: React.FC = () => {
   const waterCards = useSelector(
     (state: RootState) => state.waterCard.waterCards,
   );
-
   const meters = useSelector((state: RootState) => state.meter.meters);
 
   useEffect(() => {
@@ -68,7 +67,7 @@ const HomeScreen: React.FC = () => {
         }}
         showsVerticalScrollIndicator={false}>
         {/* Marquee */}
-        <MarqueeBanner text="Tarsus Belediyesi Mobil Uygulamasına Hoşgeldiniz." />
+        {/* <MarqueeBanner text="Tarsus Belediyesi Mobil Uygulamasına Hoşgeldiniz." /> */}
         {/* Carousel */}
         <View>
           {isLoading || isLoading2 ? (

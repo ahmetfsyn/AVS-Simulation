@@ -80,7 +80,6 @@ const NfcReaderToLoadCreditScreen: React.FC = () => {
               <LottieView
                 source={require('../../../assets/TarsusBelediyesi/scan-nfc-to-pay.json')}
                 autoPlay
-                loop
                 style={{
                   width: '100%',
                   height: '100%',

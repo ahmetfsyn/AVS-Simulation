@@ -80,9 +80,9 @@ export const deleteWaterCard = async (params: DeleteWaterCardParams) => {
 
 export const updateWaterCard = async (params: UpdateWaterCardParams) => {
   try {
-    console.log(params, ' updateWaterCards api servis metodu çalıştı.');
+    // console.log(params, ' updateWaterCards api servis metodu çalıştı.');
     const {waterCard, updatedWaterCard} = params;
-    console.log(updatedWaterCard);
+    // console.log(updatedWaterCard);
     const response = await api.patch(
       `/api/water-cards/${waterCard.id}`,
       updatedWaterCard,
@@ -93,7 +93,7 @@ export const updateWaterCard = async (params: UpdateWaterCardParams) => {
         },
       },
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error: AxiosError | any) {
     console.error(error.message);
@@ -103,7 +103,7 @@ export const updateWaterCard = async (params: UpdateWaterCardParams) => {
 export const updatePartiallyWaterCard = async (
   params: UpdatePartiallyWaterCardParams,
 ) => {
-  console.log(params);
+  // console.log(params);
   const {updatedWaterCard, waterCard} = params;
   const response = await api.patch(
     `/api/water-cards/${waterCard.id}`,
@@ -116,5 +116,5 @@ export const updatePartiallyWaterCard = async (
     },
   );
 
-  console.log(response.data);
+  // console.log(response.data);
 };
