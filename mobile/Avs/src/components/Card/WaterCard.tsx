@@ -17,7 +17,7 @@ const WaterCard: React.FC<{waterCard: IWaterCard; meter: IMeter}> = (props: {
           justifyContent: 'flex-end',
         }}>
         <Card.Cover
-          source={require('../../../assets/su-abone-karti.png')}
+          source={require('../../../assets/TarsusBelediyesi/su-abone-karti.png')}
           resizeMode="cover"
         />
 

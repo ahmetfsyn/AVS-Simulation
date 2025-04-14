@@ -83,7 +83,7 @@ const PayForKioskScreen: React.FC = () => {
 
         <View style={{flex: 1}}>
           <LottieView
-            source={require('../../../assets/scan-nfc-to-pay.json')}
+            source={require('../../../assets/TarsusBelediyesi/scan-nfc-to-pay.json')}
             autoPlay
             loop
             style={{

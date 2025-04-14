@@ -18,7 +18,7 @@ import {
 import {LoginParams} from '../../models/types/AuthParams';
 
 const LoginScreen: React.FC = () => {
-  const {navigate} = useNavigation();
+  const navigation = useNavigation<any>();
   const [rememberMe, setRememberMe] = useState(false);
   const {loading, signIn} = useSignIn();
   const formikInitialValues: LoginParams = {
@@ -28,7 +28,7 @@ const LoginScreen: React.FC = () => {
   };
 
   const onPressSignUp = () => {
-    navigate('Register');
+    navigation.navigate('Register');
   };
 
   return (
@@ -38,7 +38,7 @@ const LoginScreen: React.FC = () => {
       <Card>
         <Card.Cover
           resizeMode="contain"
-          source={require('../../../assets/bel-logo.png')}
+          source={require('../../../assets/TarsusBelediyesi/bel-logo.png')}
           style={styles.cardCover}
         />
         <Card.Title
@@ -112,7 +112,7 @@ const LoginScreen: React.FC = () => {
                     }}
                     loading={loading}
                     disabled={loading || !isValid}
-                    onPress={handleSubmit}>
+                    onPress={() => handleSubmit()}>
                     Giriş Yap
                   </CustomButton>
                 </View>

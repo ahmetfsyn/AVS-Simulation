@@ -37,6 +37,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const action = await store.dispatch(refreshTokenThunk());
+
         const newAccessToken = action.payload?.accessToken;
 
         if (newAccessToken) {

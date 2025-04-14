@@ -27,7 +27,7 @@ export const refreshTokenThunk = createAsyncThunk(
           refreshToken,
         },
       );
-      console.log(response.data);
+      console.log('refresh token : ', response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

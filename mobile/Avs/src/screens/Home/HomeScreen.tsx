@@ -28,7 +28,7 @@ import PageInfoCard from '../../components/Card/PageInfoCard';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visibleDialog, setVisibleDialog] = useState(false);
@@ -133,8 +133,8 @@ const HomeScreen: React.FC = () => {
             style={{flex: 1}}
             onPress={() => {
               navigation.navigate('LoadCreditInfo', {
-                waterCard: waterCards[activeIndex],
-                meter: meters[activeIndex],
+                waterCardIndex: activeIndex,
+                meterIndex: activeIndex,
               });
               // }
             }}>

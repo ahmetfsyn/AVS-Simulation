@@ -1,3 +1,4 @@
+import {useSelector} from 'react-redux';
 import {
   Card,
   Text,
@@ -14,12 +15,20 @@ import {
   useRoute,
   useState,
 } from '../../imports/LoadCreditInfoScreenImports';
+import {RootState} from '../../redux/store';
 
 const LoadCreditInfoScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const route = useRoute();
-  const {waterCard, meter}: any = route.params;
+  const {waterCardIndex, meterIndex}: any = route.params;
   const [amount, setAmount] = useState<number>(0);
+
+  const waterCard = useSelector(
+    (state: RootState) => state.waterCard.waterCards[waterCardIndex],
+  );
+  const meter = useSelector(
+    (state: RootState) => state.meter.meters[meterIndex],
+  );
 
   return (
     <ScrollView
@@ -44,8 +53,10 @@ const LoadCreditInfoScreen: React.FC = () => {
             style={{textAlign: 'center'}}
             placeholder="Tutar(₺) giriniz."
             inputMode="decimal"
+            keyboardType="numeric"
+            label={'Tutar(₺)'}
             onChangeText={value => setAmount(Number(value))}
-            value={amount === 0 && ''}
+            value={amount.toString()}
           />
         </Card.Content>
         <Card.Actions>

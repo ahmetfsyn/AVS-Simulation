@@ -1,6 +1,5 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import {WebView} from 'react-native-webview';
 import MapView, {Marker, UrlTile} from 'react-native-maps';
 import {useTheme} from 'react-native-paper';
 import {GOOGLE_MAPS_API_KEY} from 'react-native-dotenv';

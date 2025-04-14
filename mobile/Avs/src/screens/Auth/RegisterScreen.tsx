@@ -38,7 +38,7 @@ const RegisterScreen: React.FC = () => {
       <Card>
         <Card.Cover
           resizeMode="contain"
-          source={require('../../../assets/bel-logo.png')}
+          source={require('../../../assets/TarsusBelediyesi/bel-logo.png')}
           style={styles.cardCover}
         />
         <Card.Title
