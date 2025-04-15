@@ -103,18 +103,21 @@ export const updateWaterCard = async (params: UpdateWaterCardParams) => {
 export const updatePartiallyWaterCard = async (
   params: UpdatePartiallyWaterCardParams,
 ) => {
-  // console.log(params);
-  const {updatedWaterCard, waterCard} = params;
-  const response = await api.patch(
-    `/api/water-cards/${waterCard.id}`,
-    updatedWaterCard,
-    {
-      headers: {
-        Accept: 'application/json',
-        'Cache-Control': 'no-cache',
+  try {
+    // console.log(params);
+    const {updatedWaterCard, waterCard} = params;
+    const response = await api.patch(
+      `/api/water-cards/${waterCard.id}`,
+      updatedWaterCard,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Cache-Control': 'no-cache',
+        },
       },
-    },
-  );
-
-  // console.log(response.data);
+    );
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };

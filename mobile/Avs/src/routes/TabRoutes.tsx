@@ -13,6 +13,7 @@ import FeedbackScreen from '../screens/Home/FeedbackScreen';
 import LoadCreditInfoScreen from '../screens/Home/LoadCreditInfoScreen';
 import NfcReaderToLoadCreditScreen from '../screens/Home/NfcReaderToLoadCreditScreen';
 import NfcReaderToWriteCreditToWaterCardScreen from '../screens/Home/NfcReaderToWriteCreditToWaterCardScreen';
+import ConfirmProcessScreen from '../screens/Home/ConfirmProcessScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -42,6 +43,7 @@ const HomeStack: React.FC = () => {
         name="NfcReaderToWriteCreditToWaterCard"
         component={NfcReaderToWriteCreditToWaterCardScreen}
       />
+      <Stack.Screen name="ConfirmProcess" component={ConfirmProcessScreen} />
     </Stack.Navigator>
   );
 };

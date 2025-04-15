@@ -7,48 +7,37 @@ import {
   PageInfoCard,
   showMessage,
   useEffect,
-  useNavigation,
 } from '../../imports/NfcReaderToAddWaterCardScreenImports';
-import {useRoute} from '@react-navigation/native';
-import {useWriteToNfc} from '../../hooks/useWriteToNfc';
-import {useDispatch} from 'react-redux';
-import {updateWaterCardRedux} from '../../redux/slices/waterCardSlice';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useLoadCredit} from '../../hooks/useLoadCredit';
+import NfcManager from 'react-native-nfc-manager';
 
 const NfcReaderToWriteCreditToWaterCardScreen: React.FC = () => {
-  const navigation = useNavigation<any>();
   const route = useRoute();
   const routeParams: any = route.params;
-  const {isLoading, result, writeNfc, resetResult} = useWriteToNfc();
-  const dispatch = useDispatch();
+  const navigation = useNavigation<any>();
+  const {isLoading, loadCreditToWaterCardAsync, error, reset} = useLoadCredit();
+
+  useEffect(() => {
+    if (error) {
+      navigation.navigate('Home');
+      showMessage({
+        text1: 'İşlem Başarısız',
+        text2: error,
+        type: 'error',
+      });
+      reset();
+    }
+    return () => {
+      NfcManager.cancelTechnologyRequest();
+    };
+  }, [error]);
 
   useEffect(() => {
     if (routeParams) {
-      writeNfc({
-        credit: routeParams.waterCard.credit + routeParams.amount,
-        meterNo: routeParams.waterCard.meterNo,
-      });
+      loadCreditToWaterCardAsync(routeParams);
     }
   }, [routeParams]);
-
-  useEffect(() => {
-    if (result) {
-      dispatch(
-        updateWaterCardRedux({
-          amount: routeParams.amount,
-          waterCard: routeParams.waterCard,
-        }),
-      );
-      setTimeout(() => {
-        showMessage({
-          text1: 'İşlem Başarılı',
-          text2: 'Bakiyeniz başarıyla yüklendi',
-          type: 'success',
-        });
-        resetResult();
-      }, 1000);
-      navigation.navigate('Home');
-    }
-  }, [result]);
 
   return (
     <View style={styles.container}>
@@ -72,7 +61,7 @@ const NfcReaderToWriteCreditToWaterCardScreen: React.FC = () => {
             <LottieView
               source={require('../../../assets/TarsusBelediyesi/scan-nfc-to-pay.json')}
               autoPlay
-              loop={!result}
+              loop
               style={{
                 width: '100%',
                 height: '100%',

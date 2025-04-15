@@ -1,9 +1,12 @@
-import {useState} from 'react';
 import NfcManager, {Ndef, NfcTech} from 'react-native-nfc-manager';
+import {useEffect, useState} from 'react';
+import {NdefError} from '../errors/NdefError';
+import {ndefErrorMessages} from '../errorMessages/NdefErrorMessages';
 
-export const useWriteToNfc = () => {
-  const [result, setResult] = useState<boolean>(false);
+export const useWriteToNdef = () => {
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
   const writeNfc = async (data: any) => {
     try {
       await NfcManager.cancelTechnologyRequest();
@@ -11,23 +14,21 @@ export const useWriteToNfc = () => {
       const jsonString = JSON.stringify(data);
       const bytes = Ndef.encodeMessage([Ndef.textRecord(jsonString)]);
       if (bytes) {
-        console.log('bytes', bytes);
         setLoading(true);
         await NfcManager.ndefHandler.writeNdefMessage(bytes);
-        setResult(true);
+        return true;
+      } else {
+        return false;
       }
-    } catch (nfcWriteError: any) {
-      console.error(nfcWriteError.message);
-      throw nfcWriteError;
+    } catch (err: any) {
+      setError(ndefErrorMessages.CantWriteNdef);
+      console.error(err);
+      throw new NdefError(error?.toString());
     } finally {
       await NfcManager.cancelTechnologyRequest();
       setLoading(false);
     }
   };
 
-  const resetResult = () => {
-    setResult(false);
-  };
-
-  return {writeNfc, result, isLoading: loading, resetResult};
+  return {writeNfc, writeNdefError: error, writeNdefLoading: loading};
 };

@@ -33,17 +33,17 @@ export const waterCardSlice = createSlice({
     },
     updateWaterCardRedux: (
       state,
-      action: PayloadAction<{amount: number; waterCard: IWaterCard}>,
+      action: PayloadAction<{updatedWaterCard: IWaterCard}>,
     ) => {
-      const {amount, waterCard} = action.payload;
+      const {updatedWaterCard} = action.payload;
 
       // console.log(action.payload);
       const waterCard_ = state.waterCards.find(
-        (_waterCard: IWaterCard) => _waterCard.id === waterCard.id,
+        (_waterCard: IWaterCard) => _waterCard.id === updatedWaterCard.id,
       );
 
       if (waterCard_) {
-        waterCard_.credit += amount;
+        waterCard_.credit = updatedWaterCard.credit;
       }
       // console.log(waterCard_);
     },

@@ -84,7 +84,7 @@ const LoadCreditInfoScreen: React.FC = () => {
                 setAmount(0);
               }
             }}>
-            Onayla
+            İleri
           </CustomButton>
         </Card.Actions>
       </Card>

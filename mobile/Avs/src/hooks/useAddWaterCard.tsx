@@ -52,5 +52,5 @@ export const useAddWaterCard = () => {
     }
   };
 
-  return {addWaterCardAsync, isLoading: loading};
+  return {addWaterCardAsync, addWaterCardLoading: loading};
 };

@@ -16,7 +16,7 @@ import {
 const NfcReaderToAddWaterCardScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const {isLoading, data, error} = useReadNdef();
-  const {addWaterCardAsync} = useAddWaterCard();
+  const {addWaterCardAsync, addWaterCardLoading} = useAddWaterCard();
 
   useEffect(() => {
     if (data) {
@@ -25,29 +25,18 @@ const NfcReaderToAddWaterCardScreen: React.FC = () => {
   }, [data]);
 
   useEffect(() => {
-    const parentNavigation = navigation.getParent();
-
-    if (parentNavigation) {
-      const state = parentNavigation.getState();
-
-      if (state.type === 'tab') {
-        const unsubscribe = parentNavigation?.addListener(
-          'tabPress',
-          async () => {
-            // Sayfa değişirken NFC işlemini iptal et
-            await NfcManager.cancelTechnologyRequest();
-            showMessage({
-              text1: 'İşlem Başarısız',
-              text2: 'İşlem iptal edildi.',
-              type: 'error',
-            });
-          },
-        );
-
-        return () => unsubscribe();
-      }
+    if (error) {
+      showMessage({
+        text1: 'İşlem Başarısız',
+        text2: error,
+        type: 'error',
+      });
+      navigation.navigate('Home');
     }
-  }, [navigation]);
+    return () => {
+      NfcManager.cancelTechnologyRequest();
+    };
+  }, [error]);
 
   return (
     <View style={styles.container}>
@@ -58,7 +47,7 @@ const NfcReaderToAddWaterCardScreen: React.FC = () => {
           gap: 10,
           justifyContent: 'center',
         }}>
-        {isLoading ? (
+        {isLoading || addWaterCardLoading ? (
           <ActivityIndicator color="white" size={32} />
         ) : (
           <>

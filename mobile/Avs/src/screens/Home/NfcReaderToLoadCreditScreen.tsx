@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {Dialog, Portal, Text} from 'react-native-paper';
 import {
   ActivityIndicator,
   LottieView,
@@ -14,42 +15,45 @@ import {
   useReadNdef,
   useRoute,
 } from '../../imports/NfcReaderToLoadCreditScreen';
+import {CustomButton, useState} from '../../imports/LoginScreenImports';
 const NfcReaderToLoadCreditScreen: React.FC = () => {
   const navigation = useNavigation<any>();
-  const {isLoading, data} = useReadNdef();
-  const {amount, waterCard}: any = useRoute().params;
-  const {loadCreditToWaterCardAsync} = useLoadCredit();
+  const route = useRoute();
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const {isLoading, data, error, reset} = useReadNdef();
+  const {amount, waterCard}: any = route.params;
+
+  const cancelLoadCredit = async () => {
+    await NfcManager.cancelTechnologyRequest();
+    setConfirmDialog(false);
+    reset();
+    showMessage({
+      text1: 'İşlem Başarısız',
+      text2: 'Bakiye yükleme islemi iptal edildi',
+      type: 'error',
+    });
+    navigation.navigate('Home');
+  };
 
   useEffect(() => {
-    if (data) {
-      loadCreditToWaterCardAsync({amount, creditCard: data, waterCard});
+    if (error) {
+      showMessage({
+        text1: 'İşlem Başarısız',
+        text2: error,
+        type: 'error',
+      });
+      navigation.navigate('Home');
+    }
+    return () => {
+      cancelLoadCredit();
+    };
+  }, [error]);
+
+  useEffect(() => {
+    if (data?.cardType === 'CREDIT_CARD') {
+      setConfirmDialog(true);
     }
   }, [data]);
-
-  useEffect(() => {
-    const parentNavigation = navigation.getParent();
-
-    if (parentNavigation) {
-      const state = parentNavigation.getState();
-
-      if (state.type === 'tab') {
-        const unsubscribe = parentNavigation?.addListener(
-          'tabPress',
-          async () => {
-            // Sayfa değişirken NFC işlemini iptal et
-            await NfcManager.cancelTechnologyRequest();
-            showMessage({
-              text1: 'İşlem Başarısız',
-              text2: 'İşlem iptal edildi.',
-              type: 'error',
-            });
-          },
-        );
-
-        return () => unsubscribe();
-      }
-    }
-  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -89,6 +93,44 @@ const NfcReaderToLoadCreditScreen: React.FC = () => {
           </>
         )}
       </View>
+      <Portal>
+        <Dialog
+          visible={confirmDialog}
+          onDismiss={cancelLoadCredit}
+          dismissable={false}>
+          <Dialog.Title>Bilgilendirme</Dialog.Title>
+          <Dialog.Content>
+            <Text variant="bodyMedium">
+              Yüklemek istediğiniz tutar : {amount}
+            </Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <View
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                width: '100%',
+              }}>
+              <CustomButton mode="text" onPress={cancelLoadCredit}>
+                İptal
+              </CustomButton>
+              <CustomButton
+                mode="contained"
+                onPress={() => {
+                  setConfirmDialog(false);
+                  navigation.navigate('NfcReaderToWriteCreditToWaterCard', {
+                    amount,
+                    waterCard,
+                    creditCard: data,
+                  });
+                }}>
+                İleri
+              </CustomButton>
+            </View>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </View>
   );
 };
