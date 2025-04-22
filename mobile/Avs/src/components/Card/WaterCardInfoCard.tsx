@@ -39,7 +39,7 @@ const WaterCardInfoCard = (props: WaterCardInfoCardProps) => {
               color={theme.colors.onBackground}
             />
             <Text variant="labelLarge">Bakiye:</Text>
-            <Text variant="bodyLarge">{waterCard?.credit} TL</Text>
+            <Text variant="bodyLarge">{waterCard?.credit} Ton</Text>
           </View>
 
           <View

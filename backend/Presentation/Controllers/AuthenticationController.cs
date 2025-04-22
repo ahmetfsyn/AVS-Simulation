@@ -47,7 +47,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("refresh-token")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        // [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RefreshToken([FromBody] TokenDto tokenDto)
         {
 

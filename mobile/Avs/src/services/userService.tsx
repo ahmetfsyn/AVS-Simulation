@@ -15,3 +15,11 @@ export const getUserMeters = async ({queryKey}: any): Promise<IMeter[]> => {
   }
   return [];
 };
+
+export const updateUser = async () => {
+  try {
+    const response: AxiosResponse = await api.put(`/api/users/${userId}`, {});
+  } catch (error) {
+    console.error(error);
+  }
+};

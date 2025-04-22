@@ -154,7 +154,7 @@ namespace Services
         {
             var principal = GetPrincipalFromExpired(tokenDto.AccessToken);
 
-            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+            var user = await _userManager.FindByEmailAsync(principal.Identity.Name);
 
 
             if (user is null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
@@ -196,7 +196,7 @@ namespace Services
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtSettings["validIssuer"],
                 ValidAudience = jwtSettings["validAudience"],

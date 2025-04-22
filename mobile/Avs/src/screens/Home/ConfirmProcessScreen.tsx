@@ -1,8 +1,8 @@
 import {View} from 'react-native';
 import React from 'react';
 import {useRoute} from '@react-navigation/native';
-import {CustomButton} from '../../imports/LoginScreenImports';
 import {Text} from 'react-native-paper';
+import CustomButton from '../../components/Button/CustomButton';
 
 const ConfirmProcessScreen: React.FC = () => {
   const route = useRoute();

@@ -1,19 +1,15 @@
-import {
-  ActivityIndicator,
-  AddCard,
-  IconButton,
-  MaterialCommunityIcons,
-  View,
-  React,
-  ScrollView,
-  StyleSheet,
-  WaterCard,
-  useDeleteWaterCard,
-  useNavigation,
-  useSelector,
-  useTheme,
-} from '../../imports/MyCardScreenImports';
+/* eslint-disable react/react-in-jsx-scope */
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {RootState} from '../../redux/store';
+import AddCard from '../../components/Card/AddCard';
+import WaterCard from '../../components/Card/WaterCard';
+import {useDeleteWaterCard} from '../../hooks/useDeleteWaterCard';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {ActivityIndicator, IconButton, useTheme} from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {IWaterCard} from '../../models/WaterCard';
+
 const MyCardsScreen: React.FC = () => {
   const waterCards = useSelector(
     (state: RootState) => state?.waterCard?.waterCards,
@@ -22,7 +18,11 @@ const MyCardsScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const theme = useTheme();
   const {removeWaterCardAsync, isLoading} = useDeleteWaterCard();
-
+  const handleRemoveWaterCard = async (waterCard: IWaterCard) => {
+    await removeWaterCardAsync({
+      waterCard,
+    });
+  };
   return (
     <ScrollView
       style={styles.container}
@@ -50,7 +50,7 @@ const MyCardsScreen: React.FC = () => {
             }}>
             <IconButton
               disabled={isLoading}
-              onPress={() => removeWaterCardAsync({waterCard})}
+              onPress={() => handleRemoveWaterCard(waterCard)}
               icon={() => {
                 return isLoading ? (
                   <ActivityIndicator size={32} color="white" />

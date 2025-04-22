@@ -1,8 +1,7 @@
 import api from './api';
 import {IMeter} from '../models/Meter';
 
-export const getMeters = async ({queryKey}: any): Promise<IMeter[]> => {
-  const [_key, subscriberNo] = queryKey;
+export const getMeters = async (subscriberNo: string): Promise<IMeter[]> => {
   try {
     const metersResponse = await api.get(
       `/api/meters?pageSize=10&pageNumber=1&subscriberNo=${subscriberNo}`,

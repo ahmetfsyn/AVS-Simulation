@@ -37,17 +37,15 @@ export const waterCardSlice = createSlice({
     ) => {
       const {updatedWaterCard} = action.payload;
 
-      // console.log(action.payload);
-      const waterCard_ = state.waterCards.find(
-        (_waterCard: IWaterCard) => _waterCard.id === updatedWaterCard.id,
+      state.waterCards = state.waterCards.map(card =>
+        card.id === updatedWaterCard.id
+          ? {...card, credit: updatedWaterCard.credit}
+          : card,
       );
-
-      if (waterCard_) {
-        waterCard_.credit = updatedWaterCard.credit;
-      }
-      // console.log(waterCard_);
+      // console.log(state.waterCards);
     },
   },
+
   extraReducers: () => {},
 });
 

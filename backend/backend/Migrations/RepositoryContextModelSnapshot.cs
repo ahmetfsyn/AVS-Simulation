@@ -38,7 +38,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CityHalls");
+                    b.ToTable("CityHalls", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.CityHall_WaterCompany", b =>
@@ -60,7 +60,7 @@ namespace backend.Migrations
 
                     b.HasIndex("WaterCompanyId");
 
-                    b.ToTable("CityHallWaterCompanies");
+                    b.ToTable("CityHallWaterCompanies", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Kiosk", b =>
@@ -89,7 +89,7 @@ namespace backend.Migrations
 
                     b.HasIndex("CityHallId");
 
-                    b.ToTable("Kiosk");
+                    b.ToTable("Kiosk", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Meter", b =>
@@ -116,7 +116,7 @@ namespace backend.Migrations
 
                     b.HasIndex("WaterCompanyId");
 
-                    b.ToTable("Meters");
+                    b.ToTable("Meters", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -234,7 +234,7 @@ namespace backend.Migrations
 
                     b.HasIndex("SubscriberNo");
 
-                    b.ToTable("WaterCards");
+                    b.ToTable("WaterCards", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.WaterCompany", b =>
@@ -247,7 +247,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WaterCompanies");
+                    b.ToTable("WaterCompanies", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

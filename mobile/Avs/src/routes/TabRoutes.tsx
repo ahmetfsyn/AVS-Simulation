@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useTheme} from 'react-native-paper';
 import HomeScreen from '../screens/Home/HomeScreen';
-import ProfileScreen from '../screens/Home/ProfileScreen';
+import UserMenuScreen from '../screens/Home/UserMenuScreen';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {createStackNavigator} from '@react-navigation/stack';
 import ServicePointsScreen from '../screens/Home/ServicePointsScreen';
@@ -14,6 +14,7 @@ import LoadCreditInfoScreen from '../screens/Home/LoadCreditInfoScreen';
 import NfcReaderToLoadCreditScreen from '../screens/Home/NfcReaderToLoadCreditScreen';
 import NfcReaderToWriteCreditToWaterCardScreen from '../screens/Home/NfcReaderToWriteCreditToWaterCardScreen';
 import ConfirmProcessScreen from '../screens/Home/ConfirmProcessScreen';
+import ProfileEditScreen from '../screens/Home/ProfileEditScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -48,6 +49,19 @@ const HomeStack: React.FC = () => {
   );
 };
 
+const ProfileStack: React.FC = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+      }}>
+      <Stack.Screen name="UserMenu" component={UserMenuScreen} />
+      <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const TabRoutes: React.FC = () => {
   const theme = useTheme();
   return (
@@ -55,11 +69,11 @@ const TabRoutes: React.FC = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: theme.colors.background,
           borderColor: 'transparent',
         },
-
         animation: 'fade',
       }}>
       <Tab.Screen
@@ -76,8 +90,8 @@ const TabRoutes: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="ProfileStack"
+        component={ProfileStack}
         options={{
           tabBarIcon: () => (
             <FontAwesome5

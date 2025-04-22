@@ -7,6 +7,7 @@ namespace Repositories.Contracts
         IUserRepository User { get; }
         IWaterCardRepository WaterCard { get; }
         IMeterRepository Meter { get; }
+        ICityHallRepository CityHall { get; }
         IWaterCompanyRepository WaterCompany { get; }
         Task SaveAsync();
 

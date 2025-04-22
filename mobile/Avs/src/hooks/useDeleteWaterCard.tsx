@@ -5,10 +5,13 @@ import {useState} from 'react';
 import {showMessage} from '../utils/showMessage';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeWaterCardRedux} from '../redux/slices/waterCardSlice';
+import {RootState} from '../redux/store';
+import {removeMeterRedux} from '../redux/slices/meterSlice';
 
 export const useDeleteWaterCard = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const meters = useSelector((state: RootState) => state?.meter?.meters);
   const mutation = useMutation({
     mutationFn: (params: DeleteWaterCardParams) => deleteWaterCard(params),
   });
@@ -19,7 +22,14 @@ export const useDeleteWaterCard = () => {
     try {
       const result = await mutation.mutateAsync(params);
 
+      const meterOfWaterCard = meters.find(
+        meter => meter.meterNo === waterCard.meterNo,
+      );
+
       dispatch(removeWaterCardRedux(waterCard));
+
+      dispatch(removeMeterRedux(meterOfWaterCard!));
+
       showMessage({
         text1: 'İşlem Başarılı',
         text2: 'Kartınız başarıyla kullanıma kapatıldı.',

@@ -1,13 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import NfcManager, {Ndef, NfcTech, TagEvent} from 'react-native-nfc-manager';
-import {useEffect, useRef, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useEffect, useState} from 'react';
 
 export const useReadNdef = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // const isCancelled = useRef(false);
   const [data, setData] = useState(null);
+  const [timeoutFlag, setTimeoutFlag] = useState(false);
+  const reset = () => {
+    // setData(null);
+    setError(null);
+    setLoading(false);
+  };
   const checkNfc = async () => {
     if (!(await NfcManager.isEnabled())) {
       setError('Lütfen NFC modülünü aktif ediniz.');
@@ -25,7 +29,6 @@ export const useReadNdef = () => {
       const text = ndefMessage
         .map((record: any) => Ndef.text.decodePayload(record.payload))
         .join('');
-
       return JSON.parse(text);
     } catch (err) {
       return null;
@@ -35,16 +38,18 @@ export const useReadNdef = () => {
   const readNdef = async () => {
     try {
       await checkNfc();
-
-      await NfcManager.requestTechnology(NfcTech.Ndef);
+      await NfcManager.requestTechnology([NfcTech.NfcA, NfcTech.Ndef]);
+      setTimeoutFlag(true);
       setLoading(true);
       const tag: TagEvent | null = await NfcManager.getTag();
-
       if (tag) {
+        // console.log(tag);
         const json = decodeNdef(tag);
 
         if (json) {
+          console.log(json);
           setData(json);
+          return json;
         } else {
           setError('Geçersiz ya da okunamayan kart.');
         }
@@ -55,23 +60,16 @@ export const useReadNdef = () => {
     } finally {
       await NfcManager.cancelTechnologyRequest();
       setLoading(false);
+      reset();
     }
   };
-
-  useEffect(() => {
-    readNdef();
-    return () => {
-      NfcManager.cancelTechnologyRequest();
-    };
-  }, []);
 
   return {
     isLoading: loading,
     data,
     error,
-    reset: () => {
-      setData(null);
-      setError(null);
-    },
+    reset,
+    readNdef,
+    timeoutFlag,
   };
 };

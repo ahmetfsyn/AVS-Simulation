@@ -1,14 +1,10 @@
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Card,
-  CustomButton,
-  CustomTextInput,
-  Formik,
-  PageInfoCard,
-  React,
-} from '../../imports/FeedbackScreenImports';
+/* eslint-disable react/react-in-jsx-scope */
+import {ScrollView, StyleSheet, View} from 'react-native';
+import PageInfoCard from '../../components/Card/PageInfoCard';
+import {Card} from 'react-native-paper';
+import {Formik} from 'formik';
+import CustomTextInput from '../../components/TextInput/CustomTextInput';
+import CustomButton from '../../components/Button/CustomButton';
 
 const FeedBackScreen: React.FC = () => {
   const onPressSubmit = () => {

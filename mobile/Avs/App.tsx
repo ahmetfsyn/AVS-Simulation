@@ -103,14 +103,16 @@ export default function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <PaperProvider theme={appTheme}>
-        <GestureHandlerRootView
-          style={{flex: 1, backgroundColor: appTheme.colors.background}}>
-          <AppRoutes />
-        </GestureHandlerRootView>
-        <Toast config={toastConfig} />
-      </PaperProvider>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider theme={appTheme}>
+          <GestureHandlerRootView
+            style={{flex: 1, backgroundColor: appTheme.colors.background}}>
+            <AppRoutes />
+          </GestureHandlerRootView>
+        </PaperProvider>
+      </QueryClientProvider>
+      <Toast config={toastConfig} />
+    </>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
 import {AppRegistry} from 'react-native';
@@ -7,7 +8,7 @@ import {name as appName} from './app.json';
 const ReduxContainer = () => {
   return (
     <Provider store={store}>
-      <App></App>
+      <App />
     </Provider>
   );
 };

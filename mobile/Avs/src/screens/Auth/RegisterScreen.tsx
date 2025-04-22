@@ -1,18 +1,19 @@
-import {
-  Card,
-  CustomButton,
-  CustomTextInput,
-  Formik,
-  React,
-  ScrollView,
-  View,
-  passwordMaxLength,
-  styles,
-  useNavigation,
-  useSignUp,
-  validationSchema,
-} from '../../imports/RegisterScreenImports';
+/* eslint-disable react/react-in-jsx-scope */
+
+import {useNavigation} from '@react-navigation/native';
 import {RegisterParams} from '../../models/types/AuthParams';
+import {useSignUp} from '../../hooks/useSignUp';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Card} from 'react-native-paper';
+import {styles} from '../../styles/registerScreenStyles';
+import {Formik} from 'formik';
+import {
+  passwordMaxLength,
+  validationSchema,
+} from '../../validations/RegisterValidations';
+import CustomTextInput from '../../components/TextInput/CustomTextInput';
+import {View} from 'react-native';
+import CustomButton from '../../components/Button/CustomButton';
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation();

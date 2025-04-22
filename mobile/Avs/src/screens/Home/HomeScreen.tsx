@@ -14,55 +14,63 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomButton from '../../components/Button/CustomButton';
-import {useNavigation} from '@react-navigation/native';
-import NfcManager from 'react-native-nfc-manager';
-import {useDispatch, useSelector} from 'react-redux';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import AddCard from '../../components/Card/AddCard';
 import {useGetWaterCards} from '../../hooks/useGetWaterCards';
 import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
 import {useGetMeters} from '../../hooks/useGetMeters';
 import WaterCard from '../../components/Card/WaterCard';
-import MarqueeBanner from '../../components/MarqueeBanner';
 import PageInfoCard from '../../components/Card/PageInfoCard';
+import {showMessage} from '../../utils/showMessage';
+import {refreshUserToken} from '../../services/authService';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation<any>();
-  const [nfcEnabled, setNfcEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visibleDialog, setVisibleDialog] = useState(false);
+  // const routeParams: any = useRoute().params;
+  const {user, accessToken, refreshToken} = useSelector((state: RootState) => {
+    return state.auth;
+  }, shallowEqual);
 
-  const {user} = useSelector((state: RootState) => state.auth);
-  const {isLoading, error} = useGetWaterCards({
+  const {loadingWaterCards} = useGetWaterCards({
     subscriberNo: user?.subscriberNo,
     userId: user?.id,
   });
 
-  const {isLoading2, error2} = useGetMeters({
-    subscriberNo: user?.subscriberNo,
-    userId: user?.id,
-  });
+  // const {loadingMeters} = useGetMeters({
+  //   subscriberNo: user?.subscriberNo,
+  //   userId: user?.id,
+  // });
 
   const waterCards = useSelector(
     (state: RootState) => state.waterCard.waterCards,
   );
+
   const meters = useSelector((state: RootState) => state.meter.meters);
 
-  useEffect(() => {
-    const isEnabled = async () => {
-      const result = await NfcManager.isEnabled();
-      setNfcEnabled(result);
-    };
+  // console.log('meters : ', meters);
 
-    isEnabled();
-  }, [nfcEnabled]);
+  //  ? test için
+  // useEffect(() => {
+  //   refreshUserToken({
+  //     accessToken,
+  //     refreshToken,
+  //   });
+  // }, []);
 
   return (
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={{
-          paddingVertical: 8,
+          paddingVertical: 16,
           gap: 15,
         }}
         showsVerticalScrollIndicator={false}>
@@ -70,15 +78,21 @@ const HomeScreen: React.FC = () => {
         {/* <MarqueeBanner text="Tarsus Belediyesi Mobil Uygulamasına Hoşgeldiniz." /> */}
         {/* Carousel */}
         <View>
-          {isLoading || isLoading2 ? (
+          {loadingWaterCards ? (
             <ActivityIndicator size="large" color={theme.colors.onBackground} />
-          ) : waterCards && waterCards.length > 0 ? (
+          ) : waterCards?.length > 0 ? (
             <CustomCarousel
               data={waterCards}
               activeIndex={activeIndex}
               setActiveIndex={setActiveIndex}
               renderItem={(item, index) => {
-                return <WaterCard waterCard={item} meter={meters[index]} />;
+                return (
+                  <WaterCard
+                    key={index}
+                    waterCard={item}
+                    meter={meters[index]}
+                  />
+                );
               }}
             />
           ) : (
@@ -88,7 +102,7 @@ const HomeScreen: React.FC = () => {
 
         {/* Kart Bilgileri */}
         <View>
-          {isLoading || isLoading2 ? (
+          {loadingWaterCards ? (
             <ActivityIndicator />
           ) : waterCards?.length > 0 ? (
             <WaterCardInfoCard

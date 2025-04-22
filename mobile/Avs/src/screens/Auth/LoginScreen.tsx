@@ -1,21 +1,16 @@
-import {
-  Card,
-  Checkbox,
-  Text,
-  CustomButton,
-  CustomTextInput,
-  Formik,
-  ScrollView,
-  View,
-  passwordMaxLength,
-  styles,
-  validationSchema,
-  useNavigation,
-  useSignIn,
-  React,
-  useState,
-} from '../../imports/LoginScreenImports';
+/* eslint-disable react/react-in-jsx-scope */
+import {ScrollView, View} from 'react-native';
 import {LoginParams} from '../../models/types/AuthParams';
+import {Card, Checkbox, Text} from 'react-native-paper';
+import {styles} from '../../styles/loginScreenStyles';
+import {useNavigation} from '@react-navigation/native';
+import {useState} from 'react';
+import {useSignIn} from '../../hooks/useSignIn';
+import {Formik} from 'formik';
+import CustomTextInput from '../../components/TextInput/CustomTextInput';
+import CustomButton from '../../components/Button/CustomButton';
+import {validationSchema} from '../../validations/LoginValidations';
+import {passwordMaxLength} from '../../validations/RegisterValidations';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -35,7 +30,7 @@ const LoginScreen: React.FC = () => {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.scrollViewContentContainer}>
-      <Card>
+      <Card mode="contained">
         <Card.Cover
           resizeMode="contain"
           source={require('../../../assets/TarsusBelediyesi/bel-logo.png')}

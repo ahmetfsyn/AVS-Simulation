@@ -14,9 +14,18 @@ export const meterSlice = createSlice({
   initialState,
   reducers: {
     setMetersRedux: (state, action: PayloadAction<IMeter[]>) => {
+      // console.log(action.payload);
       if (action.payload) {
         state.meters = action.payload.sort(
           (a, b) => Number(a.meterNo) - Number(b.meterNo),
+        );
+      }
+    },
+    removeMeterRedux: (state, action: PayloadAction<IMeter>) => {
+      console.log(action.payload);
+      if (action.payload) {
+        state.meters = state.meters.filter(
+          meter => meter.id !== action.payload.id,
         );
       }
     },
@@ -24,6 +33,6 @@ export const meterSlice = createSlice({
   extraReducers: () => {},
 });
 
-export const {setMetersRedux} = meterSlice.actions;
+export const {setMetersRedux, removeMeterRedux} = meterSlice.actions;
 
 export default meterSlice.reducer;

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
 import NfcManager from 'react-native-nfc-manager';
@@ -13,15 +13,18 @@ import {ICreditCard} from '../models/CreditCard';
 import {IWaterCard} from '../models/WaterCard';
 import {showMessage} from '../utils/showMessage';
 import {useWriteToNdef} from './useWriteToNdef';
-
+import {RootState} from '../redux/store';
+import {NdefError} from '../errors/NdefError';
+import {ndefErrorMessages} from '../errorMessages/NdefErrorMessages';
 export const MIN_CREDIT = 36;
-export const MAX_CREDIT = 1000;
+export const MAX_CREDIT = 10000;
 
 export const useLoadCredit = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
   const {writeNfc, writeNdefError, writeNdefLoading} = useWriteToNdef();
   const mutation = useMutation({
     mutationFn: (params: UpdatePartiallyWaterCardParams) =>
@@ -31,21 +34,7 @@ export const useLoadCredit = () => {
       setError(err.message);
     },
   });
-  const checkParams = useCallback((amount: number, creditCard: ICreditCard) => {
-    if (amount < MIN_CREDIT || amount > MAX_CREDIT) {
-      setError(
-        `En az ${MIN_CREDIT} TL, en fazla ${MAX_CREDIT} TL yüklenebilir.`,
-      );
-      return false;
-    }
-
-    if (creditCard.balance < amount) {
-      setError('Kredi kartı bakiyesi yetersiz.');
-      return false;
-    }
-
-    return true;
-  }, []);
+  const cityHall = useSelector((state: RootState) => state.app.cityHall);
 
   const loadCreditToWaterCardAsync = useCallback(
     async (params: {
@@ -54,26 +43,22 @@ export const useLoadCredit = () => {
       waterCard: IWaterCard;
     }) => {
       const {amount, creditCard, waterCard} = params;
-
-      if (!checkParams(amount, creditCard)) {
-        return;
-      }
-
-      const totalCredit = waterCard.credit + amount;
-
       try {
+        const totalCredit =
+          waterCard.credit +
+          Math.floor(amount / (cityHall?.minCredit || MIN_CREDIT));
         const updatedWaterCard: UpdatedWaterCard[] = [
           {op: 'replace', path: '/credit', value: totalCredit},
         ];
-
         const nfcResult = await writeNfc({
           meterNo: waterCard.meterNo,
           credit: totalCredit,
         });
-
         if (!nfcResult) {
-          return;
+          throw new NdefError(ndefErrorMessages.CantWriteNdef);
         }
+        setLoading(true);
+        // console.log(updatedWaterCard, waterCard);
         await mutation.mutateAsync({updatedWaterCard, waterCard});
 
         dispatch(
@@ -87,15 +72,7 @@ export const useLoadCredit = () => {
             },
           }),
         );
-        navigation.navigate('Home');
-
-        setTimeout(() => {
-          showMessage({
-            text1: 'İşlem Başarılı',
-            text2: 'Bakiyeniz başarıyla yüklendi',
-            type: 'success',
-          });
-        }, 1000);
+        setIsSuccess(true);
       } catch (err: any) {
         console.error('loadCreditToWaterCardAsync error:', err);
         setError(err.message || 'Bilinmeyen bir hata oluştu.');
@@ -104,12 +81,13 @@ export const useLoadCredit = () => {
         await NfcManager.cancelTechnologyRequest();
       }
     },
-    [checkParams, dispatch, writeNfc, mutation, navigation],
+    [dispatch, writeNfc, mutation, cityHall],
   );
 
   return {
     loadCreditToWaterCardAsync,
     isLoading: loading || writeNdefLoading,
+    isSuccess,
     error,
     reset: () => setError(null),
   };

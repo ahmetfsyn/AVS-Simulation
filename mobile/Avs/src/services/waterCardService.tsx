@@ -15,8 +15,11 @@ export type UpdatedWaterCard = {
   path: string;
   value: string | number;
 };
-export const getWaterCards = async ({queryKey}: any): Promise<IWaterCard[]> => {
-  const [_key, userId, subscriberNo] = queryKey;
+export const getWaterCards = async (params: {
+  userId?: string;
+  subscriberNo?: string;
+}): Promise<IWaterCard[]> => {
+  const {userId, subscriberNo} = params;
   try {
     const waterCardsResponse = await api.get(
       `/api/water-cards/user/${userId}`,
@@ -27,7 +30,7 @@ export const getWaterCards = async ({queryKey}: any): Promise<IWaterCard[]> => {
         },
       },
     );
-
+    console.log(waterCardsResponse.data);
     return waterCardsResponse.data;
   } catch (error) {
     console.error(error);
@@ -116,6 +119,7 @@ export const updatePartiallyWaterCard = async (
         },
       },
     );
+    // console.log(response.data);
   } catch (error) {
     console.error(error);
     throw error;

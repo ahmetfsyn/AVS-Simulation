@@ -9,7 +9,7 @@ namespace Entities.Dtos
         public string TCNo { get; init; }
         public string Email { get; init; }
         public string SubscriberNo { get; init; }
-
+        public string PhoneNumber { get; init; }
 
     }
 }

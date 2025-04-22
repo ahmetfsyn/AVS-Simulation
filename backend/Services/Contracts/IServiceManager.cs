@@ -8,6 +8,7 @@ namespace Services.Contracts
         IWaterCardService WaterCardService { get; }
         IWaterCompanyService WaterCompanyService { get; }
         IAuthenticationService AuthenticationService { get; }
+        ICityHallService CityHallService { get; }
 
 
     }

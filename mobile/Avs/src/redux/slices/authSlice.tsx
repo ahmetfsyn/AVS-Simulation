@@ -16,24 +16,22 @@ const initialState: AuthState = {
   refreshToken: null,
 };
 
-export const refreshTokenThunk = createAsyncThunk(
-  'auth/refreshToken',
-  async (_, {getState, rejectWithValue}) => {
-    const {refreshToken} = (getState() as RootState).auth;
-    try {
-      const response = await axios.post(
-        'http://192.168.137.1:7154/api/auth/refresh',
-        {
-          refreshToken,
-        },
-      );
-      console.log('refresh token : ', response.data);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+// export const refreshTokenThunk = createAsyncThunk(
+//   'auth/refreshToken',
+//   async (_, {getState, rejectWithValue}) => {
+//     const {refreshToken, accessToken} = (getState() as RootState).auth;
+//     try {
+//       const response = await axios.post('/api/auth/refresh-token', {
+//         accessToken,
+//         refreshToken,
+//       });
+//       console.log('refresh token dispatch response: ', response);
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   },
+// );
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -42,10 +40,10 @@ export const authSlice = createSlice({
     setCredentials: (state, action: PayloadAction<LoginPayload>) => {
       const {userDto, tokenDto} = action.payload;
       state.user = userDto;
-      console.log(userDto);
+      // console.log('userDto : ', userDto);
       state.accessToken = tokenDto.accessToken;
       state.refreshToken = tokenDto.refreshToken;
-      // console.log(state.user);
+      console.log(tokenDto.refreshToken);
     },
     removeCredentials: state => {
       state.user = null;

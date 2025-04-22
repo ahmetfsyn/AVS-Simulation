@@ -12,7 +12,7 @@ export const register = async (formValues: RegisterParams): Promise<void> => {
     formValues.lastName +
     Date.now()
   ).replaceAll(' ', '');
-  console.log(formValues);
+  // console.log(formValues);
   try {
     await api.post('/api/auth', formValues);
     // await sendConfirmEmail(formValues.email);
@@ -44,7 +44,18 @@ export const login = async (values: LoginParams): Promise<any> => {
   }
 };
 
-export const refreshToken = async () => {};
+export const refreshUserToken = async (tokenDto: {
+  accessToken: string;
+  refreshToken: string;
+}) => {
+  try {
+    const response = await api.post('/api/auth/refresh-token', tokenDto);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // const sendConfirmEmail = async (email: string) => {
 //   try {
