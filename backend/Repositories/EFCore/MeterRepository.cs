@@ -15,7 +15,6 @@ namespace Repositories
         {
         }
 
-
         //  Kullanacaksan eğer önce interface te bu metodları olusturmalısın.
         public void Create(Meter entity)
         {
@@ -37,10 +36,7 @@ namespace Repositories
         public async Task<PagedList<Meter>> GetAllMetersAsync(MeterParameters meterParameters, bool trackChanges)
         {
             var meters = await FindAll(trackChanges)
-            .FilterMeters(meterParameters.SubscriberNo)
-                      .Search(meterParameters.SearchTerm)
-                      .Sort(meterParameters.OrderBy)
-                      .ToListAsync();
+            .FilterMeters(meterParameters.SubscriberNo).Search(meterParameters.SearchTerm).Sort(meterParameters.OrderBy).ToListAsync();
 
 
             return PagedList<Meter>
