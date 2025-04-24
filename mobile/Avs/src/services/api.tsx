@@ -2,10 +2,10 @@ import axios from 'axios';
 import {store} from '../redux/store'; // redux store import et
 import {removeCredentials} from '../redux/slices/authSlice'; // refresh için thunk
 import {API_URL} from 'react-native-dotenv';
-import {refreshToken} from './authService';
+import {refreshUserToken} from './authService';
 
 const api = axios.create({
-  baseURL: 'https://a5cf-85-97-201-136.ngrok-free.app',
+  baseURL: 'https://f5f7-5-47-57-146.ngrok-free.app',
   headers: {
     Accept: 'application/json',
   },
@@ -68,7 +68,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const data = await refreshToken({
+        const data = await refreshUserToken({
           accessToken: store.getState().auth.accessToken,
           refreshToken: store.getState().auth.refreshToken,
         });

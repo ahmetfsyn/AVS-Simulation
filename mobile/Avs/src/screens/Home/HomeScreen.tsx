@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {View, StyleSheet, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Card,
@@ -14,21 +14,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomButton from '../../components/Button/CustomButton';
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import AddCard from '../../components/Card/AddCard';
 import {useGetWaterCards} from '../../hooks/useGetWaterCards';
 import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
-import {useGetMeters} from '../../hooks/useGetMeters';
 import WaterCard from '../../components/Card/WaterCard';
 import PageInfoCard from '../../components/Card/PageInfoCard';
-import {showMessage} from '../../utils/showMessage';
-import {refreshUserToken} from '../../services/authService';
 
 const HomeScreen: React.FC = () => {
   const theme = useTheme();
@@ -36,7 +29,7 @@ const HomeScreen: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visibleDialog, setVisibleDialog] = useState(false);
   // const routeParams: any = useRoute().params;
-  const {user, accessToken, refreshToken} = useSelector((state: RootState) => {
+  const {user} = useSelector((state: RootState) => {
     return state.auth;
   }, shallowEqual);
 
@@ -45,11 +38,6 @@ const HomeScreen: React.FC = () => {
     userId: user?.id,
   });
 
-  // const {loadingMeters} = useGetMeters({
-  //   subscriberNo: user?.subscriberNo,
-  //   userId: user?.id,
-  // });
-
   const waterCards = useSelector(
     (state: RootState) => state.waterCard.waterCards,
   );
@@ -57,14 +45,6 @@ const HomeScreen: React.FC = () => {
   const meters = useSelector((state: RootState) => state.meter.meters);
 
   // console.log('meters : ', meters);
-
-  //  ? test için
-  // useEffect(() => {
-  //   refreshUserToken({
-  //     accessToken,
-  //     refreshToken,
-  //   });
-  // }, []);
 
   return (
     <View style={styles.container}>
@@ -146,8 +126,8 @@ const HomeScreen: React.FC = () => {
             style={{flex: 1}}
             onPress={() => {
               navigation.navigate('LoadCreditInfo', {
-                waterCardIndex: activeIndex,
-                meterIndex: activeIndex,
+                waterCard: waterCards[activeIndex],
+                meter: meters[activeIndex],
               });
               // }
             }}>

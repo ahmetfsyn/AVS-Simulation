@@ -22,11 +22,11 @@ export const meterSlice = createSlice({
       }
     },
     removeMeterRedux: (state, action: PayloadAction<IMeter>) => {
-      console.log(action.payload);
       if (action.payload) {
         state.meters = state.meters.filter(
           meter => meter.id !== action.payload.id,
         );
+        console.log('kalan meters :', state.meters);
       }
     },
   },

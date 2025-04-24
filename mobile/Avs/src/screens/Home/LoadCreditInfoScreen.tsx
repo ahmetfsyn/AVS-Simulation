@@ -17,20 +17,10 @@ import {StyleSheet} from 'react-native';
 const LoadCreditInfoScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const route = useRoute();
-  const {waterCardIndex, meterIndex}: any = route.params;
+  const {waterCard, meter}: any = route.params;
   const [amount, setAmount] = useState<number>(0);
-  const {useGetCityHallError} = useGetCityHall();
-
-  const waterCard = useSelector(
-    (state: RootState) => state.waterCard.waterCards[waterCardIndex],
-  );
-
-  const meter = useSelector(
-    (state: RootState) => state.meter.meters[meterIndex],
-  );
 
   const cityHall = useSelector((state: RootState) => state.app.cityHall);
-
   return (
     <ScrollView
       contentContainerStyle={styles.container}

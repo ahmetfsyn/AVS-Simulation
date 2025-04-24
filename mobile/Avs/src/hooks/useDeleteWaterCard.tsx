@@ -29,7 +29,6 @@ export const useDeleteWaterCard = () => {
       dispatch(removeWaterCardRedux(waterCard));
 
       dispatch(removeMeterRedux(meterOfWaterCard!));
-
       showMessage({
         text1: 'İşlem Başarılı',
         text2: 'Kartınız başarıyla kullanıma kapatıldı.',

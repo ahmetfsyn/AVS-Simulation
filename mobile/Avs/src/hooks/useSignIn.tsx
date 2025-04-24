@@ -7,11 +7,15 @@ import {showMessage} from '../utils/showMessage';
 import {setCredentials} from '../redux/slices/authSlice';
 import {useGetMeters} from './useGetMeters';
 import {setMetersRedux} from '../redux/slices/meterSlice';
+import {useGetCityHall} from './useGetCityHall';
+import {setCityHallRedux} from '../redux/slices/appSlice';
 
 export const useSignIn = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const {fetchMeters} = useGetMeters();
+  const {fetchCityHall} = useGetCityHall();
+
   const mutation = useMutation({
     mutationFn: login,
   });
@@ -29,6 +33,9 @@ export const useSignIn = () => {
         resultLogin.data.userDto.subscriberNo!,
       );
       dispatch(setMetersRedux(resultMeters!));
+
+      const resultCityHall = await fetchCityHall();
+      dispatch(setCityHallRedux(resultCityHall));
 
       showMessage({
         text1: 'İşlem Başarılı',
