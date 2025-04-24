@@ -7,9 +7,9 @@ export const passwordMinLength = 6;
 export const validationSchema = Yup.object({
   firstName: Yup.string().required('Lütfen adınızı giriniz.').min(3).max(24),
   lastName: Yup.string().required('Lütfen soyadınızı giriniz.').min(2).max(24),
-  email: Yup.string()
-    .email('Lütfen geçerli bir email adresi giriniz.')
-    .required('Lütfen emailinizi giriniz.'),
+  // email: Yup.string()
+  //   .email('Lütfen geçerli bir email adresi giriniz.')
+  //   .required('Lütfen emailinizi giriniz.'),
   password: Yup.string()
     .required('Lütfen parolanızı giriniz.')
     .min(
@@ -27,7 +27,7 @@ export const validationSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Parolalar eşleşmiyor.')
     .required('Lütfen parolanızı tekrar giriniz.'),
-  // tcNo: Yup.string()
-  //   .required('Lütfen T.C kimlik numaranızı giriniz.')
-  //   .length(tcNoLength, 'T.C kimlik numarası 11 haneli olmalıdır.'),
+  tcNo: Yup.string()
+    .required('Lütfen T.C kimlik numaranızı giriniz.')
+    .length(tcNoLength, 'T.C kimlik numarası 11 haneli olmalıdır.'),
 });

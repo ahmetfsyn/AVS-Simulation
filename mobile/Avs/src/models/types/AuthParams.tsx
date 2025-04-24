@@ -1,7 +1,7 @@
 export type RegisterParams = {
   firstName: string;
   lastName: string;
-  email: string;
+  tcNo: string;
   password: string;
   confirmPassword: string;
   roles?: string[];
@@ -9,7 +9,7 @@ export type RegisterParams = {
 };
 
 export type LoginParams = {
-  email: string;
+  tcNo: string;
   password: string;
   rememberMe?: boolean;
 };

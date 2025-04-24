@@ -10,14 +10,18 @@ import {Formik} from 'formik';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
 import CustomButton from '../../components/Button/CustomButton';
 import {validationSchema} from '../../validations/LoginValidations';
-import {passwordMaxLength} from '../../validations/RegisterValidations';
+import {
+  passwordMaxLength,
+  tcNoLength,
+} from '../../validations/RegisterValidations';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const [rememberMe, setRememberMe] = useState(false);
   const {loading, signIn} = useSignIn();
+
   const formikInitialValues: LoginParams = {
-    email: '',
+    tcNo: '',
     password: '',
     rememberMe: rememberMe,
   };
@@ -57,17 +61,20 @@ const LoginScreen: React.FC = () => {
             }) => (
               <View style={{rowGap: 10}}>
                 <CustomTextInput
+                  label={'T.C. Kimlik Numarası'}
                   mode="flat"
-                  inputMode="email"
-                  placeholder="Email"
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  error={touched.email && errors.email}
+                  inputMode="numeric"
+                  placeholder="T.C. kimlik numaranızı giriniz"
+                  onChangeText={handleChange('tcNo')}
+                  onBlur={handleBlur('tcNo')}
+                  value={values.tcNo}
+                  error={touched.tcNo && errors.tcNo}
+                  maxLength={tcNoLength}
                 />
                 <CustomTextInput
                   mode="flat"
-                  placeholder="Parola"
+                  label={'Parola'}
+                  placeholder="Parolanızı giriniz"
                   inputMode="text"
                   secureTextEntry
                   maxLength={passwordMaxLength}

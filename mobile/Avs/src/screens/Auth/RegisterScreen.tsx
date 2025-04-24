@@ -9,6 +9,7 @@ import {styles} from '../../styles/registerScreenStyles';
 import {Formik} from 'formik';
 import {
   passwordMaxLength,
+  tcNoLength,
   validationSchema,
 } from '../../validations/RegisterValidations';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
@@ -24,7 +25,7 @@ const RegisterScreen: React.FC = () => {
 
   const formikInitialValues: RegisterParams = {
     confirmPassword: '',
-    email: '',
+    tcNo: '',
     firstName: '',
     lastName: '',
     password: '',
@@ -80,12 +81,13 @@ const RegisterScreen: React.FC = () => {
                   error={touched.lastName && errors.lastName}
                 />
                 <CustomTextInput
-                  inputMode="email"
-                  placeholder="E-mail"
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  error={touched.email && errors.email}
+                  inputMode="numeric"
+                  placeholder="T.C Kimlik Numarası"
+                  onChangeText={handleChange('tcNo')}
+                  onBlur={handleBlur('tcNo')}
+                  value={values.tcNo}
+                  maxLength={tcNoLength}
+                  error={touched.tcNo && errors.tcNo}
                 />
 
                 <CustomTextInput

@@ -35,7 +35,7 @@ export const login = async (values: LoginParams): Promise<any> => {
     return {data, remmeberMe: values.rememberMe};
   } catch (error: any) {
     const {ErrorList} = error?.response?.data;
-
+    // console.log(error?.response?.data);
     ErrorList.forEach((identityError: IdentityError) => {
       throw new LoginFailedError(
         loginErrorMessages[identityError.Code] || 'Bilinmeyen bir hata oluştu.',
