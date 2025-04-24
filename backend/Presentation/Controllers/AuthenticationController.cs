@@ -33,7 +33,7 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Authenticate([FromBody] UserDtoForAuthentication userDtoForAuthentication)
         {
 
-            var userDto = await _service.AuthenticationService.ValidateUser(userDtoForAuthentication);
+            var userDto = await _service.AuthenticationService.ValidateUserByTcNo(userDtoForAuthentication);
             var tokenDto = await _service.AuthenticationService.CreateToken(true);
 
             return Ok(new LoginDto()

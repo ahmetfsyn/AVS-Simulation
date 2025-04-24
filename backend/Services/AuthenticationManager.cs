@@ -7,6 +7,7 @@ using Entities.Dtos;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;   // <<< bunu dosyanın en üstüne ekle
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services.Contracts;
@@ -113,6 +114,38 @@ namespace Services
             return userDto;
         }
 
+        public async Task<UserDto> ValidateUserByTcNo(UserDtoForAuthentication userDtoForAuthentication)
+        {
+            // Users koleksiyonunu IQueryable olarak kullanabilirsiniz:
+            _user = await _userManager.Users
+               .FirstOrDefaultAsync(_user => _user.TCNo == userDtoForAuthentication.TCNo);
+            if (_user is null)
+            {
+                _logger.LogWarning($"{nameof(ValidateUserByTcNo)} : No user found with this tcNo.");
+
+                throw new LoginFailedException("LOGIN_FAILED", new List<IdentityError>
+                {
+                    new() { Code = "InvalidTcNoOrPassword", Description = "TcNo or password is incorrect." }
+                });
+            }
+
+            var result = await _userManager.CheckPasswordAsync(_user, userDtoForAuthentication.Password);
+
+            if (!result)
+            {
+                _logger.LogWarning($"{nameof(ValidateUserByTcNo)} : Authentication failed. Wrong tcNo or password.");
+
+                throw new LoginFailedException("LOGIN_FAILED", new List<IdentityError>
+                {
+                    new() { Code = "InvalidTcNoOrPassword", Description = "TcNo or password is incorrect." }
+                });
+            }
+
+            var userDto = _mapper.Map<UserDto>(_user);
+
+            return userDto;
+        }
+
 
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signInCredentials, List<Claim> claims)
         {
@@ -135,8 +168,7 @@ namespace Services
 
             var claims = new List<Claim>()
             {
-                // username 30.03.2025 itibar ile email olarak geliyor.
-                new(ClaimTypes.Name, _user.Email ),
+                new(ClaimTypes.Name, _user.UserName ),
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
@@ -154,7 +186,7 @@ namespace Services
         {
             var principal = GetPrincipalFromExpired(tokenDto.AccessToken);
 
-            var user = await _userManager.FindByEmailAsync(principal.Identity.Name);
+            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
 
 
             if (user is null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
