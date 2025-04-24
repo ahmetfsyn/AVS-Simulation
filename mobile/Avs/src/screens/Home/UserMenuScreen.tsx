@@ -7,17 +7,17 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {RootState} from '../../redux/store';
-import {removeCredentials} from '../../redux/slices/authSlice';
+import {removeCredentialsRedux} from '../../redux/slices/authSlice';
 import {useNavigation} from '@react-navigation/native';
 
 const UserMenuScreen: React.FC = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.user.user);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const logout = () => {
-    dispatch(removeCredentials());
+    dispatch(removeCredentialsRedux());
   };
   return (
     <View style={styles.container}>

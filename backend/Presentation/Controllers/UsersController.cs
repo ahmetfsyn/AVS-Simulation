@@ -114,7 +114,7 @@ public class UsersController : ControllerBase
             return BadRequest();
         }
 
-        var result = await _manager.UserService.GetUserForPatchAsync(id, false);
+        var result = await _manager.UserService.GetUserForPatchAsync(id, true);
 
 
         patchUser.ApplyTo(result.userDtoUpdate, ModelState);

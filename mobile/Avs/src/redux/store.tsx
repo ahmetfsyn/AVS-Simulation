@@ -3,6 +3,7 @@ import authReducer from './slices/authSlice';
 import waterCardReducer from './slices/waterCardSlice';
 import meterReducer from './slices/meterSlice';
 import appReducer from './slices/appSlice';
+import userReducer from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     waterCard: waterCardReducer,
     meter: meterReducer,
+    user: userReducer,
   },
 });
 

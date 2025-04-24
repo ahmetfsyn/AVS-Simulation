@@ -8,6 +8,7 @@ const api = axios.create({
   baseURL: 'https://f5f7-5-47-57-146.ngrok-free.app',
   headers: {
     Accept: 'application/json',
+    'Content-Type': 'application/json',
   },
 });
 

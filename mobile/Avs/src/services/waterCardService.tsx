@@ -30,7 +30,7 @@ export const getWaterCards = async (params: {
         },
       },
     );
-    console.log(waterCardsResponse.data);
+    // console.log(waterCardsResponse.data);
     return waterCardsResponse.data;
   } catch (error) {
     console.error(error);

@@ -7,16 +7,14 @@ import {Formik} from 'formik';
 import CustomTextInput from '../../components/TextInput/CustomTextInput';
 import CustomButton from '../../components/Button/CustomButton';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as Yup from 'yup';
 import CustomInputPhoneMask from '../../components/TextInput/CustomInputPhoneMask';
-import MaskInput from 'react-native-mask-input';
 import {validationSchema} from '../../validations/ProfileEditValidations';
 import {useUpdateProfile} from '../../hooks/useUpdateProfile';
 
 const ProfileEditScreen: React.FC = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.user.user);
   const theme = useTheme();
-  const {loading} = useUpdateProfile();
+  const {useUpdateProfileLoading, updateUserAsync} = useUpdateProfile();
 
   const formikInitialValues = {
     email: user?.email || '',
@@ -24,8 +22,7 @@ const ProfileEditScreen: React.FC = () => {
   };
 
   const onSubmit = (values: any) => {
-    console.log('Gönderilen veriler:', values);
-    // API isteği burada yapılabilir
+    updateUserAsync({userId: user?.id, data: values});
   };
 
   return (
@@ -133,8 +130,8 @@ const ProfileEditScreen: React.FC = () => {
                     />
                   )}
                   mode="contained"
-                  loading={loading}
-                  disabled={!isValid || loading}
+                  loading={useUpdateProfileLoading}
+                  disabled={!isValid || useUpdateProfileLoading}
                   onPress={() => handleSubmit()}>
                   Kaydet
                 </CustomButton>
