@@ -1,6 +1,5 @@
 
 using Entities.Dtos;
-using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
