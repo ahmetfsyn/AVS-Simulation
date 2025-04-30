@@ -5,64 +5,30 @@ import HeaderOfProcess from '../components/HeaderOfProcess'
 import AmountCalculatorButton from '../components/AmountCalculatorButton';
 import { isValidAmount } from '../utils/isValidAmount';
 import { useNavigate } from 'react-router';
-import { createNotification } from '../utils/createNotification';
+import { showMessage } from '../utils/showMessage';
 
 function CreditLoad() {
-
     const navigate = useNavigate();
-
-    const goTo = (path) => {
-        navigate(path);
-    }
-
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState({
-        creditCard: true,
-        cash: false,
-        paypass: false,
-    });
 
     const [amount, setAmount] = useState("");
     const [canNext, setCanNext] = useState(false);
 
+    const onCancel = () => navigate('/');
 
-    const onNext = () => {
 
-        // ...Diğer işlemler
-        // createNotification("Bir sonraki sayfaya geçildi!"); Bazen gerek olmayabilir bildirim vermeye.
-        goTo("/credit-card-reader")
-    }
+    // const setAmountWithLengthCheck = (amount) => {
+    //     if (isValidAmount(amount)) {
+    //         setCanNext(true);
+    //         setAmount(amount);
+    //     }
 
-    const onCancel = () => {
-
-        // ...Diğer işlemler
-
-    }
-
-    const handleChange = (event) => {
-        const { name } = event.target;
-        setSelectedPaymentMethod({
-            creditCard: false,
-            paypass: false,
-            cash: false,
-            [name]: true, // Sadece seçilen ödeme yöntemini işaretli yapıyoruz
-        });
-    };
-
-    const setAmountWithLengthCheck = (amount) => {
-        if (isValidAmount(amount)) {
-            setCanNext(true);
-            setAmount(amount);
-        }
-
-    }
+    // }
 
     return (
         <Grid2
             container
             direction={'column'}
             sx={{
-                // backgroundImage: 'url(img/tarsusBackground.jpg)',
-                // backgroundSize: 'cover',
                 height: '100vh',
                 bgcolor: 'rgba(0,0,0,0.6)',
             }}
@@ -145,7 +111,9 @@ function CreditLoad() {
                             }}
                         >
                             <FormControlLabel
-                                control={<Checkbox checked={selectedPaymentMethod.creditCard} onChange={handleChange} name="creditCard" />}
+                                control={<Checkbox checked={false}
+                                    //  onChange={}
+                                    name="creditCard" />}
                                 label="Kredi Kartı"
                                 slotProps={{
                                     typography: {
@@ -156,8 +124,11 @@ function CreditLoad() {
                                 }}
                             />
                             <FormControlLabel
-                                control={<Checkbox checked={selectedPaymentMethod.paypass} onChange={handleChange} name="paypass" />}
+                                control={<Checkbox checked={false} name="paypass"
+                                //  onChange={}
+                                />}
                                 label="Temassız"
+
                                 slotProps={{
                                     typography: {
                                         fontSize: 24,
@@ -167,7 +138,9 @@ function CreditLoad() {
                                 }}
                             />
                             <FormControlLabel
-                                control={<Checkbox checked={selectedPaymentMethod.cash} onChange={handleChange} name="cash" />}
+                                control={<Checkbox checked={false} name="cash"
+                                //  onChange={}
+                                />}
                                 label="Nakit"
                                 slotProps={{
                                     typography: {
@@ -215,14 +188,14 @@ function CreditLoad() {
                     >
                         {new Array(9).fill(null).map((_, index) => (
                             <AmountCalculatorButton
-                                onClick={() => setAmountWithLengthCheck(amount + (index + 1).toString())}
+                                // onClick={() => setAmountWithLengthCheck(amount + (index + 1).toString())}
                                 key={index + 1} content={(index + 1).toString()} />
                         ))}
                         <AmountCalculatorButton key={11} color={'error'}
                             onClick={() => { setAmount(""); setCanNext(false) }}
                             content={"SİL"} />
                         <AmountCalculatorButton key={0}
-                            onClick={() => setAmountWithLengthCheck((amount + "0"))}
+                            // onClick={() => setAmountWithLengthCheck((amount + "0"))}
                             content={0} />
                         {/* <AmountCalculatorButton key={12} color="warning"
                             onClick={() => setAmount(amount + ",")}
@@ -234,7 +207,7 @@ function CreditLoad() {
             {/* Footer */}
             <Footer
                 canNext={canNext}
-                onNext={onNext}
+                // onNext={onNext}
                 onCancel={onCancel}
 
             ></Footer>

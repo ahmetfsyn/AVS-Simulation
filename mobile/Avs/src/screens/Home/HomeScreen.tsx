@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {View, StyleSheet, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -15,10 +14,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomButton from '../../components/Button/CustomButton';
 import {useNavigation} from '@react-navigation/native';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import AddCard from '../../components/Card/AddCard';
-import {useGetWaterCards} from '../../hooks/useGetWaterCards';
 import WaterCardInfoCard from '../../components/Card/WaterCardInfoCard';
 import WaterCard from '../../components/Card/WaterCard';
 import PageInfoCard from '../../components/Card/PageInfoCard';
@@ -28,23 +26,12 @@ const HomeScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const [activeIndex, setActiveIndex] = useState(0);
   const [visibleDialog, setVisibleDialog] = useState(false);
-  // const routeParams: any = useRoute().params;
-  const {user} = useSelector((state: RootState) => {
-    return state.auth;
-  }, shallowEqual);
-
-  const {loadingWaterCards} = useGetWaterCards({
-    subscriberNo: user?.subscriberNo,
-    userId: user?.id,
-  });
 
   const waterCards = useSelector(
     (state: RootState) => state.waterCard.waterCards,
   );
 
   const meters = useSelector((state: RootState) => state.meter.meters);
-
-  // console.log('meters : ', meters);
 
   return (
     <View style={styles.container}>
@@ -58,9 +45,7 @@ const HomeScreen: React.FC = () => {
         {/* <MarqueeBanner text="Tarsus Belediyesi Mobil Uygulamasına Hoşgeldiniz." /> */}
         {/* Carousel */}
         <View>
-          {loadingWaterCards ? (
-            <ActivityIndicator size="large" color={theme.colors.onBackground} />
-          ) : waterCards?.length > 0 ? (
+          {waterCards?.length > 0 ? (
             <CustomCarousel
               data={waterCards}
               activeIndex={activeIndex}
@@ -82,9 +67,7 @@ const HomeScreen: React.FC = () => {
 
         {/* Kart Bilgileri */}
         <View>
-          {loadingWaterCards ? (
-            <ActivityIndicator />
-          ) : waterCards?.length > 0 ? (
+          {waterCards?.length > 0 ? (
             <WaterCardInfoCard
               waterCard={waterCards[activeIndex]}
               meter={meters[activeIndex]}

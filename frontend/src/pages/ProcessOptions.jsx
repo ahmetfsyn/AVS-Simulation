@@ -1,39 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Grid2, Typography } from '@mui/material'
 import HeaderOfProcess from '../components/HeaderOfProcess';
 import { useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer';
-import CompanyButton from '../components/CompanyButton';
-import { CompanyEnum } from '../constants/const';
+import { useEffect } from 'react';
+import { useTimeout } from '../hooks/createTimeout';
 
-// const companies = [{
-//     id: 1,
-//     name: 'Baylan',
-//     url: '/baylan',
-// },
-// {
-//     id: 2,
-//     name: 'Manas',
-//     url: '/manas',
-// },
-// {
-//     id: 3,
-//     name: 'Metlab',
-//     url: '/metlab',
-// }]
 
 function ProcessOptions() {
-
-    const readCard = (companyName) => {
-        console.log(companyName + " kart bekleniyor");
-
-    }
-
     const navigate = useNavigate();
+    const { startTimeout } = useTimeout(45000);
 
-    const goToCardReaderPage = (companyName) => {
-        navigate("/card-reader");
-        readCard(companyName);
-    }
+    useEffect(() => {
+        startTimeout();
+    }, [])
 
     return (
 
@@ -41,8 +22,6 @@ function ProcessOptions() {
             container
             direction={'column'}
             sx={{
-                // backgroundImage: 'url(img/tarsusBackground.jpg)',
-                // backgroundSize: 'cover',
                 height: '100vh',
                 bgcolor: 'rgba(0,0,0,0.6)',
             }}
@@ -62,23 +41,28 @@ function ProcessOptions() {
                 justifyContent={'space-around'}
             >
 
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    justifyContent={'space-around'}
-                >
 
-                    {Object.values(CompanyEnum).map((company) => (
-                        <CompanyButton key={company.id} goToCardReaderPage={goToCardReaderPage} company={company} />
-                    ))}
 
-                </Box>
+
 
                 <Box
                     display={'flex'}
                     flexDirection={'column'}
                     justifyContent={'space-around'}
                 >
+
+                    <Button
+                        variant='contained'
+                        color='warning'
+                        size='large'
+                        onClick={() => navigate('/card-reader')}
+                        sx={{
+                            width: 250,
+                            height: 75,
+                        }}
+                    >
+                        Su Yükleme
+                    </Button>
 
                     <Button
                         variant='contained'

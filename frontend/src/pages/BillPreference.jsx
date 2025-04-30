@@ -1,7 +1,7 @@
 import { Box, Button, Grid2 } from '@mui/material'
 import React, { useState } from 'react'
 import HeaderOfProcess from '../components/HeaderOfProcess'
-import { createNotification } from '../utils/createNotification'
+import { showMessage } from '../utils/showMessage'
 import { useNavigate } from 'react-router'
 function BillPreference() {
 
@@ -24,7 +24,7 @@ function BillPreference() {
         setLoading(true);
         setTimeout(async () => {
             resetRedux();
-            await createNotification({
+            await showMessage({
                 title: "Bilgilendirme",
                 text: "Lütfen Makbuzunuzu Alınız. İyi Günler Dileriz.",
                 icon: 'info',
@@ -39,7 +39,7 @@ function BillPreference() {
 
     const dontGiveBill = async () => {
         resetRedux();
-        await createNotification({
+        await showMessage({
             title: "Bilgilendirme",
             text: "Makbuz Verilmeyecektir. İyi Günler Dileriz.",
             icon: 'info',

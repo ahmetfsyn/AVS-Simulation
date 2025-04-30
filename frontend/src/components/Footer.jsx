@@ -5,7 +5,7 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
 import { useNavigate } from 'react-router-dom'
-import { createNotification } from '../utils/createNotification';
+import { showMessage } from '../utils/showMessage';
 function Footer({ canNext, onNext, onCancel }) {
 
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Footer({ canNext, onNext, onCancel }) {
 
     const onClickCancel = () => {
         onCancel();
-        createNotification({
+        showMessage({
             title: "İşleminiz İptal Edildi !",
             icon: 'error',
             timer: 3000,

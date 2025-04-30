@@ -34,7 +34,7 @@ export const useSignIn = () => {
       dispatch(setMetersRedux(resultMeters!));
 
       const resultCityHall = await fetchCityHall();
-      dispatch(setCityHallRedux(resultCityHall));
+      dispatch(setCityHallRedux(resultCityHall!));
 
       const resultWaterCards = await fetchWaterCards({
         userId: userDto?.id,

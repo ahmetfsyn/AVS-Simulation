@@ -31,6 +31,8 @@ pnpm-debug.log*
 /mobile/Avs/index.ios.bundle
 /mobile/Avs/react-native-packager-cache-*/
 *.env
+*env.d.tsx
+
 .cxx/
 
 # 📂 C# / .NET için

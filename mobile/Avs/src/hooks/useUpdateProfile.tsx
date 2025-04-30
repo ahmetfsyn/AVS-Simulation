@@ -8,7 +8,6 @@ import {updateUserRedux} from '../redux/slices/userSlice';
 
 export const useUpdateProfile = () => {
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation<any>();
   const dispatch = useDispatch();
   const mutation = useMutation({
     mutationFn: updateUser,

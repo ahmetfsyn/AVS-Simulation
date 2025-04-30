@@ -1,6 +1,6 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {Avatar, Card, Text, useTheme} from 'react-native-paper';
+import {Avatar, Card, useTheme} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import {Formik} from 'formik';

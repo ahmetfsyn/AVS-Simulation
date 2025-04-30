@@ -1,25 +1,9 @@
-import { Box, Button, Divider, Grid2 } from '@mui/material'
+import { Grid2 } from '@mui/material'
 import HeaderOfProcess from '../components/HeaderOfProcess'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
 function CreditCardRead() {
-
-
-
-    const navigate = useNavigate();
-    const goTo = () => {
-        navigate("/bill-preference");
-    }
-
-    useEffect(() => {
-
-        setTimeout(() => {
-            goTo();
-        }, 2000);
-
-    }, [])
-
 
     return (
 
@@ -27,8 +11,6 @@ function CreditCardRead() {
             container
             direction={'column'}
             sx={{
-                // backgroundImage: 'url(img/tarsusBackground.jpg)',
-                // backgroundSize: 'cover',
                 height: '100vh',
                 bgcolor: 'rgba(0,0,0,0.6)',
             }}

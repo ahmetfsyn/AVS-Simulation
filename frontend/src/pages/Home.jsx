@@ -3,13 +3,10 @@ import Header from '../components/Header'
 import TouchForProcessBox from '../components/TouchForProcessBox'
 import { useNavigate } from 'react-router-dom'
 function Home() {
-
     const navigation = useNavigate()
 
     return (
-
         <>
-
             <Grid2
                 container
                 sx={{

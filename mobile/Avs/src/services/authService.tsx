@@ -31,9 +31,10 @@ export const register = async (formValues: RegisterParams): Promise<void> => {
 
 export const login = async (values: LoginParams): Promise<any> => {
   try {
-    const {data} = await api.post('/api/auth/login', values);
-    return {data, remmeberMe: values.rememberMe};
+    const response = await api.post('/api/auth/login', values);
+    return {data: response.data, remmeberMe: values.rememberMe};
   } catch (error: any) {
+    console.error(error);
     const {ErrorList} = error?.response?.data;
     // console.log(error?.response?.data);
     ErrorList.forEach((identityError: IdentityError) => {
