@@ -29,6 +29,9 @@ public class MappingProfile : Profile
 
         CreateMap<UserDtoForRegistration, User>();
 
+        CreateMap<Kiosk, KioskDto>();
+
+
 
     }
 

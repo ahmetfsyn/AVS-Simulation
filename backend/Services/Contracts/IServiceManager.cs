@@ -9,6 +9,8 @@ namespace Services.Contracts
         IWaterCompanyService WaterCompanyService { get; }
         IAuthenticationService AuthenticationService { get; }
         ICityHallService CityHallService { get; }
+        IKioskService KioskService { get; }
+
 
 
     }

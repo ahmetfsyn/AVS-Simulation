@@ -13,15 +13,16 @@ namespace Services
         private readonly IAuthenticationService _authenticationService;
         public readonly IWaterCompanyService _waterCompanyService;
         public readonly ICityHallService _cityHallService;
-
+        public readonly IKioskService _kioskService;
 
         public ServiceManager(
             IUserService userService,
-             IWaterCardService waterCardService,
-        IMeterService meterService,
-        IAuthenticationService authenticationService,
-        IWaterCompanyService waterCompanyService,
-        ICityHallService cityHallService)
+            IWaterCardService waterCardService,
+            IMeterService meterService,
+            IAuthenticationService authenticationService,
+            IWaterCompanyService waterCompanyService,
+            ICityHallService cityHallService,
+            IKioskService kioskService)
         {
             _userService = userService;
             _waterCardService = waterCardService;
@@ -29,6 +30,7 @@ namespace Services
             _meterService = meterService;
             _waterCompanyService = waterCompanyService;
             _cityHallService = cityHallService;
+            _kioskService = kioskService;
         }
 
         public IUserService UserService => _userService;
@@ -36,6 +38,8 @@ namespace Services
         public IWaterCardService WaterCardService => _waterCardService;
         public IMeterService MeterService => _meterService;
         public ICityHallService CityHallService => _cityHallService;
-        public IWaterCompanyService WaterCompanyService => throw new NotImplementedException();
+        public IWaterCompanyService WaterCompanyService => _waterCompanyService;
+        public IKioskService KioskService => _kioskService;
+
     }
 }

@@ -9,6 +9,7 @@ namespace Repositories.Contracts
         IMeterRepository Meter { get; }
         ICityHallRepository CityHall { get; }
         IWaterCompanyRepository WaterCompany { get; }
+        IKioskRepository Kiosk { get; }
         Task SaveAsync();
 
 

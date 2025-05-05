@@ -12,9 +12,10 @@ namespace Repositories.EFCore
         private readonly IWaterCardRepository _waterCardRepository;
         private readonly IWaterCompanyRepository _waterCompanyRepository;
         private readonly ICityHallRepository _cityHallRepository;
+        private readonly IKioskRepository _kioskRepository;
 
 
-        public RepositoryManager(RepositoryContext context, IUserRepository userRepository, IMeterRepository meterRepository, IWaterCardRepository waterCardRepository, IWaterCompanyRepository waterCompanyRepository, ICityHallRepository cityHallRepository)
+        public RepositoryManager(RepositoryContext context, IUserRepository userRepository, IMeterRepository meterRepository, IWaterCardRepository waterCardRepository, IWaterCompanyRepository waterCompanyRepository, ICityHallRepository cityHallRepository, IKioskRepository kioskRepository)
         {
             _context = context;
             _userRepository = userRepository;
@@ -22,6 +23,7 @@ namespace Repositories.EFCore
             _waterCardRepository = waterCardRepository;
             _waterCompanyRepository = waterCompanyRepository;
             _cityHallRepository = cityHallRepository;
+            _kioskRepository = kioskRepository;
         }
 
         public IUserRepository User => _userRepository;
@@ -29,6 +31,7 @@ namespace Repositories.EFCore
         public IMeterRepository Meter => _meterRepository;
         public IWaterCompanyRepository WaterCompany => _waterCompanyRepository;
         public ICityHallRepository CityHall => _cityHallRepository;
+        public IKioskRepository Kiosk => _kioskRepository;
 
         public void Save()
         {

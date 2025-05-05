@@ -195,6 +195,8 @@ namespace backend.Extensions
             services.AddScoped<IMeterRepository, MeterRepository>();
             services.AddScoped<IWaterCompanyRepository, WaterCompanyRepository>();
             services.AddScoped<ICityHallRepository, CityHallRepository>();
+            services.AddScoped<IKioskRepository, KioskRepository>();
+
 
 
 
@@ -209,6 +211,8 @@ namespace backend.Extensions
             services.AddScoped<IWaterCompanyService, WaterCompanyManager>();
             services.AddScoped<IAuthenticationService, AuthenticationManager>();
             services.AddScoped<ICityHallService, CityHallManager>();
+            services.AddScoped<IKioskService, KioskManager>();
+
 
 
         }
