@@ -23,8 +23,9 @@ const appSlice = createSlice({
         },
         setKioskRedux: (state, { payload }) => {
             if (payload) {
-                console.log(payload)
                 state.kiosk = payload;
+                // console.log(state.kiosk)
+
             }
         },
         setCityHallRedux: (state, { payload }) => {
@@ -38,6 +39,6 @@ const appSlice = createSlice({
 });
 
 // Reducer ve actions dışa aktarılır
-export const { setWaterCompaniesRedux, setCityHallRedux } = appSlice.actions;
+export const { setWaterCompaniesRedux, setCityHallRedux, setKioskRedux } = appSlice.actions;
 
 export default appSlice.reducer;

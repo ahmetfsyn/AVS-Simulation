@@ -15,9 +15,7 @@ export const useGetCityHall = () => {
         refetchOnWindowFocus: false
     });
 
-
     useEffect(() => {
-
         if (data) {
             dispatch(setCityHallRedux(data));
         } else if (error) {

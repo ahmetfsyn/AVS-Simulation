@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showMessage } from "../utils/showMessage";
-import Swal from "sweetalert2";
 
 export const useTimeout = (time) => {
     const navigate = useNavigate();

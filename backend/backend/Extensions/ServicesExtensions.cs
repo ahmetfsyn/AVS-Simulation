@@ -55,11 +55,26 @@ namespace backend.Extensions
 
         public static void ConfigureCors(this IServiceCollection services)
         {
+            // services.AddCors(options =>
+            // {
+            //     options.AddPolicy("CorsPolicy", builer =>
+            //         builer
+            //         .AllowAnyOrigin()
+            //         .AllowAnyMethod()
+            //         .AllowAnyHeader()
+            //         .AllowCredentials()
+            //         .WithExposedHeaders("X-Pagination")
+            //         );
+            // });
+
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builer =>
-                    builer.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("X-Pagination")
-                    );
+                options.AddPolicy("CorsPolicy", builder =>
+               builder.WithOrigins("http://localhost:5173", "https://your-ngrok-url.ngrok-free.app")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials() // Kimlik doğrulama ve yetkilendirme gereksinimleri varsa
+              .WithExposedHeaders("X-Pagination"));
             });
         }
 
@@ -216,5 +231,11 @@ namespace backend.Extensions
 
 
         }
+
+        public static void ConfigureSignalR(this IServiceCollection services)
+        {
+            services.AddSignalR();
+        }
+
     }
 }

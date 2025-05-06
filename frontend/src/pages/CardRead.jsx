@@ -1,13 +1,30 @@
 import { Box, Button, Divider, Grid2 } from '@mui/material'
 import HeaderOfProcess from '../components/HeaderOfProcess'
 import { useNavigate } from 'react-router'
+import { useSignalR } from '../hooks/useSignalR';
+import { useEffect } from 'react';
 
 function CardRead() {
 
     const navigate = useNavigate();
 
-    return (
+    const { connection } = useSignalR();
 
+    useEffect(() => {
+
+        if (connection) {
+
+            connection?.on("ReceiveMessage", (user, message) => {
+                console.log(`Mesaj alındı: ${user} - ${message}`);
+            });
+
+            connection?.invoke("SendMessage", "Kullanıcı", "Merhaba, bu bir test mesajıdır.");
+        }
+
+    }, [connection])
+
+
+    return (
 
         <Grid2
             container

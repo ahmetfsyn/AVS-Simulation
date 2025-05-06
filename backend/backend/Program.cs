@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Services;
 using Services.Contracts;
+using SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,6 @@ builder.Services.ConfigureDataShaper();
 builder.Services.AddScoped<IUserLinks, UserLinks>();
 builder.Services.AddScoped<IMeterLinks, MeterLinks>();
 
-
 builder.Services.ConfigureVersioning();
 
 builder.Services.ConfigureResponseCaching();
@@ -53,6 +53,9 @@ builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.RegisterRepositories();
 
 builder.Services.RegisterServices();
+
+builder.Services.AddSignalR();
+
 
 
 // NLog yapılandırmasını yükler, log dosyasını ve yapılandırmayı okur
@@ -118,11 +121,10 @@ app.UseHttpCacheHeaders();
 
 app.UseAuthentication();
 
-// Kullanıcı yetkilendirmesini aktif eder
-app.UseAuthorization();
+app.UseAuthorization(); // Kullanıcı yetkilendirmesini aktif eder
 
-// Controller'ları eşler (API yolları ile eşleşmesini sağlar)
-app.MapControllers();
+app.MapControllers(); // Controller'ları eşler (API yolları ile eşleşmesini sağlar)
 
-// Uygulamayı başlatır ve gelen istekleri işlemeye başlar
-app.Run();
+app.MapHub<HubSignalR>("/hub-signalr");
+
+app.Run(); // Uygulamayı başlatır ve gelen istekleri işlemeye başlar
