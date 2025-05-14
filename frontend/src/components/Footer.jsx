@@ -3,10 +3,9 @@ import React from 'react'
 import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Grid2, Typography } from '@mui/material'
 import { FaArrowCircleRight } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-
 import { useNavigate } from 'react-router-dom'
 import { showMessage } from '../utils/showMessage';
-function Footer({ canNext, onNext, onCancel }) {
+function Footer({ canNext, onNext, onCancel, isLoading }) {
 
     const navigate = useNavigate();
 
@@ -54,6 +53,8 @@ function Footer({ canNext, onNext, onCancel }) {
                         color='success'
                         endIcon={<FaArrowCircleRight color='white'></FaArrowCircleRight>}
                         onClick={onClickNext}
+                        disabled={isLoading}
+                        loading={isLoading}
                     >
                         İleri
                     </Button>

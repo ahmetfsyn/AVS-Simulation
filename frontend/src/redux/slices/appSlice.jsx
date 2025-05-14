@@ -33,12 +33,17 @@ const appSlice = createSlice({
                 // console.log(payload);
                 state.cityHall = payload
             }
+        },
+        setUserRedux: (state, { payload }) => {
+            if (payload) {
+                state.user = payload;
+            }
         }
     },
     // extraReducers: builder => { }
 });
 
 // Reducer ve actions dışa aktarılır
-export const { setWaterCompaniesRedux, setCityHallRedux, setKioskRedux } = appSlice.actions;
+export const { setWaterCompaniesRedux, setCityHallRedux, setKioskRedux, setUserRedux } = appSlice.actions;
 
 export default appSlice.reducer;

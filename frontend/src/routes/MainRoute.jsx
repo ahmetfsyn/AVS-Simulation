@@ -7,6 +7,7 @@ import CreditLoad from '../pages/CreditLoad'
 import CreditCardRead from '../pages/CreditCardRead'
 import PaymentOptions from '../pages/PaymentOptions'
 import BillPreference from '../pages/BillPreference'
+import EnterSubscriberNumber from '../pages/EnterSubscriberNumber'
 
 function MainRoute() {
 
@@ -17,44 +18,48 @@ function MainRoute() {
 
             <Route
                 path='/'
-                element={<Home  ></Home>}
-            >
-            </Route>
+                element={<Home></Home>}
+            />
+
             <Route
                 path='/menu'
                 element={<Menu  ></Menu>}
-            >
-            </Route>
+            />
+
             <Route
                 path='/process-options'
                 element={<ProcessOptions  ></ProcessOptions>}
-            >
-            </Route>
+            />
+
             <Route
                 path='/card-reader'
                 element={<CardRead  ></CardRead>}
-            >
-            </Route>
+            />
+
             <Route
                 path='/credit-loader'
                 element={<CreditLoad  ></CreditLoad>}
-            >
-            </Route>
+            />
+
             <Route
                 path='/credit-card-reader'
                 element={<CreditCardRead  ></CreditCardRead>}
-            >
-            </Route>
+            />
+
             <Route
                 path='/payment-options'
                 element={<PaymentOptions  ></PaymentOptions>}
-            >
-            </Route>
+            />
+
             <Route
                 path='/bill-preference'
                 element={<BillPreference  ></BillPreference>}
-            >
-            </Route>
+            />
+
+            <Route
+                path='/enter-subscriber-number'
+                element={<EnterSubscriberNumber  ></EnterSubscriberNumber>}
+            />
         </Routes>
 
 

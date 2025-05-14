@@ -5,8 +5,7 @@ import HeaderOfProcess from '../components/HeaderOfProcess';
 import { useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer';
 import { useEffect } from 'react';
-import { useTimeout } from '../hooks/createTimeout';
-
+import { useTimeout } from '../hooks/useTimeout';
 
 function ProcessOptions() {
     const navigate = useNavigate();
@@ -40,22 +39,16 @@ function ProcessOptions() {
                 flexDirection={'row'}
                 justifyContent={'space-around'}
             >
-
-
-
-
-
                 <Box
                     display={'flex'}
                     flexDirection={'column'}
                     justifyContent={'space-around'}
                 >
-
                     <Button
                         variant='contained'
                         color='warning'
                         size='large'
-                        onClick={() => navigate('/card-reader')}
+                        onClick={() => navigate('/enter-subscriber-number')}
                         sx={{
                             width: 250,
                             height: 75,

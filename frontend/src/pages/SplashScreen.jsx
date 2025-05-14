@@ -1,19 +1,17 @@
-import { Avatar, Box, CircularProgress, Container, Grid2, Typography } from '@mui/material'
+import { Avatar, Box, CircularProgress, Grid2, Typography } from '@mui/material'
 import { useGetCityHall } from '../hooks/useGetCityHall';
 import { useGetKiosk } from '../hooks/useGetKiosk';
 function SplashScreen() {
 
-
     useGetCityHall();
     useGetKiosk();
-
 
     return (
         <>
             <Grid2
                 container
                 sx={{
-                    height: '100vh'
+                    height: '100vh',
                 }}
             >
                 <Grid2
@@ -23,13 +21,12 @@ function SplashScreen() {
                     justifyContent={'space-between'}
                     flexDirection={'column'}
                 >
-
                     <Box
                         display={'flex'}
                         height={'100%'}
                         alignItems={'center'}
                     >
-                        <Typography variant='h3'> Lütfen Bekleyiniz...</Typography>
+                        <Typography variant='h3'>Lütfen Bekleyiniz...</Typography>
                         <CircularProgress color='primary' size={32}></CircularProgress>
                     </Box>
                 </Grid2>
