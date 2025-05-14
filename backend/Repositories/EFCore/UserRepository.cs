@@ -18,7 +18,7 @@ namespace Repositories.EFCore
         public async Task<PagedList<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
         {
 
-            var users = await FindAll(trackChanges).FilterUsers(userParameters.FirstName)
+            var users = await FindAll(trackChanges).FilterUsers(userParameters)
             .Search(userParameters.SearchTerm)
             .Sort(userParameters.OrderBy)
             .ToListAsync();
